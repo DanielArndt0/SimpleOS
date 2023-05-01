@@ -2,6 +2,7 @@
 #include "SimpleOS/Base.h"
 #include "DataTypes/Containers/List/LinkedList.h"
 
+
 namespace SimpleOS
 {
   namespace Memory
@@ -18,7 +19,7 @@ namespace SimpleOS
         return *this;
       }
 
-      bool operator==(const Block &cpy) { return this->startAddr == cpy.startAddr && this->endAddr == cpy.endAddr; }
+      // bool operator==(const Block &cpy) { return this->startAddr == cpy.startAddr && this->endAddr == cpy.endAddr; }
 
     public:
       T *startAddr;
@@ -29,10 +30,12 @@ namespace SimpleOS
       Block() = default;
       Block(T *startAddr, T *endAddr, Data::ID id)
           : startAddr(startAddr), endAddr(endAddr), id(id) {}
+
+      // bool equals(Block & cmp) { return this == cmp; }
     };
 
     template <typename T, Data::UInt Size>
-    class Allocator implements Root::Object
+    class Allocator
     {
     private:
       T heap[Size];

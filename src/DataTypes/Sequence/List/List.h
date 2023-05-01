@@ -12,7 +12,7 @@ namespace SimpleOS
   namespace Data
   {
     template <typename T>
-    class List implements Root::Object
+    class List : implements Root::Object
     {
     public:
       // Operators

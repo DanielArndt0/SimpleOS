@@ -1,6 +1,5 @@
 #pragma once
 #include "DataTypes/Typedefs.h"
-#include "DataTypes/Object/Object.h"
 #include "DataTypes/Duet.h"
 #include "SimpleOS/Macros.h"
 
@@ -8,7 +7,7 @@ namespace SimpleOS
 {
   namespace Addons
   {
-    class PartitionProperties implements Root::Object
+    class PartitionProperties
     {
     private:
       Data::Char _name;
@@ -25,9 +24,6 @@ namespace SimpleOS
       Data::ULong size();
       Data::ULong startAddr();
       Data::ULong endAddr();
-
-    private:
-      Data::C_String toString() override { return ""; };
     };
   }
 }

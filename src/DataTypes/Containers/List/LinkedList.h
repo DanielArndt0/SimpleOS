@@ -13,7 +13,7 @@ namespace SimpleOS
        * @tparam T The generic type requires the implementation of the ComparisonConcept and CopyConcept.
        */
       template <typename T>
-      struct Node implements Root::Object
+      struct Node
       {
         T data;
         Node *next;
@@ -26,7 +26,7 @@ namespace SimpleOS
        * @tparam T Requires the implementation of the ComparisonConcept and CopyConcept.
        */
       template <typename T>
-      class LinkedList implements Root::Object
+      class LinkedList
       {
       private:
         Node<T> *first;

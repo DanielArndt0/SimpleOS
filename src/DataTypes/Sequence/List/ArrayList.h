@@ -9,7 +9,7 @@ namespace SimpleOS
   namespace Data
   {
     template <typename T>
-    class ArrayList extends ArrayContainer<T> ,  List<T>
+    class ArrayList : extends ArrayContainer<T> ,  List<T>
     {
     public:
       // Operators

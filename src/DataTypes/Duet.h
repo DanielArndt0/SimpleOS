@@ -1,5 +1,4 @@
 #pragma once
-#include "DataTypes/Object/Object.h"
 #include "SimpleOS/Macros.h"
 
 namespace SimpleOS
@@ -7,7 +6,7 @@ namespace SimpleOS
   namespace Data
   {
     template <typename T1, typename T2>
-    class Duet implements Root::Object
+    class Duet 
     {
     public:
       void operator=(Duet &cpy)
@@ -84,9 +83,6 @@ namespace SimpleOS
        * @return Return a new duet with set values.
        */
       static Duet<T1, T2> create(T1 d1, T2 d2) { return Duet<T1, T2>(d1, d2); }
-
-    private:
-      Data::C_String toString() override { return ""; };
     };
   }
 }

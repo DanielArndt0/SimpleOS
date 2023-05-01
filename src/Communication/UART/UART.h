@@ -4,28 +4,19 @@
 #include "SimpleOS/Macros.h"
 #include "DataTypes/String/String.h"
 #include "DataTypes/Typedefs.h"
-#include "DataTypes/Object/Object.h"
+#include "Native/UART/UARTCore.h"
 
 // TODO Desenvolver biblioteca UART
 namespace SimpleOS
 {
   namespace Com
   {
-    class UART implements Root::Object
+    class UART : extends Native::UARTCore
     {
-    private:
-      static bool status;
-      UART *buffer;
-
-    protected:
-      UART *send(Data::UChar data);
-      UART *send(Data::C_String data);
-      static Data::UChar receive(void);
+    public:
+      UART(Data::UInt baudRate = 9600);
 
     public:
-      void begin(Data::UInt baudRate);
-      void flush(void);
-
       UART &operator<<(SimpleOS::Data::Char command);
       UART &operator<<(SimpleOS::Data::C_String data);
       UART &operator<<(const SimpleOS::Data::String &data);
@@ -33,11 +24,9 @@ namespace SimpleOS
       UART &operator<<(Data::UInt data);
       UART &operator<<(Data::Long data);
       UART &operator<<(Data::ULong data);
-      UART &operator<<(float data);
-      UART &operator<<(double data);
-
-    public:
-      SimpleOS::Data::C_String toString() override { return "UART Class"; }
+      UART &operator<<(Data::Float data);
+      UART &operator<<(Data::Double data);
+      UART &operator<<(void* ptr);
     };
   }
 }

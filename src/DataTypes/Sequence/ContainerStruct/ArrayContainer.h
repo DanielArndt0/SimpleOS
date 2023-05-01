@@ -9,7 +9,7 @@ namespace SimpleOS
   namespace Data
   {
     template <typename T>
-    class ArrayContainer extends Root::ContainerAllocator<T, 10> ,  Root::Object
+    class ArrayContainer : extends Root::ContainerAllocator<T, 10> ,  Root::Object
     {
     private:
       T m_err;

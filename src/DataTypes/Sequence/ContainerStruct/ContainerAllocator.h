@@ -9,7 +9,7 @@ namespace SimpleOS
   namespace Root
   {
     template <typename T, unsigned long pool>
-    class ContainerAllocator implements Object
+    class ContainerAllocator
     {
     protected:
       unsigned long m_buffer_length;
@@ -83,9 +83,6 @@ namespace SimpleOS
           delete[] this->m_data_struct;
         }
       }
-
-    private:
-      Data::C_String toString() override;
     };
   }
 }

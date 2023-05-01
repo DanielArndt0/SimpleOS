@@ -7,7 +7,7 @@ namespace SimpleOS
   namespace Data
   {
     template <typename T>
-    class LinkedContainer implements Root::Object
+    class LinkedContainer : implements Root::Object
     {
     private:
       struct element

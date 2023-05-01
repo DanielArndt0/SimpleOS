@@ -1,7 +1,6 @@
 #pragma once
 #include "DataTypes/Typedefs.h"
 #include "DataTypes/Duet.h"
-#include "DataTypes/Object/Object.h"
 #include "SimpleOS/Macros.h"
 #include "Addons/Partition/Properties/PartitionProperties.h"
 #include "DataTypes/Buffer/Buffer.h"
@@ -66,7 +65,7 @@ namespace SimpleOS
 {
   namespace Addons
   {
-    class Partition implements Root::Object
+    class Partition
     {
     private:
       Data::Buffer buffer;
@@ -101,9 +100,6 @@ namespace SimpleOS
       Partition() = delete;
       Partition(Data::Buffer &Buffer);
       ~Partition();
-
-    private:
-      Data::C_String toString() override { return ""; }
     };
   }
 }

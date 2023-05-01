@@ -1,11 +1,10 @@
-#include "SimpleOS/System.h"
+#include "SimpleOS/Main.h"
 
-SimpleOS::System sys;
+SimpleOS::Main sys;
 int main()
 {
   sys.startup();
   while (true)
     sys.run();
-
   return 0;
 }

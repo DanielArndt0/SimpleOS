@@ -1,7 +1,6 @@
 #pragma once
 #include "DataTypes/Typedefs.h"
 #include "DataTypes/Duet.h"
-#include "DataTypes/Object/Object.h"
 #include "SimpleOS/Macros.h"
 #include "Addons/EEPROMPartitions/EEProperties/EEProperties.h"
 #include "Memory/EEPROM/EEPROM.h"
@@ -64,7 +63,7 @@ namespace SimpleOS
 {
   namespace Addons
   {
-    class EEPartition implements Root::Object
+    class EEPartition
     {
     private:
       bool firstCheck;
@@ -96,9 +95,6 @@ namespace SimpleOS
 
     public:
       // virtual ~EEPartition() {}
-
-    private:
-      Data::C_String toString() override { return ""; }
     };
   }
 }

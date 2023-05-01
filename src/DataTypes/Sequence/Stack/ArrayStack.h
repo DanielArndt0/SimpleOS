@@ -10,7 +10,7 @@ namespace SimpleOS
   namespace Data
   {
     template <typename T>
-    class ArrayStack extends ArrayContainer<T> ,  SimpleContainer<T>
+    class ArrayStack : extends ArrayContainer<T> ,  SimpleContainer<T>
     {
     public:
       ~ArrayStack() { this->cDelete(); }

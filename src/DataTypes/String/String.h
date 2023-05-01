@@ -3,7 +3,6 @@
 #include <string.h>
 #include "SimpleOS/Macros.h"
 #include "DataTypes/Typedefs.h"
-#include "DataTypes/Object/Object.h"
 
 namespace SimpleOS
 {
@@ -13,7 +12,7 @@ namespace SimpleOS
     // TODO Otimizar metodos Remove utlizando memmove
     // TODO Adicionar métodos e operadores concat
     // TODO Otimizar metodos findBetween
-    class String implements Root::Object
+    class String
     {
     private:
       Char *buffer;
@@ -162,9 +161,6 @@ namespace SimpleOS
 
       // Access
       Char operator[](Index Index) const;
-
-    public:
-      C_String toString() override;
     };
   }
 }

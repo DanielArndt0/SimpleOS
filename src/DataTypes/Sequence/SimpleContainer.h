@@ -7,7 +7,7 @@ namespace SimpleOS
   namespace Data
   {
     template <typename T>
-    class SimpleContainer implements Root::Object
+    class SimpleContainer : implements Root::Object
     {
     public:
       // Capacity

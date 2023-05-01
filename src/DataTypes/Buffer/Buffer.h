@@ -2,13 +2,12 @@
 #include <stdlib.h>
 #include "SimpleOS/Macros.h"
 #include "DataTypes/Typedefs.h"
-#include "DataTypes/Object/Object.h"
 
 namespace SimpleOS
 {
   namespace Data
   {
-    class Buffer implements Root::Object // TODO implementar Object
+    class Buffer
     {
     private:
       Data::UChar *buffer;
@@ -30,9 +29,6 @@ namespace SimpleOS
       Data::UInt size();
       Data::UChar *getBuffer();
       void freeBuffer();
-
-    private:
-      Data::C_String toString() override { return ""; }
     };
 
     template <class T>

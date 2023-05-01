@@ -1,18 +1,6 @@
 #pragma once
 #include "DataTypes/String/String.h"
 
-
-namespace lib_davi
-{
-  void soma();
-}
-
-namespace lib_dani
-{
-  void soma();
-}
-
-
 namespace SimpleOS
 {
   namespace Operators

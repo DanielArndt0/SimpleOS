@@ -10,6 +10,8 @@ namespace SimpleOS
     typedef unsigned int UInt;
     typedef long Long;
     typedef unsigned long ULong;
+    typedef float Float;
+    typedef double Double;
 
     typedef Int Index;
     typedef UInt Size;

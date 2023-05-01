@@ -3,16 +3,14 @@
 #include <string.h>
 #include "SimpleOS/Macros.h"
 #include "DataTypes/Typedefs.h"
-#include "DataTypes/Object/Object.h"
-#include "Memory/EEPROM/NativeEEPROM.h"
 #include "DataTypes/String/String.h"
-// #include "DataTypes/Buffer/Buffer.h"
+#include "Native/EEPROM/EECore.h"
 
 namespace SimpleOS
 {
   namespace Memory
   {
-    class EEPROM extends Native::Memory::EEPROM, virtual public Root::Object // TODO implementar Object
+    class EEPROM : extends Native::EECore
     {
     private:
       static Data::UChar *mem_buff;

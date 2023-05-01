@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Concepts/ComparisonConcept.h"
-#include "Concepts/DefaultConcept.h"
-#include "Concepts/PrintConcept.h"
-#include "Concepts/CopyConcept.h"
+#include "Concepts/Default.h"
+#include "Concepts/Equatable.h"
+#include "Concepts/Copyable.h"
+#include "Concepts/Movable.h"

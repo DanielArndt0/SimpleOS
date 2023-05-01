@@ -9,7 +9,7 @@ namespace SimpleOS
   namespace Data
   {
     template <typename T>
-    class LinkedList extends LinkedContainer<T> ,  List<T>
+    class LinkedList : extends LinkedContainer<T> ,  List<T>
     {
     public:
       // Operators

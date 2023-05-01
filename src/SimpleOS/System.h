@@ -1,33 +1,36 @@
 #pragma once
 
 // Macros
-#include "Macros.h"
+#include "Macros.h" // TODO Organizar
+
+// Root
+#include "SimpleOS/Root/VRam.h"
+
+// Core's
+#include "Native/EEPROM/EECore.h" // DONE Métodos nativos - EEPROM
+#include "Native/UART/UARTCore.h" // DONE Métodos nativos - UART
+#include "Native/GPIO/GPIOCore.h" // DONE Métodos nativos - GPIO
 
 // EEPROM
-#include "Memory/EEPROM/NativeEEPROM.h" // DONE
 #include "Memory/EEPROM/EEPROM.h" // CHECK Verificar se é preciso padronizar e se está completa
 
-// RAM
+// Hardware
+#include "Communication/UART/UART.h" // DONE
+#include "Hardware/GPIO/GPIO.h"      // DONE
+#include "Hardware/Pin/Pin.h"        // DONE
+
+// Virtual RAM
 #include "Memory/SRAM/Allocator.h" // CHECK
 
 // Managers
-#include "Manager/MemoryManager/MemoryManager.h" // TODO
-
-// Hardware API
-#include "Communication/UART/UART.h" // TODO Desenvolver métodos nativos
-#include "Hardware/GPIO/GPIO.h"      // TODO Desenvolver métodos nativos
-
-// Data
-#include "DataTypes/Object/Object.h" // TODO Adicionar mais métodos nativos de metadados
-#include "DataTypes/String/String.h" // FIX Otimizar focando em desempenho de memória e tempo de utilização
-#include "DataTypes/Duet.h"                       // DONE
+#include "Manager/MemoryManager/MemoryManager.h"  // TODO
+#include "DataTypes/String/String.h"              // FIX Otimizar reduzindo a utilização de memória e tempo de utilização
+#include "DataTypes/Duet.h"                       // CHECK
 #include "DataTypes/Containers/List/LinkedList.h" // CHECK
+#include "DataTypes/Heap.h"                       // DONE
 
 // Concepts
-#include "Concepts/ComparisonConcept.h" // DONE
-#include "Concepts/DefaultConcept.h"    // DONE
-#include "Concepts/PrintConcept.h"      // DONE
-#include "Concepts/CopyConcept.h"       // DONE
+#include "Concepts.h" // CHECK
 
 // Operators
 #include "Operators/Typeof.h" // DONE
@@ -55,11 +58,20 @@
 
 namespace SimpleOS
 {
-  class System final implements Root::Object
+  template <Data::UInt HeapSize>
+  class System : extends Root::VRam<HeapSize>
   {
+  protected:
+    Com::UART serial;
+    Hardware::GPIO gpio;
+    Memory::EEPROM eeprom;
+
   public:
-    Data::Int startup();
-    Data::Int run();
-    Data::String getSystemVersion() { return SYSM_VERSION; }
+    virtual Data::Int startup() = 0;
+    virtual Data::Int run() = 0;
+    Data::String systemVersion() { return SYSM_VERSION; }
+
+  protected:
+    ~System() = default;
   };
 }

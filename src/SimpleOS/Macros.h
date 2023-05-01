@@ -1,13 +1,16 @@
 #pragma once
 
 // VERSION
-#define SYSM_VERSION "V0.0.00"
+#define SYSM_VERSION "V1.0.00"
 
-// System
-#define implements : virtual public
-#define extends : virtual public
-#define conceptClass class
+// Sintaxe
+#define implements virtual public
+#define extends virtual public
 #define conceptualize virtual public
+#define SameOf decltype
+
+// Heap
+#define SYSM_HEAP_SIZE 128
 
 // Force go to
 #define FORCE_EXIT goto sysm_exit_lbl
@@ -25,7 +28,10 @@
 #define SYSM_ARRAY_SIZE(array) (sizeof(array) / sizeof(array[0]))
 
 // Hardware
-#define SYSM_SYSTESYSM_CLOCK 16E6
+#define SYSM_SYSTEM_CLOCK 16E6
+// TODO Adicionar modo INPUT_PULLUP
+#define OUTPUT 0x01
+#define INPUT 0x00
 
 // EEPROM
 #define SYSM_EEPROSYSM_SIZE 0x400

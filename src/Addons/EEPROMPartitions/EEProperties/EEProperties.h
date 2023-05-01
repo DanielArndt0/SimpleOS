@@ -1,6 +1,5 @@
 #pragma once
 #include "DataTypes/Typedefs.h"
-#include "DataTypes/Object/Object.h"
 #include "DataTypes/Duet.h"
 #include "SimpleOS/Macros.h"
 
@@ -8,7 +7,7 @@ namespace SimpleOS
 {
   namespace Addons
   {
-    class EEProperties implements Root::Object
+    class EEProperties
     {
     private:
       Data::Char name;
@@ -27,9 +26,6 @@ namespace SimpleOS
       Data::ULong getStartAddr();
       Data::ULong getEndAddr();
       // Data::UChar *getData();
-
-    private:
-      Data::C_String toString() override { return ""; };
     };
   }
 }

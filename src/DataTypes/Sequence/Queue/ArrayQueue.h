@@ -11,7 +11,7 @@ namespace SimpleOS
   namespace Data
   {
     template <typename T>
-    class ArrayQueue extends ArrayContainer<T> ,  SimpleContainer<T>
+    class ArrayQueue : extends ArrayContainer<T> ,  SimpleContainer<T>
     {
     public:
       ~ArrayQueue() { this->cDelete(); }

@@ -9,7 +9,7 @@ namespace SimpleOS
   namespace Data
   {
     template <typename T>
-    class LinkedQueue extends LinkedContainer<T> ,  SimpleContainer<T>
+    class LinkedQueue : extends LinkedContainer<T> ,  SimpleContainer<T>
     {
     public:
       bool isEmpty() const override { return this->cIsEmpty(); }

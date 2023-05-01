@@ -452,5 +452,3 @@ bool SimpleOS::Data::String::operator<=(C_String cstr) const { return lessEquals
 bool SimpleOS::Data::String::operator<=(const String &str) const { return this->lessEqualsThan(str.buffer); }
 
 SimpleOS::Data::Char SimpleOS::Data::String::operator[](Index Index) const { return buffer[Index]; }
-
-SimpleOS::Data::C_String SimpleOS::Data::String::toString() { return buffer; }
