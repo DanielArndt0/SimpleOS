@@ -6,7 +6,7 @@ namespace SimpleOS
   namespace Data
   {
     template <typename T1, typename T2>
-    class Duet 
+    class Duet
     {
     public:
       void operator=(Duet &cpy)

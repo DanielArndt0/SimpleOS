@@ -19,8 +19,8 @@ namespace SimpleOS
 
     public:
       Pin &config(Data::UChar mode);
-      Data::UInt getBits();
-      Data::Float getVolts();
+      Data::UInt bits();
+      Data::Float volts();
       void write(bool value);
       bool read();
     };

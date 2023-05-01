@@ -3,6 +3,7 @@
 #include <string.h>
 #include "SimpleOS/Macros.h"
 #include "DataTypes/String/String.h"
+#include "DataTypes/Number.h"
 #include "DataTypes/Typedefs.h"
 #include "Native/UART/UARTCore.h"
 

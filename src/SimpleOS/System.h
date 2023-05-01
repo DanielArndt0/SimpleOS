@@ -24,36 +24,27 @@
 
 // Managers
 #include "Manager/MemoryManager/MemoryManager.h"  // TODO
+
+// Data types
 #include "DataTypes/String/String.h"              // FIX Otimizar reduzindo a utilização de memória e tempo de utilização
 #include "DataTypes/Duet.h"                       // CHECK
 #include "DataTypes/Containers/List/LinkedList.h" // CHECK
 #include "DataTypes/Heap.h"                       // DONE
+#include "DataTypes/Number.h"                     //DONE
 
 // Concepts
 #include "Concepts.h" // CHECK
 
 // Operators
-#include "Operators/Typeof.h" // DONE
-#include "Operators/IsSame.h" // DONE
+#include "Operators/Typeof.h"          // DONE
+#include "Operators/IsSame.h"          // DONE
+#include "Operators/RValueReference.h" // DONE
+#include "Operators/Declval.h"         // DONE
 
 // Fase de testes
 #include "DataTypes/StringNew/String.h"
 
-// FIX Biblioteca sequence está muito pesada, padronizar utilizando sistema de concepts
-// TODO priorizar a otimização do consumo de memória
-// #include "DataTypes/Sequence/List/List.h"         // TODO Padronizar e otimizar
-// #include "DataTypes/Sequence/List/LinkedList.h"   // TODO Padronizar e otimizar
-// #include "DataTypes/Sequence/List/ArrayList.h"    // TODO Padronizar e otimizar
-// #include "DataTypes/Sequence/SimpleContainer.h"   // TODO Padronizar e otimizar
-// #include "DataTypes/Sequence/Queue/LinkedQueue.h" // TODO Padronizar e otimizar
-// #include "DataTypes/Sequence/Queue/ArrayQueue.h"  // TODO Padronizar e otimizar
-// #include "DataTypes/Sequence/Stack/LinkedStack.h" // TODO Padronizar e otimizar
-// #include "DataTypes/Sequence/Stack/ArrayStack.h"  // TODO Padronizar e otimizar
 // #include "DataTypes/Buffer/Buffer.h" // CHECK Avaliar necessidade da biblioteca
-// #include "Addons/EEPROMPartitions/EEPartition.h" // TODO Remontar arquitetura para compatibilizar com sistema de partições
-// #include "Addons/EEPROMPartitions/EEProperties/EEProperties.h"
-// #include "Addons/Partition/Partition.h"                      // CHECK Verificar se sistema funciona
-// #include "Addons/Partition/Properties/PartitionProperties.h" // CHECK Verificar se sistema funciona
 // #include "Helper/MemoryHelper.h"
 
 namespace SimpleOS

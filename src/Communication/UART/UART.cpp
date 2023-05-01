@@ -22,42 +22,42 @@ SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(const SimpleOS::Data::Strin
 
 SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(SimpleOS::Data::Int data)
 {
-  send(SimpleOS::Data::String(data).c_str());
+  send(SimpleOS::Data::Number<SimpleOS::Data::Int>(data).toString());
   return *this;
 }
 
 SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(SimpleOS::Data::UInt data)
 {
-  send(SimpleOS::Data::String(data).c_str());
+  send(SimpleOS::Data::Number<SimpleOS::Data::UInt>(data).toString());
   return *this;
 }
 
 SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(SimpleOS::Data::Long data)
 {
-  send(SimpleOS::Data::String(data).c_str());
+  send(SimpleOS::Data::Number<SimpleOS::Data::Long>(data).toString());
   return *this;
 }
 
 SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(SimpleOS::Data::ULong data)
 {
-  send(SimpleOS::Data::String(data).c_str());
+  send(SimpleOS::Data::Number<SimpleOS::Data::ULong>(data).toString());
   return *this;
 }
 
 SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(SimpleOS::Data::Float data)
 {
-  send(SimpleOS::Data::String(data).c_str());
+  send(SimpleOS::Data::Number<SimpleOS::Data::Float>(data).toString());
   return *this;
 }
 
 SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(SimpleOS::Data::Double data)
 {
-  send(SimpleOS::Data::String(data).c_str());
+  send(SimpleOS::Data::Number<SimpleOS::Data::Double>(data).toString());
   return *this;
 }
 
 SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(void *ptr)
 {
-  send(SimpleOS::Data::String(reinterpret_cast<uintptr_t>(ptr)).c_str());
+  send(SimpleOS::Data::Number<uintptr_t>(reinterpret_cast<uintptr_t>(ptr)).toString());
   return *this;
 }

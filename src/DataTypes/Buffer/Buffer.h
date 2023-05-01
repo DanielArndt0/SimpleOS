@@ -27,8 +27,8 @@ namespace SimpleOS
       T read(Data::UInt addr);
 
       Data::UInt size();
-      Data::UChar *getBuffer();
-      void freeBuffer();
+      Data::UChar *toArray();
+      void free();
     };
 
     template <class T>

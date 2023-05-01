@@ -2,7 +2,7 @@
 
 SimpleOS::Addons::Partition::Partition(SimpleOS::Data::Buffer &Buffer) : buffer(Buffer) {}
 
-SimpleOS::Addons::Partition::~Partition() { buffer.freeBuffer(); }
+SimpleOS::Addons::Partition::~Partition() { buffer.free(); }
 
 SimpleOS::Data::Duet<bool, SimpleOS::Addons::PartitionProperties> SimpleOS::Addons::Partition::itsStart(Data::UInt addr)
 {

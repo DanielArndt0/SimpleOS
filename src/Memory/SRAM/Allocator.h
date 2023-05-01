@@ -19,7 +19,7 @@ namespace SimpleOS
         return *this;
       }
 
-      // bool operator==(const Block &cpy) { return this->startAddr == cpy.startAddr && this->endAddr == cpy.endAddr; }
+      //bool operator==(const Block &cpy) { return this->startAddr == cpy.startAddr && this->endAddr == cpy.endAddr; }
 
     public:
       T *startAddr;
@@ -31,7 +31,7 @@ namespace SimpleOS
       Block(T *startAddr, T *endAddr, Data::ID id)
           : startAddr(startAddr), endAddr(endAddr), id(id) {}
 
-      // bool equals(Block & cmp) { return this == cmp; }
+      //bool equals(Block & cmp) { return this == cmp; }
     };
 
     template <typename T, Data::UInt Size>
@@ -61,7 +61,6 @@ namespace SimpleOS
 
       constexpr T *getHeapEndAddr() { return heap + Size; }
 
-      // Aloca memória, mas não inicializa os endereços
       T *malloc(Data::Size size)
       {
         if (heap_pos + size > SYSM_ARRAY_SIZE(heap))
@@ -72,7 +71,6 @@ namespace SimpleOS
         return &heap[heap_pos];
       }
 
-      // Apenas disponibiliza memória e não limpa os endereços
       void free(T *ptr, Data::Size size)
       {
         if (
