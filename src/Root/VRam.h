@@ -1,21 +1,25 @@
-#pragma once
+#ifndef MY_MEMORY_MANAGER_H
+#define MY_MEMORY_MANAGER_H
 #include "SimpleOS/Base.h"
 #include "DataTypes/Heap.h"
 
+
 namespace SimpleOS
 {
+  
+
   namespace Root
   {
     template <Data::UInt HeapSize>
     class VRam
     {
     private:
-      SimpleOS::Data::Heap<HeapSize> heap;
+      static SimpleOS::Data::Heap<HeapSize> heap;
 
-    protected:
+    public:
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpointer-arith"
-      virtual void *malloc(Data::Size size)
+      [[nodiscard]] static void *malloc(Data::Size size)
       {
         if (heap.stack + size + sizeof(Data::Size) > SYSM_ARRAY_SIZE(heap.heap) || size <= 0)
           return nullptr;
@@ -25,7 +29,9 @@ namespace SimpleOS
         return ptr;
       }
 
-      virtual void free(void *ptr)
+      [[nodiscard]] static void *calloc(Data::Size nElements, Data::Size elementSize) { return malloc(nElements * elementSize); }
+
+      static void free(void *ptr)
       {
         if (
             ptr == nullptr ||
@@ -39,15 +45,20 @@ namespace SimpleOS
 #pragma GCC diagnostic pop
 
       // Getters
-      constexpr Data::UInt getHeapSize() const { return HeapSize; }
-      constexpr Data::Size getTotal() const { return sizeof(heap.heap) / sizeof(heap.heap[0]); }
-      constexpr Data::Size getFreeHeap() const { return getTotal() - heap.stack; }
-      constexpr Data::Size getUsedHeap() const { return heap.stack; }
-      void *getHeapStartAddr() { return heap.heap; }
-      void *getHeapEndAddr() { return heap.heap + HeapSize; }
+      static constexpr Data::UInt getHeapSize() { return HeapSize; }
+      static constexpr Data::Size getTotal() { return sizeof(heap.heap) / sizeof(heap.heap[0]); }
+      static constexpr Data::Size getFreeHeap() { return getTotal() - heap.stack; }
+      static constexpr Data::Size getUsedHeap() { return heap.stack; }
+      static void *getHeapStartAddr() { return heap.heap; }
+      static void *getHeapEndAddr() { return heap.heap + HeapSize; }
 
-    protected:
+    public:
       ~VRam() = default;
     };
+
+    template <SimpleOS::Data::UInt HeapSize>
+    SimpleOS::Data::Heap<HeapSize> SimpleOS::Root::VRam<HeapSize>::heap;
   }
 }
+
+#endif

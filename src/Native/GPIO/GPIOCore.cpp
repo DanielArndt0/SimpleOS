@@ -38,25 +38,3 @@ SimpleOS::Data::UInt SimpleOS::Native::GPIOCore::analog_read(SimpleOS::Data::UCh
   SYSM_WRITE_REG(DIDR0, pin, false);
   return SYSM_SHIFTL(high, 0x08) | low;
 }
-
-// SimpleOS::Data::UInt SimpleOS::Hardware::GPIO::analogReadBits(SimpleOS::Data::UChar pin) { return analog_read(pin); }
-
-// float SimpleOS::Hardware::GPIO::readVolts(SimpleOS::Data::UChar pin) { return SYSM_ADC_VOLTAGE(analog_read(pin)); }
-
-// void SimpleOS::Hardware::GPIO::pinConfig(SimpleOS::Data::UChar pin, SimpleOS::Data::UChar mode)
-// {
-//   volatile SimpleOS::Data::UChar *reg[3] = {&DDRD, &DDRB, &DDRC};
-//   port_selector(reg, pin, mode);
-// }
-
-// void SimpleOS::Hardware::GPIO::pinWrite(SimpleOS::Data::UChar pin, bool value)
-// {
-//   volatile SimpleOS::Data::UChar *reg[3] = {&PORTD, &PORTB, &PORTC};
-//   port_selector(reg, pin, value);
-// }
-
-// SimpleOS::Data::UChar SimpleOS::Hardware::GPIO::pinRead(SimpleOS::Data::UChar pin)
-// {
-//   volatile SimpleOS::Data::UChar *reg[3] = {&PIND, &PINB, &PINC};
-//   return port_selector(reg, pin);
-// }

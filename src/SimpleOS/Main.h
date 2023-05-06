@@ -4,6 +4,7 @@
 
 namespace SimpleOS
 {
+  
   using namespace Com;
   using namespace Memory;
   using namespace Data;
@@ -11,26 +12,18 @@ namespace SimpleOS
   using namespace Hardware;
   using namespace Native;
 
+#define S_ADDR 0x0100
+#define E_ADDR 0x08FF
+#define VALUE(addr) ((unsigned)(*(volatile unsigned char *)(addr)))
   class Main : extends System<SYSM_HEAP_SIZE>
   {
-
   public:
     Int startup() override
     {
-      Number<int> i = -32;
-      Number<float> f = 43.32;
-      Number<unsigned char> c = -15;
-      Number<unsigned int> g = 156;
-      Number<unsigned char> h = 22;
-      int r = 1231;
-
-      serial << r << endl;
-      serial << i << endl;
-      serial << f << endl;
-      serial << c << endl;
-      serial << g << endl;
-      serial << h << endl;
-      serial << &h << endl;
+      serial << "Free heap: " << getFreeHeap() << endl;
+      serial << "Used heap: " << getUsedHeap() << endl;
+      serial << "Heap size: " << getHeapSize() << endl;
+      serial << "Total size: " << getTotal() << endl;
 
       return 0;
     }

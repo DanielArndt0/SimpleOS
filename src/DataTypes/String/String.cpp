@@ -9,14 +9,14 @@ inline void SimpleOS::Data::String::init()
 void SimpleOS::Data::String::copy_to_buffer(SimpleOS::Data::Char *cstr)
 {
   if (buffer)
-    free(buffer);
+    vram.free(buffer);
   buffer = cstr;
 }
 
 SimpleOS::Data::Char *SimpleOS::Data::String::alloc_buffer(Size size)
 {
   length = size;
-  SimpleOS::Data::Char *temp = (SimpleOS::Data::Char *)calloc(size, sizeof(SimpleOS::Data::Char));
+  SimpleOS::Data::Char *temp = (SimpleOS::Data::Char *)vram.malloc(sizeof(SimpleOS::Data::Char) * size);
   return temp;
 }
 
@@ -99,7 +99,7 @@ SimpleOS::Data::String::String(const SimpleOS::Data::String &&str)
 SimpleOS::Data::String::~String(void)
 {
   if (buffer)
-    free(buffer);
+    vram.free(buffer);
 }
 
 SimpleOS::Data::String::String(SimpleOS::Data::Char chr)

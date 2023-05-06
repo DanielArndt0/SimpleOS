@@ -4,7 +4,7 @@
 #include "Macros.h" // TODO Organizar
 
 // Root
-#include "SimpleOS/Root/VRam.h"
+#include "Root/VRam.h" // DONE
 
 // Core's
 #include "Native/EEPROM/EECore.h" // DONE Métodos nativos - EEPROM
@@ -20,7 +20,7 @@
 #include "Hardware/Pin/Pin.h"        // DONE
 
 // Virtual RAM
-#include "Memory/SRAM/Allocator.h" // CHECK
+#include "Others/VirtualRAM.h" // CHECK
 
 // Managers
 #include "Manager/MemoryManager/MemoryManager.h"  // TODO
@@ -41,10 +41,6 @@
 #include "Operators/RValueReference.h" // DONE
 #include "Operators/Declval.h"         // DONE
 
-// Fase de testes
-#include "DataTypes/StringNew/String.h"
-
-// #include "DataTypes/Buffer/Buffer.h" // CHECK Avaliar necessidade da biblioteca
 // #include "Helper/MemoryHelper.h"
 
 namespace SimpleOS

@@ -3,6 +3,7 @@
 #include <string.h>
 #include "SimpleOS/Macros.h"
 #include "DataTypes/Typedefs.h"
+#include "Root/VRam.h"
 
 namespace SimpleOS
 {
@@ -18,6 +19,9 @@ namespace SimpleOS
       Char *buffer;
       Data::UInt length;
 
+    private:
+      Root::VRam<SYSM_HEAP_SIZE> vram;
+    
     protected:
       // Primitives
       inline void init();
@@ -79,8 +83,8 @@ namespace SimpleOS
       String find(const String precedent) const;
       String findLimited(C_String delimiters) const;
       String findLimited(const String &delimiters) const;
-      String findBetween(C_String initialStr, C_String delimiterStr);           
-      String findBetween(const String &initialStr, const String &delimiterStr); 
+      String findBetween(C_String initialStr, C_String delimiterStr);
+      String findBetween(const String &initialStr, const String &delimiterStr);
       bool exists(C_String cstr) const;
       bool exists(const String str) const;
       // TODO Retornar uma lista de todos os caracteres encontrados na string ex: List<char> find(char chr);
