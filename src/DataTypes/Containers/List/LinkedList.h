@@ -1,6 +1,6 @@
 #pragma once
 #include "SimpleOS/Base.h"
-#include "Root/VRam.h"
+#include "Root/VRam/VRam.h"
 
 namespace SimpleOS
 {
@@ -39,6 +39,7 @@ namespace SimpleOS
       LinkedList() : first(nullptr), size(0)
       {
       }
+      
       ~LinkedList()
       {
         Node<T> *current = first;

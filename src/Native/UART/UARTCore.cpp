@@ -80,7 +80,7 @@ void SimpleOS::Native::UARTCore::disableTransmission() { SYSM_WRITE_REG(UCSR0B, 
 
 void SimpleOS::Native::UARTCore::enableTransmission() { SYSM_WRITE_REG(UCSR0B, TXEN0, true); }
 
-SimpleOS::Data::Float SimpleOS::Native::UARTCore::ubrrcalc(SimpleOS::Data::ULong clock, SimpleOS::Data::UInt prescaler, SimpleOS::Data::UInt baudRate) const 
+SimpleOS::Data::Float SimpleOS::Native::UARTCore::ubrrcalc(SimpleOS::Data::ULong clock, SimpleOS::Data::UInt prescaler, SimpleOS::Data::UInt baudRate) const
 {
   return (clock / prescaler / baudRate) - 1;
-} 
+}

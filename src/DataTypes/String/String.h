@@ -3,7 +3,7 @@
 #include <string.h>
 #include "SimpleOS/Macros.h"
 #include "DataTypes/Typedefs.h"
-#include "Root/VRam.h"
+#include "Root/VRam/VRam.h"
 
 namespace SimpleOS
 {

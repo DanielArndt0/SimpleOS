@@ -22,7 +22,7 @@ namespace SimpleOS
 
     template <typename Derived>
     class Equatable
-        : conceptualize EquatableMethods<Derived>
+        : implements EquatableMethods<Derived>
     {
     public:
       // Operators

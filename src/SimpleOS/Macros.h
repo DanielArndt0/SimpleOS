@@ -50,7 +50,7 @@
 #define SYSM_CLEAR(byte, bit) ((byte) &= ~(0x01 << (bit)))
 #define SYSM_CHECK(byte, bit) ((byte) & (0x01 << (bit)))
 #define SYSM_FLIP(byte, bit) ((byte) ^= (0x01 << (bit)))
-#define SYSM_WRITE_REG(byte, bit, value) ((value) == SYSM_TRUE ? SYSM_SET((byte), (bit)) : SYSM_CLEAR((byte), (bit)))
+#define SYSM_WRITE_REG(byte, bit, value) ((value) == true ? SYSM_SET((byte), (bit)) : SYSM_CLEAR((byte), (bit)))
 #define SYSM_SHIFTR(byte, shift) ((byte) >> shift)
 #define SYSM_SHIFTL(byte, shift) ((byte) << shift)
 #define SYSM_HIGH(byte) ((byte) >> (0x08))
@@ -62,10 +62,6 @@
 
 // Math
 #define SYSM_ABSOLUTE(x) (x >= 0x00 ? x : (x * (-0x01)))
-
-// Boolean
-#define SYSM_FALSE 0x00
-#define SYSM_TRUE 0x01
 
 // Serial macros
 #define cmd(comma) (char)(comma)

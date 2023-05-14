@@ -123,7 +123,7 @@ namespace SimpleOS
 
       T get() const { return number; }
 
-      const char *toString()
+      const char *toString() const
       {
         static char buffer[9];
         return Operators::convert<T>::toString(number, buffer);

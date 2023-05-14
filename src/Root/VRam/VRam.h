@@ -1,13 +1,10 @@
-#ifndef MY_MEMORY_MANAGER_H
-#define MY_MEMORY_MANAGER_H
+#pragma once
 #include "SimpleOS/Base.h"
 #include "DataTypes/Heap.h"
 
 
 namespace SimpleOS
 {
-  
-
   namespace Root
   {
     template <Data::UInt HeapSize>
@@ -45,9 +42,8 @@ namespace SimpleOS
 #pragma GCC diagnostic pop
 
       // Getters
-      static constexpr Data::UInt getHeapSize() { return HeapSize; }
-      static constexpr Data::Size getTotal() { return sizeof(heap.heap) / sizeof(heap.heap[0]); }
-      static constexpr Data::Size getFreeHeap() { return getTotal() - heap.stack; }
+      static constexpr Data::Size getHeapSize() { return sizeof(heap.heap) / sizeof(heap.heap[0]); }
+      static constexpr Data::Size getFreeHeap() { return getHeapSize() - heap.stack; }
       static constexpr Data::Size getUsedHeap() { return heap.stack; }
       static void *getHeapStartAddr() { return heap.heap; }
       static void *getHeapEndAddr() { return heap.heap + HeapSize; }
@@ -60,5 +56,3 @@ namespace SimpleOS
     SimpleOS::Data::Heap<HeapSize> SimpleOS::Root::VRam<HeapSize>::heap;
   }
 }
-
-#endif

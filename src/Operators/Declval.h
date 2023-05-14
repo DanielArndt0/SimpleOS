@@ -4,5 +4,5 @@
 namespace SimpleOS
 {
   template <typename T>
-  typename RvalueReference<T>::type declval() noexcept;
+  typename RValueReference<T>::type declval() noexcept;
 }

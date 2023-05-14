@@ -2,9 +2,12 @@
 #include "SimpleOS/System.h"
 #include "Models/Person.h"
 
+#define S_ADDR 0x0100
+#define E_ADDR 0x08FF
+#define VALUE(addr) ((unsigned)(*(volatile unsigned char *)(addr)))
+
 namespace SimpleOS
 {
-  
   using namespace Com;
   using namespace Memory;
   using namespace Data;
@@ -12,18 +15,22 @@ namespace SimpleOS
   using namespace Hardware;
   using namespace Native;
 
-#define S_ADDR 0x0100
-#define E_ADDR 0x08FF
-#define VALUE(addr) ((unsigned)(*(volatile unsigned char *)(addr)))
   class Main : extends System<SYSM_HEAP_SIZE>
   {
   public:
+    template <typename T>
+    static constexpr T getArgs(void *args, int index = 0) { return reinterpret_cast<T>(reinterpret_cast<void **>(args)[index]); }
+
+    static void task(void *args)
+    {
+      serial << getArgs<const char *>(args) << getArgs<const char *>(args, 1) << endl;
+    }
+
     Int startup() override
     {
-      serial << "Free heap: " << getFreeHeap() << endl;
-      serial << "Used heap: " << getUsedHeap() << endl;
-      serial << "Heap size: " << getHeapSize() << endl;
-      serial << "Total size: " << getTotal() << endl;
+      void *params[] = {(void *)"Hello, ", (void *)"World!"};
+      Beta::Tasks::Task t(Beta::Tasks::Properties(1, 128, task, params));
+      t.start();
 
       return 0;
     }

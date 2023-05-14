@@ -3,19 +3,19 @@
 namespace SimpleOS
 {
   template <typename T>
-  struct RvalueReference
+  struct RValueReference
   {
     using type = T &&;
   };
 
   template <typename T>
-  struct RvalueReference<T &>
+  struct RValueReference<T &>
   {
     using type = T &;
   };
 
   template <typename T>
-  struct RvalueReference<T &&>
+  struct RValueReference<T &&>
   {
     using type = T &&;
   };
