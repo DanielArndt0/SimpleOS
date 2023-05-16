@@ -14,6 +14,7 @@ namespace SimpleOS
   using namespace Operators;
   using namespace Hardware;
   using namespace Native;
+  using namespace Root::Task;
 
   class Main : extends System<SYSM_HEAP_SIZE>
   {
@@ -29,8 +30,14 @@ namespace SimpleOS
     Int startup() override
     {
       void *params[] = {(void *)"Hello, ", (void *)"World!"};
-      Beta::Tasks::Task t(Beta::Tasks::Properties(1, 128, task, params));
-      t.start();
+
+      
+
+      TaskExample taskPrint(TaskProperties(1, 128, task, params));
+      TaskController controller(taskPrint);
+      controller.start();
+
+
 
       return 0;
     }

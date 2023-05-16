@@ -3,9 +3,15 @@
 // Macros
 #include "Macros.h" // TODO Organizar
 
-// Root
+// Root VRam
 #include "Root/VRam/VRam.h" // DONE
-#include "Root/Task/TaskProperties.h" // BETA
+
+// Root Task
+#include "Root/Task/TaskLifecycle.h"                 // DONE
+#include "Root/Task/TaskState.h"                     // DONE
+#include "Root/Task/TaskController/TaskController.h" // DONE
+#include "Root/Task/TaskProperties/TaskProperties.h" // DONE
+#include "Root/Task/TaskExample.h"                   // DONE
 
 // Core's
 #include "Native/EEPROM/EECore.h" // DONE Métodos nativos - EEPROM
@@ -24,7 +30,7 @@
 #include "Others/VirtualRAM.h" // CHECK
 
 // Managers
-#include "Manager/MemoryManager/MemoryManager.h"  // TODO
+#include "Manager/MemoryManager/MemoryManager.h" // TODO
 
 // Data types
 #include "DataTypes/String/String.h"              // FIX Otimizar reduzindo a utilização de memória e tempo de utilização
