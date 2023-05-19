@@ -1,46 +1,64 @@
 #include "TaskController.h"
 
-SimpleOS::Root::Task::TaskController::TaskController(SimpleOS::Root::Task::TaskAdapter &adapter) : taskAdapter(adapter) { this->taskAdapter.onCreate(); }
+SimpleOS::Root::TaskController::TaskController() : taskAdapter(nullptr) {}
 
-void SimpleOS::Root::Task::TaskController::start()
+SimpleOS::Root::TaskController::TaskController(SimpleOS::Root::TaskAdapter &adapter) : taskAdapter(&adapter) { this->taskAdapter->onCreate(); }
+
+SimpleOS::Root::TaskController &SimpleOS::Root::TaskController::setAdapter(SimpleOS::Root::TaskAdapter &adapter)
 {
-  taskAdapter.getProperties().state = TaskState::starting;
-  taskAdapter.onStart();
-  taskAdapter.getProperties().state = TaskState::started;
+  this->taskAdapter = &adapter;
+  return *this;
+}
+
+void SimpleOS::Root::TaskController::start()
+{
+  if (taskAdapter == nullptr)
+    return;
+  taskAdapter->properties.state = TaskState::starting;
+  taskAdapter->onStart();
+  taskAdapter->properties.state = TaskState::started;
 
   this->resume();
 }
 
-void SimpleOS::Root::Task::TaskController::restart()
+void SimpleOS::Root::TaskController::restart()
 {
-  taskAdapter.getProperties().state = TaskState::restarting;
-  taskAdapter.onRestart();
-  taskAdapter.getProperties().state = TaskState::restarted;
+  if (taskAdapter == nullptr)
+    return;
+  taskAdapter->properties.state = TaskState::restarting;
+  taskAdapter->onRestart();
+  taskAdapter->properties.state = TaskState::restarted;
 
   this->start();
 }
 
-void SimpleOS::Root::Task::TaskController::pause()
+void SimpleOS::Root::TaskController::pause()
 {
-  taskAdapter.getProperties().state = TaskState::pausing;
-  taskAdapter.onPause();
-  taskAdapter.getProperties().state = TaskState::paused;
+  if (taskAdapter == nullptr)
+    return;
+  taskAdapter->properties.state = TaskState::pausing;
+  taskAdapter->onPause();
+  taskAdapter->properties.state = TaskState::paused;
 }
 
-void SimpleOS::Root::Task::TaskController::resume()
+void SimpleOS::Root::TaskController::resume()
 {
-  taskAdapter.getProperties().state = TaskState::resuming;
-  taskAdapter.onResume();
-  taskAdapter.getProperties().state = TaskState::resumed;
+  if (taskAdapter == nullptr)
+    return;
+  taskAdapter->properties.state = TaskState::resuming;
+  taskAdapter->onResume();
+  taskAdapter->properties.state = TaskState::resumed;
 }
 
-void SimpleOS::Root::Task::TaskController::stop()
+void SimpleOS::Root::TaskController::stop()
 {
-  taskAdapter.getProperties().state = TaskState::suspending;
-  taskAdapter.onSuspend();
-  taskAdapter.getProperties().state = TaskState::suspended;
+  if (taskAdapter == nullptr)
+    return;
+  taskAdapter->properties.state = TaskState::suspending;
+  taskAdapter->onSuspend();
+  taskAdapter->properties.state = TaskState::suspended;
 
-  taskAdapter.getProperties().state = TaskState::terminating;
-  taskAdapter.onTerminate();
-  taskAdapter.getProperties().state = TaskState::terminated;
+  taskAdapter->properties.state = TaskState::terminating;
+  taskAdapter->onTerminate();
+  taskAdapter->properties.state = TaskState::terminated;
 }

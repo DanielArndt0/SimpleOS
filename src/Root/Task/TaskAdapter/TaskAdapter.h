@@ -7,31 +7,28 @@ namespace SimpleOS
 {
   namespace Root
   {
-    namespace Task
+    class TaskAdapter : implements TaskLifecycle
     {
-      class TaskAdapter : implements TaskLifecycle
-      {
-      private:
-        TaskProperties properties;
+      friend class TaskController;
 
-      public:
-        TaskAdapter(const TaskProperties &properties);
+    protected:
+      TaskProperties properties;
 
-      public:
-        virtual void onCreate();
-        virtual void onStart();
-        virtual void onResume();
-        virtual void onPause();
-        virtual void onSuspend();
-        virtual void onTerminate();
-        virtual void onRestart();
+    public:
+      TaskAdapter() = default;
+      TaskAdapter(const TaskProperties &properties);
 
-      public:
-        TaskProperties &getProperties();
+    protected:
+      virtual void onCreate();
+      virtual void onStart();
+      virtual void onResume();
+      virtual void onPause();
+      virtual void onSuspend();
+      virtual void onTerminate();
+      virtual void onRestart();
 
-      protected:
-        virtual ~TaskAdapter() = default;
-      };
-    } // namespace Task
-  }   // namespace Root
+    protected:
+      virtual ~TaskAdapter() = default;
+    };
+  } // namespace Root
 } // namespace SimpleOS

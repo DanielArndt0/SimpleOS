@@ -2,13 +2,12 @@
 #include "SimpleOS/Base.h"
 #include "DataTypes/Heap.h"
 
-
 namespace SimpleOS
 {
   namespace Root
   {
     template <Data::UInt HeapSize>
-    class VRam
+    class RamAllocator
     {
     private:
       static SimpleOS::Data::Heap<HeapSize> heap;
@@ -35,8 +34,8 @@ namespace SimpleOS
             ptr < heap.heap ||
             ptr >= heap.heap + getHeapSize())
           return;
-        Data::Char *hdrPtr = static_cast<Data::Char *>(ptr) - sizeof(Data::Size);
-        Data::Size size = *reinterpret_cast<Data::Size *>(hdrPtr);
+        Data::Char *headerPtr = static_cast<Data::Char *>(ptr) - sizeof(Data::Size);
+        Data::Size size = *reinterpret_cast<Data::Size *>(headerPtr);
         heap.stack -= size + sizeof(Data::Size);
       }
 #pragma GCC diagnostic pop
@@ -49,10 +48,10 @@ namespace SimpleOS
       static void *getHeapEndAddr() { return heap.heap + HeapSize; }
 
     public:
-      ~VRam() = default;
+      ~RamAllocator() = default;
     };
 
     template <SimpleOS::Data::UInt HeapSize>
-    SimpleOS::Data::Heap<HeapSize> SimpleOS::Root::VRam<HeapSize>::heap;
+    SimpleOS::Data::Heap<HeapSize> SimpleOS::Root::RamAllocator<HeapSize>::heap;
   }
 }

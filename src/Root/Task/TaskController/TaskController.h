@@ -9,24 +9,25 @@ namespace SimpleOS
 {
   namespace Root
   {
-    namespace Task
+    class TaskController
     {
-      class TaskController
-      {
-      private:
-        TaskAdapter &taskAdapter;
+    private:
+      TaskAdapter *taskAdapter;
 
-      public:
-        TaskController(TaskAdapter &adapter);
-        virtual ~TaskController() = default;
+    public:
+      TaskController();
+      TaskController(TaskAdapter &adapter);
+      virtual ~TaskController() = default;
 
-      public:
-        void start();
-        void restart();
-        void pause();
-        void resume();
-        void stop();
-      };
-    } // namespace Task
-  }   // namespace Root
+    public:
+      TaskController &setAdapter(TaskAdapter &adapter);
+
+    public:
+      void start();
+      void restart();
+      void pause();
+      void resume();
+      void stop();
+    };
+  } // namespace Root
 } // namespace SimpleOS

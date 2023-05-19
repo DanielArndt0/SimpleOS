@@ -3,7 +3,7 @@
 #include <string.h>
 #include "SimpleOS/Macros.h"
 #include "DataTypes/Typedefs.h"
-#include "Root/VRam/VRam.h"
+#include "Root/RamAllocator/RamAllocator.h"
 
 namespace SimpleOS
 {
@@ -20,8 +20,8 @@ namespace SimpleOS
       Data::UInt length;
 
     private:
-      Root::VRam<SYSM_HEAP_SIZE> vram;
-    
+      Root::RamAllocator<SYSM_HEAP_SIZE> vram;
+
     protected:
       // Primitives
       inline void init();

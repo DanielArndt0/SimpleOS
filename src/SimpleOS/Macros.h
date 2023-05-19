@@ -3,6 +3,11 @@
 // VERSION
 #define SYSM_VERSION "V1.0.00"
 
+// ISR
+#define INT(vector)                                                               \
+  extern "C" void vector(void) __attribute__((signal, used, externally_visible)); \
+  void vector(void)
+
 // Sintaxe
 #define implements virtual public
 #define extends virtual public
@@ -14,7 +19,9 @@
 
 // Force go to
 #define FORCE_EXIT goto sysm_exit_lbl
-#define EXIT sysm_exit_lbl:""
+#define EXIT     \
+  sysm_exit_lbl: \
+  ""
 
 // String
 #define BUFFER_SIZE_STR(type) ((8 * sizeof(type)) + 1)

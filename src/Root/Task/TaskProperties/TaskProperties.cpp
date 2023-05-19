@@ -1,11 +1,13 @@
 #include "TaskProperties.h"
 
-SimpleOS::Data::ID SimpleOS::Root::Task::TaskProperties::idCounter;
+SimpleOS::Data::ID SimpleOS::Root::TaskProperties::idCounter;
 
-SimpleOS::Root::Task::TaskProperties::TaskProperties()
+SimpleOS::Root::TaskProperties::TaskProperties()
     : id(0),
       state(TaskState::created),
       priority(0),
+      interval(0),
+      remainingTime(0),
       stackPointer(nullptr),
       stackCounter(0),
       stackSize(0),
@@ -14,10 +16,12 @@ SimpleOS::Root::Task::TaskProperties::TaskProperties()
 {
 }
 
-SimpleOS::Root::Task::TaskProperties::TaskProperties(SimpleOS::Data::UInt priority, SimpleOS::Data::UInt stackSize, void (*taskFunction)(void *), void *params)
+SimpleOS::Root::TaskProperties::TaskProperties(SimpleOS::Data::UInt priority, SimpleOS::Data::UInt stackSize, Data::UInt interval, void (*taskFunction)(void *), void *params)
     : id(idCounter++),
       state(TaskState::created),
       priority(priority),
+      interval(interval),
+      remainingTime(interval),
       stackPointer(nullptr),
       stackCounter(0),
       stackSize(stackSize),
@@ -26,10 +30,12 @@ SimpleOS::Root::Task::TaskProperties::TaskProperties(SimpleOS::Data::UInt priori
 {
 }
 
-SimpleOS::Root::Task::TaskProperties::TaskProperties(const SimpleOS::Root::Task::TaskProperties &other)
+SimpleOS::Root::TaskProperties::TaskProperties(const SimpleOS::Root::TaskProperties &other)
     : id(idCounter++),
       state(other.state),
       priority(other.priority),
+      interval(other.interval),
+      remainingTime(other.remainingTime),
       stackPointer(other.stackPointer),
       stackCounter(other.stackCounter),
       stackSize(other.stackSize),
@@ -38,10 +44,12 @@ SimpleOS::Root::Task::TaskProperties::TaskProperties(const SimpleOS::Root::Task:
 {
 }
 
-SimpleOS::Root::Task::TaskProperties::TaskProperties(SimpleOS::Root::Task::TaskProperties &&other)
+SimpleOS::Root::TaskProperties::TaskProperties(SimpleOS::Root::TaskProperties &&other)
     : id(idCounter++),
       state(other.state),
       priority(other.priority),
+      interval(other.interval),
+      remainingTime(other.remainingTime),
       stackPointer(other.stackPointer),
       stackCounter(other.stackCounter),
       stackSize(other.stackSize),
@@ -50,6 +58,8 @@ SimpleOS::Root::Task::TaskProperties::TaskProperties(SimpleOS::Root::Task::TaskP
 {
   other.state = TaskState::null;
   other.priority = 0;
+  other.interval = 0;
+  other.remainingTime = 0;
   other.stackPointer = nullptr;
   other.stackCounter = 0;
   other.stackSize = 0;
@@ -57,19 +67,21 @@ SimpleOS::Root::Task::TaskProperties::TaskProperties(SimpleOS::Root::Task::TaskP
   other.taskParams = nullptr;
 }
 
-SimpleOS::Root::Task::TaskProperties::~TaskProperties()
+SimpleOS::Root::TaskProperties::~TaskProperties()
 {
-  Root::VRam<SYSM_HEAP_SIZE>::free(stackPointer);
+  Root::RamAllocator<SYSM_HEAP_SIZE>::free(stackPointer);
   stackCounter = 0;
   stackSize = 0;
 }
 
-SimpleOS::Root::Task::TaskProperties &SimpleOS::Root::Task::TaskProperties::operator=(const SimpleOS::Root::Task::TaskProperties &other)
+SimpleOS::Root::TaskProperties &SimpleOS::Root::TaskProperties::operator=(const SimpleOS::Root::TaskProperties &other)
 {
   if (this != &other)
   {
     state = other.state;
     priority = other.priority;
+    interval = other.interval;
+    remainingTime = other.remainingTime;
     stackPointer = other.stackPointer;
     stackCounter = other.stackCounter;
     stackSize = other.stackSize;
@@ -79,12 +91,14 @@ SimpleOS::Root::Task::TaskProperties &SimpleOS::Root::Task::TaskProperties::oper
   return *this;
 }
 
-SimpleOS::Root::Task::TaskProperties &SimpleOS::Root::Task::TaskProperties::operator=(SimpleOS::Root::Task::TaskProperties &&other)
+SimpleOS::Root::TaskProperties &SimpleOS::Root::TaskProperties::operator=(SimpleOS::Root::TaskProperties &&other)
 {
   if (this != &other)
   {
     state = other.state;
     priority = other.priority;
+    interval = other.interval;
+    remainingTime = other.remainingTime;
     stackPointer = other.stackPointer;
     stackCounter = other.stackCounter;
     stackSize = other.stackSize;
@@ -92,6 +106,8 @@ SimpleOS::Root::Task::TaskProperties &SimpleOS::Root::Task::TaskProperties::oper
     taskParams = other.taskParams;
     other.state = TaskState::null;
     other.priority = 0;
+    other.interval = 0;
+    other.remainingTime = 0;
     other.stackPointer = nullptr;
     other.stackCounter = 0;
     other.stackSize = 0;

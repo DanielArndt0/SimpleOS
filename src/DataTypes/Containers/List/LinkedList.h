@@ -1,6 +1,6 @@
 #pragma once
 #include "SimpleOS/Base.h"
-#include "Root/VRam/VRam.h"
+#include "Root/RamAllocator/RamAllocator.h"
 
 namespace SimpleOS
 {
@@ -33,7 +33,7 @@ namespace SimpleOS
       T sentinelValue;
 
     private:
-      Root::VRam<SYSM_HEAP_SIZE> vram;
+      Root::RamAllocator<SYSM_HEAP_SIZE> vram;
 
     public:
       LinkedList() : first(nullptr), size(0)
@@ -58,7 +58,6 @@ namespace SimpleOS
       void add(T value)
       {
         Node<T> *node = (Node<T> *)vram.malloc(sizeof(Node<T>));
-
         node->data = value;
         node->next = first;
         first = node;
