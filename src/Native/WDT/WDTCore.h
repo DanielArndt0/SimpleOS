@@ -16,16 +16,14 @@ namespace SimpleOS
       WDTPrescaler prescaler;
       WDTMode mode;
 
-    public:
-      WDTCore(WDTPrescaler prescaler = WDTPrescaler::C2048, WDTMode mode = WDTMode::Interrupt)
+    protected:
+      void setup(WDTPrescaler prescaler = WDTPrescaler::C2048, WDTMode mode = WDTMode::Interrupt)
       {
         setPrescaler(prescaler);
         setMode(mode);
       }
-      virtual ~WDTCore() = default;
 
-    protected:
-      WDTPrescaler gerPrescaler() const { return prescaler; }
+      WDTPrescaler getPrescaler() const { return prescaler; }
 
       WDTMode getMode() const { return mode; }
 

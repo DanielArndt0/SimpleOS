@@ -1,10 +1,10 @@
 #pragma once
 
 // VERSION
-#define SYSM_VERSION "V1.0.00"
+#define SYSM_VERSION "V0.1.00"
 
 // ISR
-#define INT(vector)                                                               \
+#define INT(vector, ...)                                                               \
   extern "C" void vector(void) __attribute__((signal, used, externally_visible)); \
   void vector(void)
 

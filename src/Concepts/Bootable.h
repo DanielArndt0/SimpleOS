@@ -6,14 +6,14 @@ namespace SimpleOS
 {
   namespace Concepts
   {
-    class Executable
+    class Bootable
     {
     public:
       // Methods
-      virtual Data::Int execute(void) = 0;
+      virtual Data::Int boot(void) = 0;
 
       // Destructors
-      virtual ~Executable() = default;
+      virtual ~Bootable() = default;
     };
   }
 }

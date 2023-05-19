@@ -3,8 +3,8 @@
 SimpleOS::Main sys;
 int main()
 {
-  sys.startup();
+  sys.boot();
   while (true)
-    sys.run();
+    sys.execute();
   return 0;
 }
