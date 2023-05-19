@@ -1,5 +1,7 @@
 # SimpleOS
 
+# V0.2.00 - Thread System Update
+
 # V0.1.00 - Watchdog Timer Update
 
 - Creation of the WatchdogTimer class. WDTCore optimization and refactoring of the Ticks class.
