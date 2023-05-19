@@ -8,32 +8,27 @@
 
 namespace SimpleOS
 {
-  using namespace Com;
-  using namespace Memory;
-  using namespace Data;
-  using namespace Operators;
-  using namespace Hardware;
-  using namespace Native;
-  using namespace Interrupt;
-  using namespace Root;
+  using namespace SimpleOS::Com;
+  using namespace SimpleOS::Memory;
+  using namespace SimpleOS::Data;
+  using namespace SimpleOS::Operators;
+  using namespace SimpleOS::Hardware;
+  using namespace SimpleOS::Native;
+  using namespace SimpleOS::Interrupt;
+  using namespace SimpleOS::Root;
 
   class Main : extends System<SYSM_HEAP_SIZE>
   {
-    static void print(void *args)
-    {
-      serial << "Thread 1" << endl;
-    }
-
   public:
-    Int startup() override
+    Int boot() override
     {
-      serial << "init" << endl;
-      serial << getFreeHeap() << endl;
       return 0;
     }
 
-    Int run() override
+    Int execute() override
     {
+      serial << watchdog.ticks.get() << endl;
+
       return 0;
     }
   };

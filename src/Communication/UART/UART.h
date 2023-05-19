@@ -1,10 +1,9 @@
 #pragma once
 #include <avr/io.h>
 #include <string.h>
-#include "SimpleOS/Macros.h"
+#include "SimpleOS/Base.h"
 #include "DataTypes/String/String.h"
 #include "DataTypes/Number.h"
-#include "DataTypes/Typedefs.h"
 #include "Native/UART/UARTCore.h"
 
 // TODO Desenvolver biblioteca UART
