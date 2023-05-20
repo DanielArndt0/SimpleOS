@@ -14,8 +14,10 @@ namespace SimpleOS
       const Data::UInt pin;
 
     public:
-      Pin() : pin(0) {}
-      Pin(Data::UInt pin) : pin(pin) {}
+      Pin() = default;
+      Pin(Data::UInt pin);
+      ~Pin() = default;
+      
 
     public:
       Pin &config(Data::UChar mode);

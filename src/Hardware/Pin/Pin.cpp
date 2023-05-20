@@ -1,5 +1,7 @@
 #include "Hardware/Pin/Pin.h"
 
+SimpleOS::Hardware::Pin::Pin(SimpleOS::Data::UInt pin) : pin(pin) {}
+
 SimpleOS::Data::UInt SimpleOS::Hardware::Pin::bits() { return !pin ? 0 : analog_read(pin); }
 
 SimpleOS::Data::Float SimpleOS::Hardware::Pin::volts() { return !pin ? 0 : SYSM_ADC_VOLTAGE(analog_read(pin)); }

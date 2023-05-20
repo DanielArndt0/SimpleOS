@@ -11,7 +11,7 @@ namespace SimpleOS
     class GPIO
     {
     public:
-      Pin pin(Data::UInt pin) const { return Pin(pin); }
+      Pin getPin(Data::UInt pin) const;
     };
   }
 }

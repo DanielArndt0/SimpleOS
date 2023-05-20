@@ -19,7 +19,7 @@ namespace SimpleOS
 
     template <typename Derived>
     class Copyable
-        : conceptualize CopyableMethods<Derived>
+        : implements CopyableMethods<Derived>
     {
     public:
       // Operators

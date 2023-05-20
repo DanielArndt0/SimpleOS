@@ -1,6 +1,10 @@
 # SimpleOS
 
-# V0.1.01 - Code Refactoring and Project Reorganization
+## V0.1.02 - Code Refactoring
+- System macro removed: "implements"
+- The System class now inherits from the GPIO class.
+
+## V0.1.01 - Code Refactoring and Project Reorganization
 - Methods class creation.
 - The System class now inherits from the Watchdogtimer class.
 - The System class now inherits from the Methods class.
@@ -8,18 +12,17 @@
 - Addition of comments on the code.
 - SimpleOS folder name change to System.
 
-
-# V0.1.00 - Watchdog Timer Update
+## V0.1.00 - Watchdog Timer Update
 - Creation of the WatchdogTimer class. WDTCore optimization and refactoring of the Ticks class.
 - Creation of Macro INT(vector) to handle interrupts
 - Implementation of the Bootable and Executable concepts in the System class
 
-### Removed classes:
+#### Removed classes:
 - MemoryHelper
 - Interrupts.h
 - VirtualRAM.h
 
-### Concepts created:
+#### Concepts created:
 - Bootable
 - Executable
 

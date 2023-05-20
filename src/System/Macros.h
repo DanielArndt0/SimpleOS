@@ -1,7 +1,7 @@
 #pragma once
 
 // VERSION
-#define SYSM_VERSION "V0.1.01"
+#define SYSM_VERSION "V0.1.02"
 
 // ISR
 #define INT(vector, ...)                                                               \
@@ -11,7 +11,6 @@
 // Sintaxe
 #define implements virtual public
 #define extends virtual public
-#define conceptualize virtual public
 #define SameOf decltype
 
 // Heap

@@ -19,7 +19,7 @@ namespace SimpleOS
 
     template <typename Derived>
     class Movable
-        : conceptualize MovableMethods<Derived>
+        : implements MovableMethods<Derived>
     {
     public:
       // Operators

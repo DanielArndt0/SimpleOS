@@ -60,12 +60,12 @@ namespace SimpleOS
       : extends Methods,
         extends Root::RamAllocator<HeapSize>,
         extends Interrupt::WatchdogTimer,
+        extends Hardware::GPIO,
         implements Concepts::Bootable,
         implements Concepts::Executable
   {
   protected:
     static Com::UART serial;
-    static Hardware::GPIO gpio;
     static Memory::EEPROM eeprom;
 
   protected:
@@ -74,9 +74,6 @@ namespace SimpleOS
 
   template <Data::UInt HeapSize>
   Com::UART System<HeapSize>::serial;
-
-  template <Data::UInt HeapSize>
-  Hardware::GPIO System<HeapSize>::gpio;
 
   template <Data::UInt HeapSize>
   Memory::EEPROM System<HeapSize>::eeprom;
