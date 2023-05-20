@@ -1,7 +1,7 @@
 # SimpleOS
 
 ## V0.1.02 - Code Refactoring
-- System macro removed: "implements"
+- System macro removed: "conceptualize"
 - The System class now inherits from the GPIO class.
 
 ## V0.1.01 - Code Refactoring and Project Reorganization
