@@ -2,7 +2,7 @@
 #include <avr/pgmspace.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include "SimpleOS/Macros.h"
+#include "System/Macros.h"
 #include "DataTypes/Typedefs.h"
 
 namespace SimpleOS

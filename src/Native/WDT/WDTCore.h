@@ -1,7 +1,7 @@
 #pragma once
 #include <avr/interrupt.h>
 #include <avr/io.h>
-#include "SimpleOS/Base.h"
+#include "System/Base.h"
 #include "Native/WDT/WDTPrescaler.h"
 #include "Native/WDT/WDTMode.h"
 

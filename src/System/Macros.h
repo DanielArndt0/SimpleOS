@@ -1,7 +1,7 @@
 #pragma once
 
 // VERSION
-#define SYSM_VERSION "V0.1.00"
+#define SYSM_VERSION "V0.1.01"
 
 // ISR
 #define INT(vector, ...)                                                               \

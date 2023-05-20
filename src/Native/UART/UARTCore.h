@@ -1,7 +1,7 @@
 #pragma once
 #include <avr/io.h>
 #include <string.h>
-#include "SimpleOS/Macros.h"
+#include "System/Macros.h"
 #include "DataTypes/String/String.h"
 #include "DataTypes/Typedefs.h"
 

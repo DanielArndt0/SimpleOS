@@ -1,5 +1,5 @@
 #pragma once
-#include "SimpleOS/Base.h"
+#include "System/Base.h"
 
 namespace SimpleOS
 {
@@ -14,7 +14,7 @@ namespace SimpleOS
       Ticks() = default;
       virtual ~Ticks() = default;
 
-    protected:
+    private:
       void decrement();
 
     public:

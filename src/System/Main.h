@@ -1,6 +1,5 @@
 #pragma once
-#include "SimpleOS/System.h"
-#include "Models/Person.h"
+#include "System/System.h"
 
 #define S_ADDR 0x0100
 #define E_ADDR 0x08FF
@@ -27,8 +26,7 @@ namespace SimpleOS
 
     Int execute() override
     {
-      serial << watchdog.ticks.get() << endl;
-
+      serial << watchdogTicks.get() << endl;
       return 0;
     }
   };

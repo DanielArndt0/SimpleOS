@@ -1,7 +1,7 @@
 #pragma once
 #include <stdlib.h>
 #include <string.h>
-#include "SimpleOS/Macros.h"
+#include "System/Macros.h"
 #include "DataTypes/Typedefs.h"
 #include "Root/RamAllocator/RamAllocator.h"
 

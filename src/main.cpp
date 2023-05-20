@@ -1,4 +1,4 @@
-#include "SimpleOS/Main.h"
+#include "System/Main.h"
 
 SimpleOS::Main sys;
 int main()

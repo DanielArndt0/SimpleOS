@@ -1,5 +1,5 @@
 #pragma once
-#include "SimpleOS/Base.h"
+#include "System/Base.h"
 #include "Root/RamAllocator/RamAllocator.h"
 
 namespace SimpleOS

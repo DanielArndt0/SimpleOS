@@ -1,5 +1,5 @@
 #pragma once
-#include "SimpleOS/Base.h"
+#include "System/Base.h"
 #include "Native/WDT/WDTCore.h"
 #include "Time/Ticks/Ticks.h"
 
@@ -10,7 +10,7 @@ namespace SimpleOS
     class WatchdogTimer : extends Native::WDTCore
     {
     public:
-      static Time::Ticks ticks;
+      static Time::Ticks watchdogTicks;
 
     public:
       WatchdogTimer(Native::WDTPrescaler prescaler = Native::WDTPrescaler::C2048, Native::WDTMode mode = Native::WDTMode::Interrupt);

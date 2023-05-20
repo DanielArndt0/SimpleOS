@@ -1,5 +1,5 @@
 #pragma once
-#include "SimpleOS/Macros.h"
+#include "System/Macros.h"
 
 namespace SimpleOS
 {

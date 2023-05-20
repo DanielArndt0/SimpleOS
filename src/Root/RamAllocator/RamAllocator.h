@@ -1,6 +1,6 @@
 #pragma once
-#include "SimpleOS/Base.h"
-#include "DataTypes/Heap.h"
+#include "System/Base.h"
+#include "Root/RamAllocator/Heap.h"
 
 namespace SimpleOS
 {
@@ -10,7 +10,7 @@ namespace SimpleOS
     class RamAllocator
     {
     private:
-      static SimpleOS::Data::Heap<HeapSize> heap;
+      static SimpleOS::Root::Heap<HeapSize> heap;
 
     public:
 #pragma GCC diagnostic push
@@ -52,6 +52,6 @@ namespace SimpleOS
     };
 
     template <SimpleOS::Data::UInt HeapSize>
-    SimpleOS::Data::Heap<HeapSize> SimpleOS::Root::RamAllocator<HeapSize>::heap;
+    SimpleOS::Root::Heap<HeapSize> SimpleOS::Root::RamAllocator<HeapSize>::heap;
   }
 }
