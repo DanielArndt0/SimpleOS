@@ -1,8 +1,5 @@
 # SimpleOS
 
-# V1.0.00 - Thread System Update
-
-
 # V0.1.01 - Code Refactoring and Project Reorganization
 - Methods class creation.
 - The System class now inherits from the Watchdogtimer class.
