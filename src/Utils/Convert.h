@@ -1,15 +1,20 @@
 #pragma once
 #include <stdlib.h>
-#include "Operators/Typeof.h"
 
 namespace SimpleOS
 {
-  namespace Operators
+  namespace Utils
   {
     template <typename U>
     struct convert
     {
-      static const char *toString(U data, char *buffer, char base = 10) { return Typeof<U>(); }
+      static const char *toString(U data, char *buffer, char base = 10) { return "unknown"; }
+    };
+
+    template <>
+    struct convert<bool>
+    {
+      static const char *toString(bool data, char *buffer, char base = 10) { return data ? "true" : "false"; }
     };
 
     template <>

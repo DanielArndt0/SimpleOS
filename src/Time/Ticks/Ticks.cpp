@@ -1,6 +1,6 @@
 #include "Ticks.h"
 
-SimpleOS::Data::ULong SimpleOS::Time::Ticks::get() { return ticks; }
+unsigned long SimpleOS::Time::Ticks::get() { return ticks; }
 
 void SimpleOS::Time::Ticks::increment() { ticks += 1; }
 

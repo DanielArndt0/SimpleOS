@@ -10,7 +10,7 @@ namespace SimpleOS
   using namespace SimpleOS::Com;
   using namespace SimpleOS::Memory;
   using namespace SimpleOS::Data;
-  using namespace SimpleOS::Operators;
+  using namespace SimpleOS::Utils;
   using namespace SimpleOS::Hardware;
   using namespace SimpleOS::Native;
   using namespace SimpleOS::Interrupt;
@@ -18,16 +18,13 @@ namespace SimpleOS
 
   class Main : extends System<SYSM_HEAP_SIZE>
   {
+
   public:
-    Int boot() override
+    int boot() override
     {
       return 0;
     }
 
-    Int execute() override
-    {
-      serial << watchdogTicks.get() << endl;
-      return 0;
-    }
+    int execute() override { return 0; }
   };
 }

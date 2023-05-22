@@ -3,7 +3,7 @@
 
 namespace SimpleOS
 {
-  namespace Operators
+  namespace Utils
   {
     /**
      * @brief Identifies the data type of a variable.

@@ -25,10 +25,10 @@
 #include "Memory/EEPROM/EEPROM.h"    // CHECK Check if it needs standardization and if it is complete
 
 // Time
-#include "Time/Ticks/Ticks.h"
+#include "Time/Ticks/Ticks.h" // DONE
 
 // Root RAM Allocator
-#include "Root/RamAllocator/RamAllocator.h" // DONE
+#include "Root/RamAllocator/RamAllocator.h" // FIX
 #include "Root/RamAllocator/Heap.h"         // DONE
 
 // Root Task
@@ -42,20 +42,24 @@
 #include "Manager/MemoryManager/MemoryManager.h" // TODO
 
 // Data types
-#include "DataTypes/String/String.h"              // FIX Optimize reducing the use of memory and time of use
-#include "DataTypes/Duet.h"                       // CHECK
-#include "DataTypes/Containers/List/LinkedList.h" // CHECK
-#include "DataTypes/Number.h"                     // TODO Add Increment, Decrement and Bitwise operators
+#include "DataTypes/String/String.h" // FIX Optimize reducing the use of memory and time of use
+#include "DataTypes/Number.h"        // TODO Add Increment, Decrement and Bitwise operators
+#include "DataTypes/Duet.h"          // CHECK
 
-// Operators
-#include "Operators/Typeof.h"          // DONE
-#include "Operators/IsSame.h"          // DONE
-#include "Operators/RValueReference.h" // DONE
-#include "Operators/Declval.h"         // DONE
+// Containers
+#include "DataTypes/Containers/List/List.h"       // DONE
+#include "DataTypes/Containers/List/ArrayList.h"  // DONE
+#include "DataTypes/Containers/List/LinkedList.h" // DONE
+
+// Utils
+#include "Utils/Typeof.h"          // DONE
+#include "Utils/IsSame.h"          // DONE
+#include "Utils/RValueReference.h" // DONE
+#include "Utils/Declval.h"         // DONE
 
 namespace SimpleOS
 {
-  template <Data::UInt HeapSize>
+  template <unsigned int HeapSize>
   class System
       : extends Methods,
         extends Root::RamAllocator<HeapSize>,
@@ -72,9 +76,9 @@ namespace SimpleOS
     virtual ~System() = default;
   };
 
-  template <Data::UInt HeapSize>
+  template <unsigned int HeapSize>
   Com::UART System<HeapSize>::serial;
 
-  template <Data::UInt HeapSize>
+  template <unsigned int HeapSize>
   Memory::EEPROM System<HeapSize>::eeprom;
 }

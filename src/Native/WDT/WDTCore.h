@@ -30,18 +30,18 @@ namespace SimpleOS
       void setPrescaler(WDTPrescaler prescaler)
       {
         this->prescaler = prescaler;
-        SYSM_WRITE_REG(WDTCSR, WDP0, SYSM_CHECK((Data::UChar)prescaler, 0));
-        SYSM_WRITE_REG(WDTCSR, WDP1, SYSM_CHECK((Data::UChar)prescaler, 1));
-        SYSM_WRITE_REG(WDTCSR, WDP2, SYSM_CHECK((Data::UChar)prescaler, 2));
-        SYSM_WRITE_REG(WDTCSR, WDP3, SYSM_CHECK((Data::UChar)prescaler, 3));
+        SYSM_WRITE_REG(WDTCSR, WDP0, SYSM_CHECK((unsigned char)prescaler, 0));
+        SYSM_WRITE_REG(WDTCSR, WDP1, SYSM_CHECK((unsigned char)prescaler, 1));
+        SYSM_WRITE_REG(WDTCSR, WDP2, SYSM_CHECK((unsigned char)prescaler, 2));
+        SYSM_WRITE_REG(WDTCSR, WDP3, SYSM_CHECK((unsigned char)prescaler, 3));
       }
 
       void setMode(WDTMode mode)
       {
         this->mode = mode;
         cli();
-        SYSM_WRITE_REG(WDTCSR, WDIE, SYSM_CHECK((Data::UChar)mode, 0));
-        SYSM_WRITE_REG(WDTCSR, WDE, SYSM_CHECK((Data::UChar)mode, 1));
+        SYSM_WRITE_REG(WDTCSR, WDIE, SYSM_CHECK((unsigned char)mode, 0));
+        SYSM_WRITE_REG(WDTCSR, WDE, SYSM_CHECK((unsigned char)mode, 1));
         sei();
       }
     };

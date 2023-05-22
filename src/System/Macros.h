@@ -1,7 +1,7 @@
 #pragma once
 
 // VERSION
-#define SYSM_VERSION "V0.1.02"
+#define SYSM_VERSION "V0.2.00"
 
 // ISR
 #define INT(vector, ...)                                                               \
@@ -14,7 +14,7 @@
 #define SameOf decltype
 
 // Heap
-#define SYSM_HEAP_SIZE 128
+#define SYSM_HEAP_SIZE 384
 
 // Force go to
 #define FORCE_EXIT goto sysm_exit_lbl

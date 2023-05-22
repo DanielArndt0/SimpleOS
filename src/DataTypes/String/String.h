@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "System/Macros.h"
-#include "DataTypes/Typedefs.h"
 #include "Root/RamAllocator/RamAllocator.h"
 
 namespace SimpleOS
@@ -16,8 +15,8 @@ namespace SimpleOS
     class String
     {
     private:
-      Char *buffer;
-      Data::UInt length;
+      char *buffer;
+      unsigned int length;
 
     private:
       Root::RamAllocator<SYSM_HEAP_SIZE> vram;
@@ -25,17 +24,17 @@ namespace SimpleOS
     protected:
       // Primitives
       inline void init();
-      void copy_to_buffer(Char *cstr);
-      Char *alloc_buffer(Size size);
+      void copy_to_buffer(char *cstr);
+      char *alloc_buffer(Size size);
 
       // Essentials
-      String &copy(Char chr);
-      String &copy(C_String cstr);
-      String &attach(Char chr);
-      String &attach(C_String cstr);
+      String &copy(char chr);
+      String &copy(CString cstr);
+      String &attach(char chr);
+      String &attach(CString cstr);
 
       // Others
-      bool exists_in_the_range(Index Index, Char min, Char max) const;
+      bool exists_in_the_range(Index Index, char min, char max) const;
       void shift_str(Index cursor);
 
     public:
@@ -45,67 +44,67 @@ namespace SimpleOS
       ~String(void);
 
       // Convert Constructors
-      String(Char chr);
-      String(C_String cstr = "");
-      String(Data::UChar value, Data::UChar base = 10);
-      String(Int value, Data::UChar base = 10);
-      String(Data::UInt toUIntvalue, Data::UChar base = 10);
-      String(Data::Long toLongvalue, Data::UChar base = 10);
-      String(Data::ULong toLongvalue, Data::UChar base = 10);
-      String(float value, Data::UChar precision = 2);
-      String(double value, Data::UChar precision = 2);
+      String(char chr);
+      String(CString cstr = "");
+      String(unsigned char value, unsigned char base = 10);
+      String(int value, unsigned char base = 10);
+      String(unsigned int toUIntvalue, unsigned char base = 10);
+      String(long toLongvalue, unsigned char base = 10);
+      String(unsigned long toLongvalue, unsigned char base = 10);
+      String(float value, unsigned char precision = 2);
+      String(double value, unsigned char precision = 2);
 
     public:
       // Convert
-      C_String c_str() const;
+      CString c_str() const;
 
       // Access
-      Char at(Index Index) const;
+      char at(Index Index) const;
 
       // Modifiers
-      String &remove(Char chr);
-      String &remove(Char chr, Index fromIndex);
-      String &remove(Char chr, Index fromIndex, Index untilIndex);
+      String &remove(char chr);
+      String &remove(char chr, Index fromIndex);
+      String &remove(char chr, Index fromIndex, Index untilIndex);
       String &remove(Index Index);
       String &remove(Index fromIndex, Index untilIndex);
-      // String &remove(C_String cstr); //TODO
+      // String &remove(CString cstr); //TODO
       /*
       String &replace();
       */
 
       // Others
       Size size() const;
-      Size count(Char chr) const;
-      Index find(Char chr) const;
-      Index find(Char chr, Index cursor) const;
-      Index find(Char chr, Index fromIndex, Index untilIndex) const;
-      String find(C_String precedent) const;
+      Size count(char chr) const;
+      Index find(char chr) const;
+      Index find(char chr, Index cursor) const;
+      Index find(char chr, Index fromIndex, Index untilIndex) const;
+      String find(CString precedent) const;
       String find(const String precedent) const;
-      String findLimited(C_String delimiters) const;
+      String findLimited(CString delimiters) const;
       String findLimited(const String &delimiters) const;
-      String findBetween(C_String initialStr, C_String delimiterStr);
+      String findBetween(CString initialStr, CString delimiterStr);
       String findBetween(const String &initialStr, const String &delimiterStr);
-      bool exists(C_String cstr) const;
+      bool exists(CString cstr) const;
       bool exists(const String str) const;
       // TODO Retornar uma lista de todos os caracteres encontrados na string ex: List<char> find(char chr);
 
       // Compare
-      bool equals(C_String cstr) const;
+      bool equals(CString cstr) const;
       bool equals(const String &str) const;
 
-      bool different(C_String cstr) const;
+      bool different(CString cstr) const;
       bool different(const String &str) const;
 
-      bool biggerThan(C_String cstr) const;
+      bool biggerThan(CString cstr) const;
       bool biggerThan(const String &str) const;
 
-      bool biggerEqualsThan(C_String cstr) const;
+      bool biggerEqualsThan(CString cstr) const;
       bool biggerEqualsThan(const String &str) const;
 
-      bool lessThan(C_String cstr) const;
+      bool lessThan(CString cstr) const;
       bool lessThan(const String &str) const;
 
-      bool lessEqualsThan(C_String cstr) const;
+      bool lessEqualsThan(CString cstr) const;
       bool lessEqualsThan(const String &str) const;
 
       bool isUpper(Index Index) const;
@@ -123,48 +122,48 @@ namespace SimpleOS
       void toLower();
       void toLower(Index Index);
 
-      Char toChar(Data::UChar base = 10);
-      Data::UChar toUChar(Data::UChar base = 10);
-      Int toInt(Data::UChar base = 10);
-      Data::UInt toUInt(Data::UChar base = 10);
-      Data::Long toLong(Data::UChar base = 10);
-      Data::ULong toULong(Data::UChar base = 10);
+      char toChar(unsigned char base = 10);
+      unsigned char toUChar(unsigned char base = 10);
+      int toInt(unsigned char base = 10);
+      unsigned int toUInt(unsigned char base = 10);
+      long toLong(unsigned char base = 10);
+      unsigned long toULong(unsigned char base = 10);
       float toFloat();
       double toDouble();
 
     public:
       // Copy
-      String &operator=(Char chr);
-      String &operator=(C_String cstr);
+      String &operator=(char chr);
+      String &operator=(CString cstr);
       String &operator=(const String &str);
       String &operator=(const String &&str);
 
       // Attach
-      String &operator+=(Char chr);
-      String &operator+=(C_String cstr);
+      String &operator+=(char chr);
+      String &operator+=(CString cstr);
       String &operator+=(const String &str);
 
       // Compare
-      bool operator==(C_String cstr) const;
+      bool operator==(CString cstr) const;
       bool operator==(const String &str) const;
 
-      bool operator!=(C_String cstr) const;
+      bool operator!=(CString cstr) const;
       bool operator!=(const String &str) const;
 
-      bool operator>(C_String cstr) const;
+      bool operator>(CString cstr) const;
       bool operator>(const String &str) const;
 
-      bool operator>=(C_String cstr) const;
+      bool operator>=(CString cstr) const;
       bool operator>=(const String &str) const;
 
-      bool operator<(C_String cstr) const;
+      bool operator<(CString cstr) const;
       bool operator<(const String &str) const;
 
-      bool operator<=(C_String cstr) const;
+      bool operator<=(CString cstr) const;
       bool operator<=(const String &str) const;
 
       // Access
-      Char operator[](Index Index) const;
+      char operator[](Index Index) const;
     };
   }
 }

@@ -1,6 +1,5 @@
 #pragma once
-#include "DataTypes/Typedefs.h"
-#include "Operators/Convert.h"
+#include "Utils/Convert.h"
 
 namespace SimpleOS
 {
@@ -15,16 +14,12 @@ namespace SimpleOS
     public:
       Number() : number(0) {}
       Number(T n) : number(n) {}
-      Number(const Number &number) { this->number = number.number; }
-      Number(Number &&number)
-      {
-        this->number = number.number;
-        number.number = 0;
-      }
+      Number(const Number &number) : number(number.number) {}
+      Number(Number &&number) : number(number.number) { number.number = 0; }
       ~Number() = default;
 
     public:
-      // Operadores de cópia
+      // Copy operators
       Number &operator=(T other)
       {
         number = other;
@@ -44,7 +39,7 @@ namespace SimpleOS
         return *this;
       }
 
-      // Operadores de atribuição
+      // ATTRIBUTION OPERATORS
       Number &operator+=(const Number &other)
       {
         number += other.number;
@@ -119,14 +114,57 @@ namespace SimpleOS
       bool operator>=(const Number &other) const { return number >= other.number; }
       bool operator>=(T other) const { return number >= other; }
 
-      operator T() const { return number; }
+      // Increment and Decrement Operators
+      Number &operator++()
+      {
+        number++;
+        return *this;
+      }
 
+      Number &operator++(int)
+      {
+        T old = number;
+        operator++();
+        return *this;
+      }
+
+      Number &operator--()
+      {
+        number--;
+        return *this;
+      }
+
+      Number &operator--(int)
+      {
+        T old = number;
+        operator--();
+        return *this;
+      }
+
+      // Bitwise operators
+      Number operator&(const Number &other) const { return Number(number & other.number); }
+      Number operator&(T other) const { return Number(number & other); }
+
+      Number operator|(const Number &other) const { return Number(number | other.number); }
+      Number operator|(T other) const { return Number(number | other); }
+
+      Number operator^(const Number &other) const { return Number(number ^ other.number); }
+      Number operator^(T other) const { return Number(number ^ other); }
+
+      // Shift operators
+      Number operator>>(const Number &other) const { return Number(number >> other.number); }
+      Number operator>>(T other) const { return Number(number >> other); }
+
+      Number operator<<(const Number &other) const { return Number(number << other.number); }
+      Number operator<<(T other) const { return Number(number << other); }
+
+      operator T() const { return number; }
       T get() const { return number; }
 
       const char *toString() const
       {
         static char buffer[9];
-        return Operators::convert<T>::toString(number, buffer);
+        return Utils::convert<T>::toString(number, buffer);
       }
     };
   }

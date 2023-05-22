@@ -1,84 +1,112 @@
 #pragma once
+#include "System/Base.h"
+#include "Root/RamAllocator/RamAllocator.h"
+#include "List.h"
+
 
 namespace SimpleOS
 {
   namespace Data
   {
     template <typename T>
-    class ArrayList
+    class ArrayList : implements List<T>
     {
     private:
       T *elements;
       T defaultValue;
-      int capacity;
-      int size;
+      unsigned int capacity;
+      unsigned int size;
 
     public:
       ArrayList()
       {
         capacity = 10;
         size = 0;
-        elements = new T[capacity];
+        elements = (T *)Root::RamAllocator<SYSM_HEAP_SIZE>::calloc(capacity, sizeof(T));
       }
 
-      ~ArrayList()
+      ~ArrayList() { Root::RamAllocator<SYSM_HEAP_SIZE>::free(elements); }
+
+    private:
+      void resizeUp(bool resizeUp = true)
       {
-        delete[] elements;
+        if (elements == nullptr)
+          return;
+        unsigned int cap = resizeUp ? capacity * 2 : capacity / 2;
+        T *newElements = (T *)Root::RamAllocator<SYSM_HEAP_SIZE>::calloc(cap, sizeof(T));
+        if (newElements == nullptr)
+          return;
+        capacity = cap;
+        for (unsigned int i = 0; i < size; i++)
+          newElements[i] = elements[i];
+        elements = newElements;
       }
 
-      void add(const T &element)
+    public:
+      void add(const T &element) override
       {
-        if (size == capacity)
-          resize();
+        if (elements == nullptr)
+          return;
+        if (size >= capacity)
+          resizeUp();
         elements[size++] = element;
       }
 
-      void insert(const T &element, int index)
+      void insert(const T &element, unsigned int index) override
       {
-        if (index < 0 || index > size)
+        if (index < 0 || index > size || elements == nullptr)
           return;
-
         if (size == capacity)
-          resize();
-
-        for (int i = size; i > index; i--)
+          resizeUp();
+        for (unsigned int i = size; i > index; i--)
           elements[i] = elements[i - 1];
-
         elements[index] = element;
         size++;
       }
 
-      void remove(int index)
+      void remove(unsigned int index) override
       {
-        if (index < 0 || index >= size)
+        if (index < 0 || index >= size || elements == nullptr)
           return;
-
-        for (int i = index; i < size - 1; i++)
+        for (unsigned int i = index; i < size - 1; i++)
           elements[i] = elements[i + 1];
-
         size--;
+        if (size < (capacity / 2) && capacity > 10)
+          resizeUp(false);
       }
 
-      T get(int index) const
+      T &get(unsigned int index) override
       {
-        if (index < 0 || index >= size)
+        if (index < 0 || index >= size || elements == nullptr)
           return defaultValue;
         return elements[index];
       }
 
-      int getSize() const { return size; }
-
-    private:
-      void resize()
+      void foreach (void (*func)(T &element)) override
       {
-        capacity *= 2;
-        T *newElements = new T[capacity];
-        for (int i = 0; i < size; i++)
-          newElements[i] = elements[i];
-        delete[] elements;
-        elements = newElements;
+        if (elements == nullptr)
+          return;
+        for (unsigned int i = 0; i < size; i++)
+          func(elements[i]);
       }
+
+      bool exists(T &element) const override
+      {
+        if (elements == nullptr)
+          return false;
+        for (unsigned int i = 0; i < size; i++)
+          if (element == elements[i])
+            return true;
+        return false;
+      }
+
+      bool isEmpty() const override { return size == 0; }
+
+      unsigned int getSize() const override { return size; }
+
+      const T &getDefaultValue() const override { return defaultValue; }
+
+      void setDefaultValue(T defaultValue) { this->defaultValue = defaultValue; }
     };
   } // namespace Data
-
 } // namespace SimpleOS

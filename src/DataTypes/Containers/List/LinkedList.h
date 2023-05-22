@@ -1,6 +1,7 @@
 #pragma once
 #include "System/Base.h"
 #include "Root/RamAllocator/RamAllocator.h"
+#include "List.h"
 
 namespace SimpleOS
 {
@@ -25,28 +26,25 @@ namespace SimpleOS
      * @tparam T Requires the implementation of the ComparisonConcept and CopyConcept.
      */
     template <typename T>
-    class LinkedList
+    class LinkedList : implements List<T>
     {
     private:
       Node<T> *first;
-      SimpleOS::Data::UInt size;
-      T sentinelValue;
-
-    private:
-      Root::RamAllocator<SYSM_HEAP_SIZE> vram;
+      unsigned int size;
+      T defaultValue;
 
     public:
       LinkedList() : first(nullptr), size(0)
       {
       }
-      
+
       ~LinkedList()
       {
         Node<T> *current = first;
         while (current != nullptr)
         {
           Node<T> *next = current->next;
-          vram.free(current);
+          Root::RamAllocator<SYSM_HEAP_SIZE>::free(current);
           current = next;
         }
       }
@@ -55,22 +53,22 @@ namespace SimpleOS
       bool hasNext(Node<T> *node) { return node->next != nullptr; }
 
     public:
-      void add(T value)
+      void add(const T &element) override
       {
-        Node<T> *node = (Node<T> *)vram.malloc(sizeof(Node<T>));
-        node->data = value;
+        Node<T> *node = (Node<T> *)Root::RamAllocator<SYSM_HEAP_SIZE>::malloc(sizeof(Node<T>));
+        node->data = element;
         node->next = first;
         first = node;
         size++;
       }
 
-      void set(SimpleOS::Data::Index index, T value)
+      void insert(const T &element, unsigned int index) override
       {
         if (index >= size)
           return;
         Node<T> *current = first;
-        SimpleOS::Data::Index cntr = 0;
-        while (current != nullptr && current->data != value)
+        unsigned int cntr = 0;
+        while (current != nullptr && current->data != element)
         {
           if (index == cntr)
             break;
@@ -78,54 +76,70 @@ namespace SimpleOS
           cntr++;
         }
         if (current != nullptr)
-          current->data = value;
+          current->data = element;
       }
 
-      void remove(T value)
+      // CHECK It works, but causes conflict with index removal if the type of data is numerical
+      // void remove(const T &element) 
+      // {
+      //   Node<T> *current = first;
+      //   Node<T> *previous = nullptr;
+      //   while (current != nullptr && current->data != element)
+      //   {
+      //     previous = current;
+      //     current = current->next;
+      //   }
+      //   if (current != nullptr)
+      //   {
+      //     if (previous == nullptr)
+      //       first = current->next;
+      //     else
+      //       previous->next = current->next;
+      //     Root::RamAllocator<SYSM_HEAP_SIZE>::free(current);
+      //     size--;
+      //   }
+      // }
+
+      void remove(unsigned int index) override
       {
+        if (index >= size)
+          return;
         Node<T> *current = first;
         Node<T> *previous = nullptr;
-        while (current != nullptr && current->data != value)
+        unsigned int currentIndex = 0;
+        while (current != nullptr && currentIndex != index)
         {
           previous = current;
           current = current->next;
+          currentIndex++;
         }
         if (current != nullptr)
         {
           if (previous == nullptr)
+
             first = current->next;
           else
             previous->next = current->next;
-          vram.free(current);
+          Root::RamAllocator<SYSM_HEAP_SIZE>::free(current);
           size--;
         }
       }
 
-      T &get(SimpleOS::Data::Index index)
+      T &get(unsigned int index) override
       {
-        if (index >= (signed)size)
-          return sentinelValue;
+        if (index >= size)
+          return defaultValue;
         Node<T> *current = first;
-        SimpleOS::Data::Index cntr = 0;
-        while (current != nullptr)
+        unsigned int currentIndex = 0;
+        while (current != nullptr && currentIndex != index)
         {
-          if (index == cntr)
-            break;
           current = current->next;
-          cntr++;
+          currentIndex++;
         }
-        return current != nullptr ? current->data : sentinelValue;
+        return current != nullptr ? current->data : defaultValue;
       }
 
-      bool exists(T value)
-      {
-        Node<T> *current = first;
-        while (current != nullptr && current->data != value)
-          current = current->next;
-        return current != nullptr;
-      }
-
-      void foreach (void (*operacao)(T &value))
+      void foreach (void (*func)(T &element))
       {
         Node<T> *current = first;
         while (current != nullptr)
@@ -135,15 +149,21 @@ namespace SimpleOS
         }
       }
 
-      LinkedList<T> &setDefaultValue(T defaultValue)
+      bool exists(T &element) const override
       {
-        sentinelValue = defaultValue;
-        return *this;
+        Node<T> *current = first;
+        while (current != nullptr && current->data != element)
+          current = current->next;
+        return current != nullptr;
       }
 
-      T getDefaultValue() { return sentinelValue; }
+      bool isEmpty() const override { return size == 0; }
 
-      SimpleOS::Data::UInt getSize() const { return size; }
+      unsigned int getSize() const override { return size; }
+
+      const T &getDefaultValue() const override { return defaultValue; }
+
+      void setDefaultValue(T defaultValue) override { defaultValue = defaultValue; }
     };
   }
 }

@@ -1,58 +1,64 @@
 #include "Communication/UART/UART.h"
 
-SimpleOS::Com::UART::UART(SimpleOS::Data::UInt baudRate) { begin(baudRate); }
+SimpleOS::Com::UART::UART(unsigned int baudRate) { begin(baudRate); }
 
-SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(SimpleOS::Data::Char command)
+SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(char command)
 {
   send(command);
   return *this;
 }
 
-SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(SimpleOS::Data::C_String data)
+SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(const char *data)
 {
   send(data);
   return *this;
 }
 
-SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(const SimpleOS::Data::String &data)
+// SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(const SimpleOS::Data::String &data)
+// {
+//   send(data.c_str());
+//   return *this;
+// }
+
+SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(int data)
 {
-  send(data.c_str());
+  send(SimpleOS::Data::Number<int>(data).toString());
   return *this;
 }
 
-SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(SimpleOS::Data::Int data)
+SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(unsigned int data)
 {
-  send(SimpleOS::Data::Number<SimpleOS::Data::Int>(data).toString());
+  send(SimpleOS::Data::Number<unsigned int>(data).toString());
   return *this;
 }
 
-SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(SimpleOS::Data::UInt data)
+SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(long data)
 {
-  send(SimpleOS::Data::Number<SimpleOS::Data::UInt>(data).toString());
+  send(SimpleOS::Data::Number<long>(data).toString());
   return *this;
 }
 
-SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(SimpleOS::Data::Long data)
+SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(unsigned long data)
 {
-  send(SimpleOS::Data::Number<SimpleOS::Data::Long>(data).toString());
+  send(SimpleOS::Data::Number<unsigned long>(data).toString());
   return *this;
 }
 
-SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(SimpleOS::Data::ULong data)
+SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(float data)
 {
-  send(SimpleOS::Data::Number<SimpleOS::Data::ULong>(data).toString());
+  send(SimpleOS::Data::Number<float>(data).toString());
   return *this;
 }
 
-SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(SimpleOS::Data::Float data)
+SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(double data)
 {
-  send(SimpleOS::Data::Number<SimpleOS::Data::Float>(data).toString());
+  send(SimpleOS::Data::Number<double>(data).toString());
   return *this;
 }
 
-SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(SimpleOS::Data::Double data)
+SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(bool data)
 {
-  send(SimpleOS::Data::Number<SimpleOS::Data::Double>(data).toString());
+  send(SimpleOS::Data::Number<bool>(data).toString());
   return *this;
 }
 

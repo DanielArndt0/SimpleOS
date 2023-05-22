@@ -6,7 +6,7 @@ namespace SimpleOS
 {
   namespace Root
   {
-    template <Data::UInt HeapSize>
+    template <unsigned int HeapSize>
     class RamAllocator
     {
     private:
@@ -15,7 +15,7 @@ namespace SimpleOS
     public:
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpointer-arith"
-      [[nodiscard]] static void *malloc(Data::Size size)
+      [[nodiscard]] static void *malloc(Data::Size size) // FIX
       {
         if (heap.stack + size + sizeof(Data::Size) > SYSM_ARRAY_SIZE(heap.heap) || size <= 0)
           return nullptr;
@@ -25,16 +25,17 @@ namespace SimpleOS
         return ptr;
       }
 
+      // FIX
       [[nodiscard]] static void *calloc(Data::Size nElements, Data::Size elementSize) { return malloc(nElements * elementSize); }
 
-      static void free(void *ptr)
+      static void free(void *ptr) // FIX
       {
         if (
             ptr == nullptr ||
             ptr < heap.heap ||
             ptr >= heap.heap + getHeapSize())
           return;
-        Data::Char *headerPtr = static_cast<Data::Char *>(ptr) - sizeof(Data::Size);
+        char *headerPtr = static_cast<char *>(ptr) - sizeof(Data::Size);
         Data::Size size = *reinterpret_cast<Data::Size *>(headerPtr);
         heap.stack -= size + sizeof(Data::Size);
       }
@@ -51,7 +52,7 @@ namespace SimpleOS
       ~RamAllocator() = default;
     };
 
-    template <SimpleOS::Data::UInt HeapSize>
+    template <unsigned int HeapSize>
     SimpleOS::Root::Heap<HeapSize> SimpleOS::Root::RamAllocator<HeapSize>::heap;
   }
 }

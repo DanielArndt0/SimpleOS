@@ -1,11 +1,10 @@
 #pragma once
-#include "DataTypes/Typedefs.h"
 
 namespace SimpleOS
 {
   namespace Native
   {
-    enum class WDTPrescaler : Data::UChar
+    enum class WDTPrescaler : unsigned char
     {
       C2048 = 0,
       C4096 = 1,

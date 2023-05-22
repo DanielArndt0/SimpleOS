@@ -1,6 +1,6 @@
 #include "GPIOCore.h"
 
-void SimpleOS::Native::GPIOCore::port_selector(volatile SimpleOS::Data::UChar **reg, SimpleOS::Data::UChar pin, bool value)
+void SimpleOS::Native::GPIOCore::port_selector(volatile unsigned char **reg, unsigned char pin, bool value)
 {
   if (pin < 8)
     SYSM_WRITE_REG(*reg[0], pin, value);
@@ -10,7 +10,7 @@ void SimpleOS::Native::GPIOCore::port_selector(volatile SimpleOS::Data::UChar **
     SYSM_WRITE_REG(*reg[2], (pin - 14), value);
 }
 
-bool SimpleOS::Native::GPIOCore::port_selector(volatile SimpleOS::Data::UChar **reg, SimpleOS::Data::UChar pin)
+bool SimpleOS::Native::GPIOCore::port_selector(volatile unsigned char **reg, unsigned char pin)
 {
   if (pin < 8)
     return SYSM_CHECK(*reg[0], pin);
@@ -21,9 +21,9 @@ bool SimpleOS::Native::GPIOCore::port_selector(volatile SimpleOS::Data::UChar **
   return false;
 }
 
-SimpleOS::Data::UInt SimpleOS::Native::GPIOCore::analog_read(SimpleOS::Data::UChar pin)
+unsigned int SimpleOS::Native::GPIOCore::analog_read(unsigned char pin)
 {
-  SimpleOS::Data::UChar low, high;
+  unsigned char low, high;
   SYSM_WRITE_REG(ADCSRA, ADEN, true);
   SYSM_WRITE_REG(ADCSRA, ADPS2, true);
   SYSM_WRITE_REG(ADCSRA, ADPS1, false);

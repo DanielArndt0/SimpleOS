@@ -1,11 +1,10 @@
 #pragma once
-#include "DataTypes/Typedefs.h"
 
 namespace SimpleOS
 {
   namespace Native
   {
-    enum class WDTMode : Data::UChar
+    enum class WDTMode : unsigned char
     {
       Stopped,
       Interrupt,

@@ -6,21 +6,21 @@ inline void SimpleOS::Data::String::init()
   length = 0x00;
 }
 
-void SimpleOS::Data::String::copy_to_buffer(SimpleOS::Data::Char *cstr)
+void SimpleOS::Data::String::copy_to_buffer(char *cstr)
 {
   if (buffer)
     vram.free(buffer);
   buffer = cstr;
 }
 
-SimpleOS::Data::Char *SimpleOS::Data::String::alloc_buffer(Size size)
+char *SimpleOS::Data::String::alloc_buffer(Size size)
 {
   length = size;
-  SimpleOS::Data::Char *temp = (SimpleOS::Data::Char *)vram.malloc(sizeof(SimpleOS::Data::Char) * size);
+  char *temp = (char *)vram.malloc(sizeof(char) * size);
   return temp;
 }
 
-bool SimpleOS::Data::String::exists_in_the_range(Index Index, SimpleOS::Data::Char min, SimpleOS::Data::Char max) const { return at(Index) >= min && at(Index) <= max ? true : false; }
+bool SimpleOS::Data::String::exists_in_the_range(Index Index, char min, char max) const { return at(Index) >= min && at(Index) <= max ? true : false; }
 
 void SimpleOS::Data::String::shift_str(Index cursor)
 {
@@ -28,9 +28,9 @@ void SimpleOS::Data::String::shift_str(Index cursor)
     buffer[i] = buffer[i + 0x01];
 }
 
-SimpleOS::Data::String &SimpleOS::Data::String::copy(SimpleOS::Data::Char chr)
+SimpleOS::Data::String &SimpleOS::Data::String::copy(char chr)
 {
-  SimpleOS::Data::Char *temp = alloc_buffer(0x02);
+  char *temp = alloc_buffer(0x02);
   if (temp == nullptr)
     return *this;
   temp[0x00] = chr;
@@ -39,11 +39,11 @@ SimpleOS::Data::String &SimpleOS::Data::String::copy(SimpleOS::Data::Char chr)
   return *this;
 }
 
-SimpleOS::Data::String &SimpleOS::Data::String::copy(C_String cstr)
+SimpleOS::Data::String &SimpleOS::Data::String::copy(CString cstr)
 {
   if (cstr)
   {
-    SimpleOS::Data::Char *temp = alloc_buffer(strlen(cstr) + 0x01);
+    char *temp = alloc_buffer(strlen(cstr) + 0x01);
     if (temp == nullptr)
       return *this;
     strcpy(temp, cstr);
@@ -53,12 +53,12 @@ SimpleOS::Data::String &SimpleOS::Data::String::copy(C_String cstr)
   return *this;
 }
 
-SimpleOS::Data::String &SimpleOS::Data::String::attach(SimpleOS::Data::Char chr)
+SimpleOS::Data::String &SimpleOS::Data::String::attach(char chr)
 {
   if (chr)
   {
-    SimpleOS::Data::Char tempBuff[0x02] = {chr, 0x00};
-    SimpleOS::Data::Char *temp = alloc_buffer(strlen(buffer) + 0x02);
+    char tempBuff[0x02] = {chr, 0x00};
+    char *temp = alloc_buffer(strlen(buffer) + 0x02);
     if (temp == nullptr)
       return *this;
     strcpy(temp, buffer);
@@ -69,11 +69,11 @@ SimpleOS::Data::String &SimpleOS::Data::String::attach(SimpleOS::Data::Char chr)
   return *this;
 }
 
-SimpleOS::Data::String &SimpleOS::Data::String::attach(C_String cstr)
+SimpleOS::Data::String &SimpleOS::Data::String::attach(CString cstr)
 {
   if (cstr)
   {
-    SimpleOS::Data::Char *temp = alloc_buffer(strlen(buffer) + strlen(cstr) + 0x01);
+    char *temp = alloc_buffer(strlen(buffer) + strlen(cstr) + 0x01);
     if (temp == nullptr)
       return *this;
     strcpy(temp, buffer);
@@ -102,81 +102,81 @@ SimpleOS::Data::String::~String(void)
     vram.free(buffer);
 }
 
-SimpleOS::Data::String::String(SimpleOS::Data::Char chr)
+SimpleOS::Data::String::String(char chr)
 {
   init();
   *this = chr;
 }
 
-SimpleOS::Data::String::String(C_String cstr)
+SimpleOS::Data::String::String(CString cstr)
 {
   init();
   *this = cstr;
 }
 
-SimpleOS::Data::String::String(SimpleOS::Data::UChar value, SimpleOS::Data::UChar base)
+SimpleOS::Data::String::String(unsigned char value, unsigned char base)
 {
   init();
-  SimpleOS::Data::Char l_buf[BUFFER_SIZE_STR(SimpleOS::Data::UChar)];
+  char l_buf[BUFFER_SIZE_STR(unsigned char)];
   *this = utoa(value, l_buf, base);
 }
 
-SimpleOS::Data::String::String(SimpleOS::Data::Int value, SimpleOS::Data::UChar base)
+SimpleOS::Data::String::String(int value, unsigned char base)
 {
   init();
-  SimpleOS::Data::Char l_buf[BUFFER_SIZE_STR(SimpleOS::Data::Int)];
+  char l_buf[BUFFER_SIZE_STR(int)];
   *this = itoa(value, l_buf, base);
 }
 
-SimpleOS::Data::String::String(SimpleOS::Data::UInt value, SimpleOS::Data::UChar base)
+SimpleOS::Data::String::String(unsigned int value, unsigned char base)
 {
   init();
-  SimpleOS::Data::Char l_buf[BUFFER_SIZE_STR(SimpleOS::Data::UInt)];
+  char l_buf[BUFFER_SIZE_STR(unsigned int)];
   *this = utoa(value, l_buf, base);
 }
 
-SimpleOS::Data::String::String(SimpleOS::Data::Long value, SimpleOS::Data::UChar base)
+SimpleOS::Data::String::String(long value, unsigned char base)
 {
   init();
-  SimpleOS::Data::Char l_buf[BUFFER_SIZE_STR(SimpleOS::Data::Long)];
+  char l_buf[BUFFER_SIZE_STR(long)];
   *this = ltoa(value, l_buf, base);
 }
 
-SimpleOS::Data::String::String(SimpleOS::Data::ULong value, SimpleOS::Data::UChar base)
+SimpleOS::Data::String::String(unsigned long value, unsigned char base)
 {
   init();
-  SimpleOS::Data::Char l_buf[BUFFER_SIZE_STR(SimpleOS::Data::ULong)];
+  char l_buf[BUFFER_SIZE_STR(unsigned long)];
   *this = ultoa(value, l_buf, base);
 }
 
-SimpleOS::Data::String::String(float value, SimpleOS::Data::UChar precision)
+SimpleOS::Data::String::String(float value, unsigned char precision)
 {
   init();
-  SimpleOS::Data::Char l_buf[BUFFER_SIZE_STR(float)];
+  char l_buf[BUFFER_SIZE_STR(float)];
   *this = dtostrf(value, (precision + 0x01), precision, l_buf);
 }
 
-SimpleOS::Data::String::String(double value, SimpleOS::Data::UChar precision)
+SimpleOS::Data::String::String(double value, unsigned char precision)
 {
   init();
-  SimpleOS::Data::Char l_buf[BUFFER_SIZE_STR(double)];
+  char l_buf[BUFFER_SIZE_STR(double)];
   *this = dtostrf(value, (precision + 0x01), precision, l_buf);
 }
 
-SimpleOS::Data::C_String SimpleOS::Data::String::c_str() const { return buffer; }
+const char* SimpleOS::Data::String::c_str() const { return buffer; }
 
-SimpleOS::Data::Char SimpleOS::Data::String::at(Index Index) const
+char SimpleOS::Data::String::at(Index Index) const
 {
   if (buffer)
     return buffer[Index];
   return 0x00;
 }
 
-SimpleOS::Data::String &SimpleOS::Data::String::remove(SimpleOS::Data::Char chr) { return remove(chr, 0); }
+SimpleOS::Data::String &SimpleOS::Data::String::remove(char chr) { return remove(chr, 0); }
 
-SimpleOS::Data::String &SimpleOS::Data::String::remove(SimpleOS::Data::Char chr, SimpleOS::Data::Index fromIndex) { return remove(chr, fromIndex, size()); }
+SimpleOS::Data::String &SimpleOS::Data::String::remove(char chr, SimpleOS::Data::Index fromIndex) { return remove(chr, fromIndex, size()); }
 
-SimpleOS::Data::String &SimpleOS::Data::String::remove(SimpleOS::Data::Char chr, SimpleOS::Data::Index fromIndex, SimpleOS::Data::Index untilIndex)
+SimpleOS::Data::String &SimpleOS::Data::String::remove(char chr, SimpleOS::Data::Index fromIndex, SimpleOS::Data::Index untilIndex)
 {
   if (untilIndex < (signed)length && fromIndex <= untilIndex)
   {
@@ -187,7 +187,7 @@ SimpleOS::Data::String &SimpleOS::Data::String::remove(SimpleOS::Data::Char chr,
       cnt++;
     }
     length -= cnt;
-    buffer = (SimpleOS::Data::Char *)realloc(buffer, length);
+    buffer = (char *)realloc(buffer, length);
   }
   return *this;
 }
@@ -213,20 +213,20 @@ SimpleOS::Data::String &SimpleOS::Data::String::remove(SimpleOS::Data::Index fro
 
 SimpleOS::Data::Size SimpleOS::Data::String::size() const { return length - 1; }
 
-SimpleOS::Data::Size SimpleOS::Data::String::count(SimpleOS::Data::Char chr) const
+SimpleOS::Data::Size SimpleOS::Data::String::count(char chr) const
 {
-  SimpleOS::Data::UInt counter = 0;
-  for ( SimpleOS::Data::UInt i = 0; i < length; i++)
+  unsigned int counter = 0;
+  for ( unsigned int i = 0; i < length; i++)
     if (at(i) == chr)
       counter++;
   return counter;
 }
 
-SimpleOS::Data::Index SimpleOS::Data::String::find(SimpleOS::Data::Char chr) const { return find(chr, 0); }
+SimpleOS::Data::Index SimpleOS::Data::String::find(char chr) const { return find(chr, 0); }
 
-SimpleOS::Data::Index SimpleOS::Data::String::find(SimpleOS::Data::Char chr, Index cursor) const { return find(chr, cursor, size()); }
+SimpleOS::Data::Index SimpleOS::Data::String::find(char chr, Index cursor) const { return find(chr, cursor, size()); }
 
-SimpleOS::Data::Index SimpleOS::Data::String::find(SimpleOS::Data::Char chr, Index fromIndex, Index untilIndex) const
+SimpleOS::Data::Index SimpleOS::Data::String::find(char chr, Index fromIndex, Index untilIndex) const
 {
   if (untilIndex < (signed)length && fromIndex <= untilIndex)
     for ( Index i = fromIndex; i <= untilIndex; i++)
@@ -235,7 +235,7 @@ SimpleOS::Data::Index SimpleOS::Data::String::find(SimpleOS::Data::Char chr, Ind
   return -1;
 }
 
-SimpleOS::Data::String SimpleOS::Data::String::findLimited(SimpleOS::Data::C_String delimiters) const
+SimpleOS::Data::String SimpleOS::Data::String::findLimited(const char* delimiters) const
 {
   if (delimiters)
     return strtok(buffer, delimiters);
@@ -244,7 +244,7 @@ SimpleOS::Data::String SimpleOS::Data::String::findLimited(SimpleOS::Data::C_Str
 
 SimpleOS::Data::String SimpleOS::Data::String::findLimited(const SimpleOS::Data::String &delimiters) const { return findLimited(delimiters.c_str()); }
 
-SimpleOS::Data::String SimpleOS::Data::String::find(SimpleOS::Data::C_String precedent) const
+SimpleOS::Data::String SimpleOS::Data::String::find(const char* precedent) const
 {
   if (precedent)
     return strstr(buffer, precedent);
@@ -254,16 +254,16 @@ SimpleOS::Data::String SimpleOS::Data::String::find(SimpleOS::Data::C_String pre
 SimpleOS::Data::String SimpleOS::Data::String::find(SimpleOS::Data::String precedent) const { return find(precedent); }
 
 // TODO
-SimpleOS::Data::String SimpleOS::Data::String::findBetween(SimpleOS::Data::C_String initialStr, SimpleOS::Data::C_String delimiterStr) { return strtok(strstr(buffer, initialStr), delimiterStr); }
+SimpleOS::Data::String SimpleOS::Data::String::findBetween(const char* initialStr, const char* delimiterStr) { return strtok(strstr(buffer, initialStr), delimiterStr); }
 
 // TODO
 SimpleOS::Data::String SimpleOS::Data::String::findBetween(const SimpleOS::Data::String &initialStr, const SimpleOS::Data::String &delimiterStr) { return findBetween(initialStr.c_str(), delimiterStr.c_str()); }
 
-bool SimpleOS::Data::String::exists(SimpleOS::Data::C_String cstr) const { return strstr(buffer, cstr) != nullptr ? true : false; }
+bool SimpleOS::Data::String::exists(const char* cstr) const { return strstr(buffer, cstr) != nullptr ? true : false; }
 
 bool SimpleOS::Data::String::exists(SimpleOS::Data::String str) const { return exists(str.c_str()); }
 
-bool SimpleOS::Data::String::equals(C_String cstr) const
+bool SimpleOS::Data::String::equals(CString cstr) const
 {
   if (cstr)
     if (!strcmp(buffer, cstr))
@@ -273,11 +273,11 @@ bool SimpleOS::Data::String::equals(C_String cstr) const
 
 bool SimpleOS::Data::String::equals(const String &str) const { return this->equals(str.buffer); }
 
-bool SimpleOS::Data::String::different(C_String cstr) const { return !equals(cstr); }
+bool SimpleOS::Data::String::different(CString cstr) const { return !equals(cstr); }
 
 bool SimpleOS::Data::String::different(const String &str) const { return !this->equals(str.buffer); }
 
-bool SimpleOS::Data::String::biggerThan(C_String cstr) const
+bool SimpleOS::Data::String::biggerThan(CString cstr) const
 {
   if (cstr)
     if (strlen(buffer) > strlen(cstr))
@@ -287,7 +287,7 @@ bool SimpleOS::Data::String::biggerThan(C_String cstr) const
 
 bool SimpleOS::Data::String::biggerThan(const String &str) const { return this->biggerThan(str.buffer); }
 
-bool SimpleOS::Data::String::biggerEqualsThan(C_String cstr) const
+bool SimpleOS::Data::String::biggerEqualsThan(CString cstr) const
 {
   if (cstr)
     if (strlen(buffer) >= strlen(cstr))
@@ -297,7 +297,7 @@ bool SimpleOS::Data::String::biggerEqualsThan(C_String cstr) const
 
 bool SimpleOS::Data::String::biggerEqualsThan(const String &str) const { return this->biggerEqualsThan(str.buffer); }
 
-bool SimpleOS::Data::String::lessThan(C_String cstr) const
+bool SimpleOS::Data::String::lessThan(CString cstr) const
 {
   if (cstr)
     if (strlen(buffer) < strlen(cstr))
@@ -307,7 +307,7 @@ bool SimpleOS::Data::String::lessThan(C_String cstr) const
 
 bool SimpleOS::Data::String::lessThan(const String &str) const { return this->lessThan(str.buffer); }
 
-bool SimpleOS::Data::String::lessEqualsThan(C_String cstr) const
+bool SimpleOS::Data::String::lessEqualsThan(CString cstr) const
 {
   if (cstr)
     if (strlen(buffer) <= strlen(cstr))
@@ -357,45 +357,45 @@ void SimpleOS::Data::String::toLower()
     toLower(i);
 }
 
-SimpleOS::Data::Char SimpleOS::Data::String::toChar(SimpleOS::Data::UChar base)
+char SimpleOS::Data::String::toChar(unsigned char base)
 {
   if (buffer)
-    return (Char)strtol(buffer, nullptr, base);
+    return (char)strtol(buffer, nullptr, base);
   return 0x00;
 }
 
-SimpleOS::Data::UChar SimpleOS::Data::String::toUChar(SimpleOS::Data::UChar base)
+unsigned char SimpleOS::Data::String::toUChar(unsigned char base)
 {
   if (buffer)
-    return (SimpleOS::Data::UChar)strtoul(buffer, nullptr, base);
+    return (unsigned char)strtoul(buffer, nullptr, base);
   return 0x00;
 }
 
-SimpleOS::Data::Int SimpleOS::Data::String::toInt(SimpleOS::Data::UChar base)
+int SimpleOS::Data::String::toInt(unsigned char base)
 {
   if (buffer)
-    return (SimpleOS::Data::Int)strtol(buffer, nullptr, base);
+    return (int)strtol(buffer, nullptr, base);
   return 0x00;
 }
 
-SimpleOS::Data::UInt SimpleOS::Data::String::toUInt(SimpleOS::Data::UChar base)
+unsigned int SimpleOS::Data::String::toUInt(unsigned char base)
 {
   if (buffer)
-    return (SimpleOS::Data::UInt)strtoul(buffer, nullptr, base);
+    return (unsigned int)strtoul(buffer, nullptr, base);
   return 0x00;
 }
 
-SimpleOS::Data::Long SimpleOS::Data::String::toLong(SimpleOS::Data::UChar base)
+long SimpleOS::Data::String::toLong(unsigned char base)
 {
   if (buffer)
-    return (SimpleOS::Data::Long)atol(buffer);
+    return (long)atol(buffer);
   return 0x00;
 }
 
-SimpleOS::Data::ULong SimpleOS::Data::String::toULong(SimpleOS::Data::UChar base)
+unsigned long SimpleOS::Data::String::toULong(unsigned char base)
 {
   if (buffer)
-    return (SimpleOS::Data::ULong)strtoul(buffer, nullptr, base);
+    return (unsigned long)strtoul(buffer, nullptr, base);
   return 0x00;
 }
 
@@ -413,42 +413,42 @@ double SimpleOS::Data::String::toDouble()
   return 0x00;
 }
 
-SimpleOS::Data::String &SimpleOS::Data::String::operator=(SimpleOS::Data::Char chr) { return copy(chr); }
+SimpleOS::Data::String &SimpleOS::Data::String::operator=(char chr) { return copy(chr); }
 
-SimpleOS::Data::String &SimpleOS::Data::String::operator=(C_String cstr) { return copy(cstr); }
+SimpleOS::Data::String &SimpleOS::Data::String::operator=(CString cstr) { return copy(cstr); }
 
 SimpleOS::Data::String &SimpleOS::Data::String::operator=(const String &str) { return this->copy(str.buffer); }
 
 SimpleOS::Data::String &SimpleOS::Data::String::operator=(const String &&str) { return this->copy(str.buffer); }
 
-SimpleOS::Data::String &SimpleOS::Data::String::operator+=(SimpleOS::Data::Char chr) { return this->attach(chr); }
+SimpleOS::Data::String &SimpleOS::Data::String::operator+=(char chr) { return this->attach(chr); }
 
-SimpleOS::Data::String &SimpleOS::Data::String::operator+=(C_String cstr) { return this->attach(cstr); }
+SimpleOS::Data::String &SimpleOS::Data::String::operator+=(CString cstr) { return this->attach(cstr); }
 
 SimpleOS::Data::String &SimpleOS::Data::String::operator+=(const String &str) { return this->attach(str.buffer); }
 
-bool SimpleOS::Data::String::operator==(C_String cstr) const { return equals(cstr); }
+bool SimpleOS::Data::String::operator==(CString cstr) const { return equals(cstr); }
 
 bool SimpleOS::Data::String::operator==(const String &str) const { return this->equals(str.buffer); }
 
-bool SimpleOS::Data::String::operator!=(C_String cstr) const { return different(cstr); }
+bool SimpleOS::Data::String::operator!=(CString cstr) const { return different(cstr); }
 
 bool SimpleOS::Data::String::operator!=(const String &str) const { return this->different(str.buffer); }
 
-bool SimpleOS::Data::String::operator>(C_String cstr) const { return biggerThan(cstr); }
+bool SimpleOS::Data::String::operator>(CString cstr) const { return biggerThan(cstr); }
 
 bool SimpleOS::Data::String::operator>(const String &str) const { return this->biggerThan(str.buffer); }
 
-bool SimpleOS::Data::String::operator>=(C_String cstr) const { return biggerEqualsThan(cstr); }
+bool SimpleOS::Data::String::operator>=(CString cstr) const { return biggerEqualsThan(cstr); }
 
 bool SimpleOS::Data::String::operator>=(const String &str) const { return this->biggerEqualsThan(str.buffer); }
 
-bool SimpleOS::Data::String::operator<(C_String cstr) const { return lessThan(cstr); }
+bool SimpleOS::Data::String::operator<(CString cstr) const { return lessThan(cstr); }
 
 bool SimpleOS::Data::String::operator<(const String &str) const { return this->lessThan(str.buffer); }
 
-bool SimpleOS::Data::String::operator<=(C_String cstr) const { return lessEqualsThan(cstr); }
+bool SimpleOS::Data::String::operator<=(CString cstr) const { return lessEqualsThan(cstr); }
 
 bool SimpleOS::Data::String::operator<=(const String &str) const { return this->lessEqualsThan(str.buffer); }
 
-SimpleOS::Data::Char SimpleOS::Data::String::operator[](Index Index) const { return buffer[Index]; }
+char SimpleOS::Data::String::operator[](Index Index) const { return buffer[Index]; }

@@ -2,11 +2,10 @@
 #include <avr/io.h>
 #include <string.h>
 #include "System/Base.h"
-#include "DataTypes/String/String.h"
+// #include "DataTypes/String/String.h"
 #include "DataTypes/Number.h"
 #include "Native/UART/UARTCore.h"
 
-// TODO Desenvolver biblioteca UART
 namespace SimpleOS
 {
   namespace Com
@@ -14,19 +13,20 @@ namespace SimpleOS
     class UART : extends Native::UARTCore
     {
     public:
-      UART(Data::UInt baudRate = 9600);
+      UART(unsigned int baudRate = 9600);
 
     public:
-      UART &operator<<(SimpleOS::Data::Char command);
-      UART &operator<<(SimpleOS::Data::C_String data);
-      UART &operator<<(const SimpleOS::Data::String &data);
-      UART &operator<<(Data::Int data);
-      UART &operator<<(Data::UInt data);
-      UART &operator<<(Data::Long data);
-      UART &operator<<(Data::ULong data);
-      UART &operator<<(Data::Float data);
-      UART &operator<<(Data::Double data);
-      UART &operator<<(void* ptr);
+      UART &operator<<(char command);
+      UART &operator<<(const char *data);
+      // UART &operator<<(const SimpleOS::Data::String &data);
+      UART &operator<<(int data);
+      UART &operator<<(unsigned int data);
+      UART &operator<<(long data);
+      UART &operator<<(unsigned long data);
+      UART &operator<<(float data);
+      UART &operator<<(double data);
+      UART &operator<<(bool data);
+      UART &operator<<(void *ptr);
     };
   }
 }

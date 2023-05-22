@@ -3,9 +3,7 @@
 #include <string.h>
 #include "System/Macros.h"
 #include "DataTypes/String/String.h"
-#include "DataTypes/Typedefs.h"
 
-// TODO Desenvolver biblioteca UART
 namespace SimpleOS
 {
   namespace Native
@@ -14,22 +12,22 @@ namespace SimpleOS
     {
     private:
       bool status = false;
-      Data::UChar prescaler = 8;
-      Data::UInt baudRate;
-      Data::UInt ubrr;
+      unsigned char prescaler = 8;
+      unsigned int baudRate;
+      unsigned int ubrr;
 
     private:
-      Data::Float ubrrcalc(Data::ULong clock, Data::UInt prescaler, Data::UInt baudRate) const;
+      float ubrrcalc(unsigned long clock, unsigned int prescaler, unsigned int baudRate) const;
 
     protected:
-      void begin(Data::UInt baudRate);
-      void send(Data::UChar data);
-      void send(Data::C_String data);
-      Data::UChar receive(void);
+      void begin(unsigned int baudRate);
+      void send(unsigned char data);
+      void send(const char *data);
+      unsigned char receive(void);
       void flush(void);
       bool isStarted();
-      Data::UInt getBaudRate() const;
-      void setBaudRate(Data::UInt baudRate);
+      unsigned int getBaudRate() const;
+      void setBaudRate(unsigned int baudRate);
       void disableReception();
       void enableReception();
       void disableTransmission();

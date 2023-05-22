@@ -16,7 +16,7 @@ SimpleOS::Root::TaskProperties::TaskProperties()
 {
 }
 
-SimpleOS::Root::TaskProperties::TaskProperties(SimpleOS::Data::UInt priority, SimpleOS::Data::UInt stackSize, Data::UInt interval, void (*taskFunction)(void *), void *params)
+SimpleOS::Root::TaskProperties::TaskProperties(unsigned int priority, unsigned int stackSize, unsigned int interval, void (*taskFunction)(void *), void *params)
     : id(idCounter++),
       state(TaskState::created),
       priority(priority),

@@ -1,7 +1,6 @@
 #pragma once
 #include <avr/io.h>
 #include "System/Macros.h"
-#include "DataTypes/Typedefs.h"
 
 // TODO Adicionar modo INPUT_PULLUP
 #define OUTPUT 0x01
@@ -14,12 +13,12 @@ namespace SimpleOS
     class GPIOCore
     {
     protected:
-      Data::UChar aref = 0x01;
+      unsigned char aref = 0x01;
 
     protected:
-      void port_selector(volatile Data::UChar **reg, Data::UChar pin, bool value);
-      bool port_selector(volatile Data::UChar **reg, Data::UChar pin);
-      Data::UInt analog_read(Data::UChar pin);
+      void port_selector(volatile unsigned char **reg, unsigned char pin, bool value);
+      bool port_selector(volatile unsigned char **reg, unsigned char pin);
+      unsigned int analog_read(unsigned char pin);
     };
   }
 }

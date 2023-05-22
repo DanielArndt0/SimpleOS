@@ -1,6 +1,5 @@
 #pragma once
 #include "System/Macros.h"
-#include "DataTypes/Typedefs.h"
 
 namespace SimpleOS
 {
@@ -10,7 +9,7 @@ namespace SimpleOS
     {
     public:
       // Methods
-      virtual Data::Int boot(void) = 0;
+      virtual int boot(void) = 0;
 
       // Destructors
       virtual ~Bootable() = default;

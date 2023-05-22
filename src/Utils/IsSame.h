@@ -2,7 +2,7 @@
 
 namespace SimpleOS
 {
-  namespace Operators
+  namespace Utils
   {
     template <typename T, typename U>
     struct IsSame

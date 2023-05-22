@@ -5,11 +5,11 @@ namespace SimpleOS
 {
   namespace Root
   {
-    template<Data::UInt Size>
+    template <unsigned int Size>
     struct Heap
     {
       void *heap[Size];
-      Data::UInt stack = 0;
+      unsigned int stack = 0;
     };
   }
 }

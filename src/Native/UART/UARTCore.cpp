@@ -1,6 +1,6 @@
 #include "Native/UART/UARTCore.h"
 
-void SimpleOS::Native::UARTCore::begin(SimpleOS::Data::UInt baudRate)
+void SimpleOS::Native::UARTCore::begin(unsigned int baudRate)
 {
   this->baudRate = baudRate;
   status = true;
@@ -12,7 +12,7 @@ void SimpleOS::Native::UARTCore::begin(SimpleOS::Data::UInt baudRate)
   enableReception();
 }
 
-void SimpleOS::Native::UARTCore::send(SimpleOS::Data::UChar data)
+void SimpleOS::Native::UARTCore::send(unsigned char data)
 {
   if (status == false)
     return;
@@ -23,14 +23,14 @@ void SimpleOS::Native::UARTCore::send(SimpleOS::Data::UChar data)
     ;
 }
 
-void SimpleOS::Native::UARTCore::send(SimpleOS::Data::C_String data)
+void SimpleOS::Native::UARTCore::send(const char* data)
 {
   if (data || status == false)
-    for (SimpleOS::Data::UInt i = 0x00; i < (SimpleOS::Data::UInt)strlen(data); i++)
+    for (unsigned int i = 0x00; i < (unsigned int)strlen(data); i++)
       send(data[i]);
 }
 
-SimpleOS::Data::UChar SimpleOS::Native::UARTCore::receive()
+unsigned char SimpleOS::Native::UARTCore::receive()
 {
   if (status == false)
     return false;
@@ -49,19 +49,19 @@ void SimpleOS::Native::UARTCore::flush(void)
 {
   while (SYSM_CHECK(UCSR0A, RXC0))
       [[maybe_unused]]
-    SimpleOS::Data::UChar f = UDR0;
+    unsigned char f = UDR0;
 }
 
 bool SimpleOS::Native::UARTCore::isStarted() { return status; }
 
-SimpleOS::Data::UInt SimpleOS::Native::UARTCore::getBaudRate() const { return baudRate; }
+unsigned int SimpleOS::Native::UARTCore::getBaudRate() const { return baudRate; }
 
-void SimpleOS::Native::UARTCore::setBaudRate(SimpleOS::Data::UInt baudRate)
+void SimpleOS::Native::UARTCore::setBaudRate(unsigned int baudRate)
 {
   this->baudRate = baudRate;
   ubrr = ubrrcalc(SYSM_SYSTEM_CLOCK, prescaler, this->baudRate);
-  UBRR0H = (SimpleOS::Data::UChar)SYSM_HIGH(ubrr);
-  UBRR0L = (SimpleOS::Data::UChar)ubrr;
+  UBRR0H = (unsigned char)SYSM_HIGH(ubrr);
+  UBRR0L = (unsigned char)ubrr;
 }
 
 void SimpleOS::Native::UARTCore::disableReception()
@@ -80,7 +80,7 @@ void SimpleOS::Native::UARTCore::disableTransmission() { SYSM_WRITE_REG(UCSR0B, 
 
 void SimpleOS::Native::UARTCore::enableTransmission() { SYSM_WRITE_REG(UCSR0B, TXEN0, true); }
 
-SimpleOS::Data::Float SimpleOS::Native::UARTCore::ubrrcalc(SimpleOS::Data::ULong clock, SimpleOS::Data::UInt prescaler, SimpleOS::Data::UInt baudRate) const
+float SimpleOS::Native::UARTCore::ubrrcalc(unsigned long clock, unsigned int prescaler, unsigned int baudRate) const
 {
   return (clock / prescaler / baudRate) - 1;
 }

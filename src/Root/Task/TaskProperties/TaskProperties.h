@@ -1,6 +1,5 @@
 #pragma once
 #include "System/Base.h"
-#include "DataTypes/Typedefs.h"
 #include "Root/Task/TaskState.h"
 #include "Root/RamAllocator/RamAllocator.h"
 
@@ -16,18 +15,18 @@ namespace SimpleOS
     public:
       Data::ID id;
       TaskState state;
-      Data::UInt priority;
-      Data::UInt interval;
-      Data::UInt remainingTime;
-      Data::UChar *stackPointer;
-      Data::UInt stackCounter;
-      Data::UInt stackSize;
+      unsigned int priority;
+      unsigned int interval;
+      unsigned int remainingTime;
+      unsigned char *stackPointer;
+      unsigned int stackCounter;
+      unsigned int stackSize;
       void (*taskFunction)(void *);
       void *taskParams;
 
     public:
       TaskProperties();
-      TaskProperties(Data::UInt priority, Data::UInt stackSize, Data::UInt interval, void (*taskFunction)(void *), void *params);
+      TaskProperties(unsigned int priority, unsigned int stackSize, unsigned int interval, void (*taskFunction)(void *), void *params);
       TaskProperties(const TaskProperties &other);
       TaskProperties(TaskProperties &&other);
 

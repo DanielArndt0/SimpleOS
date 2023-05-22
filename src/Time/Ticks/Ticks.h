@@ -8,7 +8,7 @@ namespace SimpleOS
     class Ticks
     {
     private:
-      Data::ULong ticks;
+      unsigned long ticks;
 
     public:
       Ticks() = default;
@@ -18,7 +18,7 @@ namespace SimpleOS
       void decrement();
 
     public:
-      Data::ULong get();
+      unsigned long get();
       void increment();
       void reset();
     };

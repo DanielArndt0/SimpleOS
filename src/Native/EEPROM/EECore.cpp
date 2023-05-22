@@ -1,8 +1,8 @@
 #include "EECore.h"
 
-SimpleOS::Data::UInt SimpleOS::Native::EECore::eeprom_size = SYSM_EEPROSYSM_SIZE;
+unsigned int SimpleOS::Native::EECore::eeprom_size = SYSM_EEPROSYSM_SIZE;
 
-void SimpleOS::Native::EECore::eepromClearWrite(SimpleOS::Data::UChar selectWriteOp, SimpleOS::Data::UChar data, SimpleOS::Data::UInt addr)
+void SimpleOS::Native::EECore::eepromClearWrite(unsigned char selectWriteOp, unsigned char data, unsigned int addr)
 {
   if (addr >= eeprom_size)
     return;
@@ -21,7 +21,7 @@ void SimpleOS::Native::EECore::eepromClearWrite(SimpleOS::Data::UChar selectWrit
   SYSM_WRITE_REG(SREG, SREG_I, true);
 }
 
-SimpleOS::Data::UChar SimpleOS::Native::EECore::readChar(SimpleOS::Data::UInt addr)
+unsigned char SimpleOS::Native::EECore::readChar(unsigned int addr)
 {
   if (addr >= eeprom_size)
     return 0x00;
@@ -32,4 +32,4 @@ SimpleOS::Data::UChar SimpleOS::Native::EECore::readChar(SimpleOS::Data::UInt ad
   return EEDR;
 }
 
-SimpleOS::Data::UInt SimpleOS::Native::EECore::size() { return eeprom_size; }
+unsigned int SimpleOS::Native::EECore::size() { return eeprom_size; }
