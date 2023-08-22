@@ -6,63 +6,63 @@ namespace SimpleOS
   namespace Utils
   {
     template <typename U>
-    struct convert
+    struct Convert
     {
-      static const char *toString(U data, char *buffer, char base = 10) { return "unknown"; }
+      static const char *toString(U data, char *buffer, char base) { return "unknown"; }
     };
 
     template <>
-    struct convert<bool>
+    struct Convert<bool>
     {
-      static const char *toString(bool data, char *buffer, char base = 10) { return data ? "true" : "false"; }
+      static const char *toString(bool data, char *buffer, char base) { return data ? "true" : "false"; }
     };
 
     template <>
-    struct convert<int>
+    struct Convert<int>
     {
-      static const char *toString(int data, char *buffer, char base = 10) { return itoa(data, buffer, base); }
+      static const char *toString(int data, char *buffer, char base) { return itoa(data, buffer, base); }
     };
 
     template <>
-    struct convert<unsigned int>
+    struct Convert<unsigned int>
     {
-      static const char *toString(int data, char *buffer, char base = 10) { return utoa(data, buffer, base); }
+      static const char *toString(int data, char *buffer, char base) { return utoa(data, buffer, base); }
     };
 
     template <>
-    struct convert<char>
+    struct Convert<char>
     {
-      static const char *toString(char data, char *buffer, char base = 10) { return itoa(data, buffer, 10); }
+      static const char *toString(char data, char *buffer, char base) { return itoa(data, buffer, base); }
     };
 
     template <>
-    struct convert<unsigned char>
+    struct Convert<unsigned char>
     {
-      static const char *toString(char data, char *buffer, char base = 10) { return utoa(data, buffer, 10); }
+      static const char *toString(char data, char *buffer, char base) { return utoa(data, buffer, base); }
     };
 
     template <>
-    struct convert<long>
+    struct Convert<long>
     {
-      static const char *toString(long data, char *buffer, char base = 10) { return ltoa(data, buffer, 10); }
+      static const char *toString(long data, char *buffer, char base) { return ltoa(data, buffer, base); }
     };
 
     template <>
-    struct convert<unsigned long>
+    struct Convert<unsigned long>
     {
-      static const char *toString(long data, char *buffer, char base = 10) { return ultoa(data, buffer, 10); }
+      static const char *toString(long data, char *buffer, char base) { return ultoa(data, buffer, base); }
     };
 
     template <>
-    struct convert<float>
+    struct Convert<float>
     {
-      static const char *toString(float data, char *buffer, char precision = 2) { return dtostrf(data, (precision + 1), precision, buffer); }
+      static const char *toString(float data, char *buffer, char precision) { return dtostrf(data, (precision + 1), precision, buffer); }
     };
 
     template <>
-    struct convert<double>
+    struct Convert<double>
     {
-      static const char *toString(double data, char *buffer, char precision = 2) { return dtostrf(data, (precision + 1), precision, buffer); }
+      static const char *toString(double data, char *buffer, char precision) { return dtostrf(data, (precision + 1), precision, buffer); }
     };
   }
 }

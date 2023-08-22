@@ -1,5 +1,7 @@
 #pragma once
+#include <math.h>
 #include "Utils/Convert.h"
+#include "Utils/IsSame.h"
 
 namespace SimpleOS
 {
@@ -10,13 +12,34 @@ namespace SimpleOS
     {
     private:
       T number;
+      char *buffer = nullptr;
+      unsigned char base = 10;
+      unsigned char precision = 2;
+
+    private:
+      unsigned char digitCounter(unsigned long long number)
+      {
+        unsigned char counter = 0;
+        while (number > 0)
+        {
+          number /= 10;
+          counter++;
+        }
+        return counter;
+      }
+
+      void allocBuffer() { buffer = new char[digitCounter(pow(2, sizeof(T) * 8)) * 2]; }
 
     public:
-      Number() : number(0) {}
-      Number(T n) : number(n) {}
-      Number(const Number &number) : number(number.number) {}
-      Number(Number &&number) : number(number.number) { number.number = 0; }
-      ~Number() = default;
+      Number() : number(0) { allocBuffer(); }
+      Number(T n) : number(n) { allocBuffer(); }
+      Number(const Number &number) : number(number.number) { allocBuffer(); }
+      Number(Number &&number) : number(number.number)
+      {
+        number.number = 0;
+        allocBuffer();
+      }
+      ~Number() { delete[] buffer; }
 
     public:
       // Copy operators
@@ -39,7 +62,6 @@ namespace SimpleOS
         return *this;
       }
 
-      // ATTRIBUTION OPERATORS
       Number &operator+=(const Number &other)
       {
         number += other.number;
@@ -124,6 +146,7 @@ namespace SimpleOS
       Number &operator++(int)
       {
         T old = number;
+        old = (T)old;
         operator++();
         return *this;
       }
@@ -159,12 +182,31 @@ namespace SimpleOS
       Number operator<<(T other) const { return Number(number << other); }
 
       operator T() const { return number; }
+
       T get() const { return number; }
+
+      Number &setPrecision(unsigned char precision)
+      {
+        this->precision = precision;
+        return *this;
+      }
+
+      Number &setBase(unsigned char base)
+      {
+        this->base = base;
+        return *this;
+      }
+
+      unsigned char getPrecision() { return this->precision; }
+
+      unsigned char getBase() { return this->base; }
 
       const char *toString() const
       {
-        static char buffer[9];
-        return Utils::convert<T>::toString(number, buffer);
+        if (Utils::IsSame<T, double>::check || Utils::IsSame<T, float>::check)
+          return Utils::Convert<T>::toString(number, buffer, precision);
+        else
+          return Utils::Convert<T>::toString(number, buffer, base);
       }
     };
   }

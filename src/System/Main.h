@@ -1,10 +1,6 @@
 #pragma once
 #include "System/System.h"
 
-#define S_ADDR 0x0100
-#define E_ADDR 0x08FF
-#define VALUE(addr) ((unsigned)(*(volatile unsigned char *)(addr)))
-
 namespace SimpleOS
 {
   using namespace SimpleOS::Com;
@@ -12,19 +8,26 @@ namespace SimpleOS
   using namespace SimpleOS::Data;
   using namespace SimpleOS::Utils;
   using namespace SimpleOS::Hardware;
-  using namespace SimpleOS::Native;
+  using namespace SimpleOS::Core;
   using namespace SimpleOS::Interrupt;
   using namespace SimpleOS::Root;
+  using namespace SimpleOS::Error;
+  using namespace SimpleOS::Handler;
 
-  class Main : extends System<SYSM_HEAP_SIZE>
+  class Main final : extends System<SYS_HEAP_SIZE>
   {
-
   public:
-    int boot() override
+    Status boot() override
     {
-      return 0;
+      return Status();
     }
 
-    int execute() override { return 0; }
+    Status execute() override
+    {
+      return Status();
+    }
+
+  public:
+    ~Main() = default;
   };
 }

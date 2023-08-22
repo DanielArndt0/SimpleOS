@@ -1,8 +1,6 @@
 #pragma once
 #include "System/Base.h"
-#include "Root/RamAllocator/RamAllocator.h"
 #include "List.h"
-
 
 namespace SimpleOS
 {
@@ -22,10 +20,10 @@ namespace SimpleOS
       {
         capacity = 10;
         size = 0;
-        elements = (T *)Root::RamAllocator<SYSM_HEAP_SIZE>::calloc(capacity, sizeof(T));
+        elements = new T[capacity];
       }
 
-      ~ArrayList() { Root::RamAllocator<SYSM_HEAP_SIZE>::free(elements); }
+      ~ArrayList() { delete[] elements; }
 
     private:
       void resizeUp(bool resizeUp = true)
@@ -33,12 +31,13 @@ namespace SimpleOS
         if (elements == nullptr)
           return;
         unsigned int cap = resizeUp ? capacity * 2 : capacity / 2;
-        T *newElements = (T *)Root::RamAllocator<SYSM_HEAP_SIZE>::calloc(cap, sizeof(T));
+        T *newElements = new T[cap];
         if (newElements == nullptr)
           return;
         capacity = cap;
         for (unsigned int i = 0; i < size; i++)
           newElements[i] = elements[i];
+        delete[] elements;
         elements = newElements;
       }
 
@@ -64,25 +63,79 @@ namespace SimpleOS
         size++;
       }
 
-      void remove(unsigned int index) override
+      T removeFirst(T &element) override
       {
-        if (index < 0 || index >= size || elements == nullptr)
-          return;
-        for (unsigned int i = index; i < size - 1; i++)
-          elements[i] = elements[i + 1];
-        size--;
-        if (size < (capacity / 2) && capacity > 10)
-          resizeUp(false);
+        T temp = getErrorValue();
+        if (elements != nullptr)
+        {
+          for (unsigned int i = 0; i < size - 1; i++)
+          {
+            if (element == elements[i])
+            {
+              temp = elements[i];
+              elements[i] = elements[i + 1];
+              size--;
+              if (size < (capacity / 2) && capacity > 10)
+                resizeUp(false);
+              return temp;
+            }
+          }
+        }
+        return temp;
       }
 
-      T &get(unsigned int index) override
+      T remove(unsigned int index) override
+      {
+        T temp = getErrorValue();
+        if (index >= 0 || index < size || elements != nullptr)
+        {
+          temp = elements[index];
+          for (unsigned int i = index; i < size - 1; i++)
+            elements[i] = elements[i + 1];
+          size--;
+          if (size < (capacity / 2) && capacity > 10)
+            resizeUp(false);
+          return temp;
+        }
+        return temp;
+      }
+
+      T removeWhere(bool (*func)(T element)) override
+      {
+        T temp = getErrorValue();
+        if (elements != nullptr)
+        {
+          for (unsigned int i = 0; i < size; i++)
+          {
+            if (func(elements[i]))
+            {
+              temp = elements[i];
+              remove(i);
+              return temp;
+            }
+          }
+        }
+        return temp;
+      }
+
+      T get(unsigned int index) override
       {
         if (index < 0 || index >= size || elements == nullptr)
-          return defaultValue;
+          return getErrorValue();
         return elements[index];
       }
 
-      void foreach (void (*func)(T &element)) override
+      T getWhere(bool (*func)(T element))
+      {
+        if (elements == nullptr)
+          return getErrorValue();
+        for (unsigned int i = 0; i < size; i++)
+          if (func(elements[i]))
+            return elements[i];
+        return getErrorValue();
+      }
+
+      void foreach (void (*func)(T element)) override
       {
         if (elements == nullptr)
           return;
@@ -90,7 +143,7 @@ namespace SimpleOS
           func(elements[i]);
       }
 
-      bool exists(T &element) const override
+      bool exists(T element) const override
       {
         if (elements == nullptr)
           return false;
@@ -104,9 +157,9 @@ namespace SimpleOS
 
       unsigned int getSize() const override { return size; }
 
-      const T &getDefaultValue() const override { return defaultValue; }
+      const T getErrorValue() const override { return defaultValue; }
 
-      void setDefaultValue(T defaultValue) { this->defaultValue = defaultValue; }
+      void setErrorValue(T defaultValue) { this->defaultValue = defaultValue; }
     };
   } // namespace Data
 } // namespace SimpleOS

@@ -1,50 +1,54 @@
 #pragma once
 
 // Macros
-#include "Macros.h" // TODO Organize System Macros and Hardware Macros
+#include "Macros.h" // DONE
 
 // Concepts
 #include "Concepts.h" // DONE
 
 // Interrupts
+#include "Interrupt/ISRVectors.h"             // DONE
 #include "Interrupt/Watchdog/WatchdogTimer.h" // DONE
+#include "Interrupt/Timer0/Timer0.h"          // DONE
+
+// Executors
+#include "Interrupt/Executors/WatchdogExecutor.h"
+#include "Interrupt/Executors/TimerExecutor.h"
 
 // System Methods
-#include "System/Methods.h"
+#include "System/Methods.h" // DONE
 
 // Core's
-#include "Native/EEPROM/EECore.h" // DONE Native methods - EEPROM
-#include "Native/UART/UARTCore.h" // DONE Native methods - UART
-#include "Native/GPIO/GPIOCore.h" // DONE Native methods - GPIO
-#include "Native/WDT/WDTCore.h"   // DONE Native methods - WDT
+#include "Core/EEPROM/EECore.h"   // DONE Core methods - EEPROM
+#include "Core/UART/UARTCore.h"   // DONE Core methods - UART
+#include "Core/GPIO/GPIOCore.h"   // DONE Core methods - GPIO
+#include "Core/WDT/WDTCore.h"     // DONE Core methods - WDT
+#include "Core/RESET/ResetCore.h" // DONE Core methods - RESET
+#include "Core/TIMER0/TMR0Core.h" // DONE Core methods - TIMER0
+
+// RAM
+#include "Memory/SRAM/RamInfo.h" // DONE
 
 // Hardware
 #include "Communication/UART/UART.h" // DONE
 #include "Hardware/GPIO/GPIO.h"      // DONE
 #include "Hardware/Pin/Pin.h"        // DONE
-#include "Memory/EEPROM/EEPROM.h"    // CHECK Check if it needs standardization and if it is complete
+#include "Memory/EEPROM/EEPROM.h"    // DONE
+
+// System Status
+#include "SystemStatus/Status.h"    // DONE
+#include "SystemStatus/ErrorCode.h" // DONE
 
 // Time
-#include "Time/Ticks/Ticks.h" // DONE
+#include "Time/Counter/Counter.h" // DONE
 
-// Root RAM Allocator
-#include "Root/RamAllocator/RamAllocator.h" // FIX
-#include "Root/RamAllocator/Heap.h"         // DONE
-
-// Root Task
-#include "Root/Task/TaskLifecycle.h"                 // DONE
-#include "Root/Task/TaskState.h"                     // DONE
-#include "Root/Task/TaskController/TaskController.h" // DONE
-#include "Root/Task/TaskProperties/TaskProperties.h" // DONE
-#include "Root/Task/Task.h"                          // DONE
-
-// Managers
-#include "Manager/MemoryManager/MemoryManager.h" // TODO
+// Root Thread
+#include "Root/Threads/Thread/Thread.h" // DONE
 
 // Data types
-#include "DataTypes/String/String.h" // FIX Optimize reducing the use of memory and time of use
-#include "DataTypes/Number.h"        // TODO Add Increment, Decrement and Bitwise operators
-#include "DataTypes/Duet.h"          // CHECK
+#include "DataTypes/Number.h"                           // DONE
+#include "DataTypes/Duet.h"                             // DONE
+#include "DataTypes/String/SimpleString/SimpleString.h" // DONE
 
 // Containers
 #include "DataTypes/Containers/List/List.h"       // DONE
@@ -61,19 +65,24 @@ namespace SimpleOS
 {
   template <unsigned int HeapSize>
   class System
-      : extends Methods,
-        extends Root::RamAllocator<HeapSize>,
+      : implements Concepts::Bootable<Handler::Status>,
+        implements Concepts::Executable<Handler::Status>,
+        extends Methods,
+        extends Interrupt::Executors,
         extends Interrupt::WatchdogTimer,
+        extends Interrupt::Timer0,
         extends Hardware::GPIO,
-        implements Concepts::Bootable,
-        implements Concepts::Executable
+        extends Core::ResetCore
+
   {
   protected:
+    // Drivers
     static Com::UART serial;
     static Memory::EEPROM eeprom;
 
-  protected:
-    virtual ~System() = default;
+  public:
+    System() = default;
+    ~System() = default;
   };
 
   template <unsigned int HeapSize>

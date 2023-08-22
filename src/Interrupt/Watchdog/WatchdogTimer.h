@@ -1,19 +1,19 @@
 #pragma once
 #include "System/Base.h"
-#include "Native/WDT/WDTCore.h"
-#include "Time/Ticks/Ticks.h"
+#include "Core/WDT/WDTCore.h"
+#include "Time/Counter/Counter.h"
 
 namespace SimpleOS
 {
   namespace Interrupt
   {
-    class WatchdogTimer : extends Native::WDTCore
+    class WatchdogTimer : extends Core::WDTCore
     {
     public:
-      static Time::Ticks watchdogTicks;
+      static Time::Counter watchdogTicks;
 
     public:
-      WatchdogTimer(Native::WDTPrescaler prescaler = Native::WDTPrescaler::C2048, Native::WDTMode mode = Native::WDTMode::Interrupt);
+      WatchdogTimer(Core::WDTPrescaler prescaler = Core::WDTPrescaler::C2048, Core::WDTMode mode = Core::WDTMode::Interrupt);
     };
   } // namespace Interrupt
 } // namespace SimpleOS

@@ -17,7 +17,7 @@ namespace SimpleOS
 
     typedef int Index;
     typedef unsigned int Size;
-    typedef unsigned long ID;
+    typedef Long ID;
     typedef const char *CString;
   }
 }

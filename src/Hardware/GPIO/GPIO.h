@@ -10,7 +10,7 @@ namespace SimpleOS
     class GPIO
     {
     public:
-      Pin getPin(unsigned int pin) const;
+      static Pin getPin(unsigned int pin) ;
     };
   }
 }

@@ -1,6 +1,5 @@
 #pragma once
 #include "System/Base.h"
-#include "Root/RamAllocator/RamAllocator.h"
 #include "List.h"
 
 namespace SimpleOS
@@ -44,7 +43,7 @@ namespace SimpleOS
         while (current != nullptr)
         {
           Node<T> *next = current->next;
-          Root::RamAllocator<SYSM_HEAP_SIZE>::free(current);
+          delete current;
           current = next;
         }
       }
@@ -55,7 +54,7 @@ namespace SimpleOS
     public:
       void add(const T &element) override
       {
-        Node<T> *node = (Node<T> *)Root::RamAllocator<SYSM_HEAP_SIZE>::malloc(sizeof(Node<T>));
+        Node<T> *node = new Node<T>;
         node->data = element;
         node->next = first;
         first = node;
@@ -79,53 +78,56 @@ namespace SimpleOS
           current->data = element;
       }
 
-      // CHECK It works, but causes conflict with index removal if the type of data is numerical
-      // void remove(const T &element) 
-      // {
-      //   Node<T> *current = first;
-      //   Node<T> *previous = nullptr;
-      //   while (current != nullptr && current->data != element)
-      //   {
-      //     previous = current;
-      //     current = current->next;
-      //   }
-      //   if (current != nullptr)
-      //   {
-      //     if (previous == nullptr)
-      //       first = current->next;
-      //     else
-      //       previous->next = current->next;
-      //     Root::RamAllocator<SYSM_HEAP_SIZE>::free(current);
-      //     size--;
-      //   }
-      // }
-
-      void remove(unsigned int index) override
+      T remove(unsigned int index) override
       {
-        if (index >= size)
-          return;
-        Node<T> *current = first;
-        Node<T> *previous = nullptr;
-        unsigned int currentIndex = 0;
-        while (current != nullptr && currentIndex != index)
+        T temp = getErrorValue();
+        if (index < size)
         {
-          previous = current;
-          current = current->next;
-          currentIndex++;
+          Node<T> *current = first;
+          Node<T> *previous = nullptr;
+          unsigned int currentIndex = 0;
+          while (current != nullptr && currentIndex != index)
+          {
+            previous = current;
+            current = current->next;
+            currentIndex++;
+          }
+          if (current != nullptr)
+          {
+            if (previous == nullptr)
+              first = current->next;
+            else
+              previous->next = current->next;
+            temp = current;
+            delete current;
+            size--;
+            return temp;
+          }
         }
-        if (current != nullptr)
-        {
-          if (previous == nullptr)
-
-            first = current->next;
-          else
-            previous->next = current->next;
-          Root::RamAllocator<SYSM_HEAP_SIZE>::free(current);
-          size--;
-        }
+        return temp;
       }
 
-      T &get(unsigned int index) override
+      T removeFirst(T &element) override
+      {
+        // TODO
+        return getErrorValue();
+      }
+
+      T removeWhere(bool (*func)(T element)) override
+      {
+        T temp = getErrorValue();
+        for (unsigned int i = 0; i < size; i++)
+        {
+          if (func(get(i)))
+          {
+            remove(i);
+            return temp;
+          }
+        }
+        return temp;
+      }
+
+      T get(unsigned int index) override
       {
         if (index >= size)
           return defaultValue;
@@ -139,17 +141,26 @@ namespace SimpleOS
         return current != nullptr ? current->data : defaultValue;
       }
 
-      void foreach (void (*func)(T &element))
+      T getWhere(bool (*func)(T element)) override
+      {
+        T temp;
+        for (unsigned int i = 0; i < size; i++)
+          if (func((temp = get(i))))
+            return temp;
+        return getErrorValue();
+      }
+
+      void foreach (void (*func)(T element))
       {
         Node<T> *current = first;
         while (current != nullptr)
         {
-          operacao(current->data);
+          func(current->data);
           current = current->next;
         }
       }
 
-      bool exists(T &element) const override
+      bool exists(T element) const override
       {
         Node<T> *current = first;
         while (current != nullptr && current->data != element)
@@ -161,9 +172,9 @@ namespace SimpleOS
 
       unsigned int getSize() const override { return size; }
 
-      const T &getDefaultValue() const override { return defaultValue; }
+      const T getErrorValue() const override { return defaultValue; }
 
-      void setDefaultValue(T defaultValue) override { defaultValue = defaultValue; }
+      void setErrorValue(T defaultValue) override { this->defaultValue = defaultValue; }
     };
   }
 }

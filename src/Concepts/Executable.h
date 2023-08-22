@@ -5,11 +5,12 @@ namespace SimpleOS
 {
   namespace Concepts
   {
+    template<typename ReturnType = void>    
     class Executable
     {
     public:
       // Methods
-      virtual int execute(void) = 0;
+      virtual ReturnType execute(void) = 0;
 
       // Destructors
       virtual ~Executable() = default;

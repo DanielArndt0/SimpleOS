@@ -1,10 +1,16 @@
 #include "System/Main.h"
 
-SimpleOS::Main sys;
+
 int main()
 {
-  sys.boot();
-  while (true)
-    sys.execute();
+  SimpleOS::Main *sys = new SimpleOS::Main;
+
+  if (sys->boot().getError() != SimpleOS::Error::ErrorCode::NO_ERROR)
+    sys->boot().runTreatment();
+
+  while (sys->execute().getError() == SimpleOS::Error::ErrorCode::NO_ERROR)
+    ;
+  sys->execute().runTreatment();
+
   return 0;
 }

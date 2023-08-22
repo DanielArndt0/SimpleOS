@@ -1,5 +1,4 @@
 #pragma once
-#include "DataTypes/String/String.h"
 
 namespace SimpleOS
 {
@@ -12,7 +11,11 @@ namespace SimpleOS
      * @return Returns a string with the type name.
      */
     template <typename T>
-    [[nodiscard]] constexpr SimpleOS::Data::String Typeof() { return SimpleOS::Data::String(__PRETTY_FUNCTION__).findBetween("= ", "]").remove(0, 1); }
+    [[nodiscard]] constexpr SimpleOS::Data::CString Typeof()
+    {
+      return "Disabled";
+      //return SimpleOS::Data::String(__PRETTY_FUNCTION__).findBetween("= ", "]").remove(0, 1);
+    }
 
     /**
      * @brief Identifies the data type of a variable.
@@ -21,6 +24,6 @@ namespace SimpleOS
      * @return Returns a string with the type name.
      */
     template <typename T>
-    [[nodiscard]] constexpr SimpleOS::Data::String Typeof(T type) { return Typeof<T>(); }
+    [[nodiscard]] constexpr SimpleOS::Data::CString Typeof(T type) { return Typeof<T>(); }
   }
 }

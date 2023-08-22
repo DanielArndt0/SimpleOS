@@ -14,11 +14,11 @@ SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(const char *data)
   return *this;
 }
 
-// SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(const SimpleOS::Data::String &data)
-// {
-//   send(data.c_str());
-//   return *this;
-// }
+SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(const SimpleOS::Data::SimpleString &data)
+{
+  send(data.CStr());
+  return *this;
+}
 
 SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(int data)
 {
@@ -64,6 +64,15 @@ SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(bool data)
 
 SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(void *ptr)
 {
-  send(SimpleOS::Data::Number<uintptr_t>(reinterpret_cast<uintptr_t>(ptr)).toString());
+  if (ptr == nullptr || ptr == NULL )
+    send("null");
+  else
+    send(SimpleOS::Data::Number<uintptr_t>(reinterpret_cast<uintptr_t>(ptr)).toString());
+  return *this;
+}
+
+SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(SimpleOS::Concepts::Printable &printable)
+{
+  send(printable.print());
   return *this;
 }
