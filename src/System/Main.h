@@ -11,6 +11,7 @@ namespace SimpleOS
   using namespace SimpleOS::Core;
   using namespace SimpleOS::Interrupt;
   using namespace SimpleOS::Root;
+  using namespace SimpleOS::Time;
   using namespace SimpleOS::Error;
   using namespace SimpleOS::Handler;
 

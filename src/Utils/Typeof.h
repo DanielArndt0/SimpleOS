@@ -11,11 +11,7 @@ namespace SimpleOS
      * @return Returns a string with the type name.
      */
     template <typename T>
-    [[nodiscard]] constexpr SimpleOS::Data::CString Typeof()
-    {
-      return "Disabled";
-      //return SimpleOS::Data::String(__PRETTY_FUNCTION__).findBetween("= ", "]").remove(0, 1);
-    }
+    [[nodiscard]] static constexpr SimpleOS::Data::CString Typeof() { return strtok(strpbrk(strpbrk(__PRETTY_FUNCTION__, "="), " "), ";") + 1; }
 
     /**
      * @brief Identifies the data type of a variable.
@@ -24,6 +20,6 @@ namespace SimpleOS
      * @return Returns a string with the type name.
      */
     template <typename T>
-    [[nodiscard]] constexpr SimpleOS::Data::CString Typeof(T type) { return Typeof<T>(); }
+    [[nodiscard]] static constexpr SimpleOS::Data::CString Typeof(T type) { return Typeof<T>(); }
   }
 }

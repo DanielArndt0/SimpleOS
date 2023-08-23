@@ -1,6 +1,5 @@
 #pragma once
 #include "System/Base.h"
-
 #include "Interrupt/Watchdog/WatchdogTimer.h"
 #include "Interrupt/Timer0/Timer0.h"
 #include "Interrupt/Executors/Executors.h"
@@ -18,3 +17,4 @@ INT(TIMER0_OVF_vect)
   if (SimpleOS::Interrupt::Executors::timerExecutor.isEnabled())
     SimpleOS::Interrupt::Executors::timerExecutor.execute();
 }
+

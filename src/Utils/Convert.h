@@ -8,7 +8,7 @@ namespace SimpleOS
     template <typename U>
     struct Convert
     {
-      static const char *toString(U data, char *buffer, char base) { return "unknown"; }
+      static const char *toString(U data, char *buffer, char base) { return "Unknown"; }
     };
 
     template <>

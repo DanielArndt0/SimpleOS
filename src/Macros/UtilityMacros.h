@@ -24,6 +24,11 @@
 #define cmd(comma) (char)(comma)
 #define endl cmd(0x0A) << cmd(0x0D)
 
+// TWI Macros
+#define TWI_WRITE 0x00
+#define TWI_READ 0x01
+#define TWI_ADDR_MASK 0xFE
+
 // Numbers Base
 #define HEX 16
 #define DEC 10

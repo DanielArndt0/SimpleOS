@@ -12,8 +12,8 @@
 #include "Interrupt/Timer0/Timer0.h"          // DONE
 
 // Executors
-#include "Interrupt/Executors/WatchdogExecutor.h"
-#include "Interrupt/Executors/TimerExecutor.h"
+#include "Interrupt/Executors/WatchdogExecutor.h" // DONE
+#include "Interrupt/Executors/TimerExecutor.h"    // DONE
 
 // System Methods
 #include "System/Methods.h" // DONE
@@ -25,6 +25,7 @@
 #include "Core/WDT/WDTCore.h"     // DONE Core methods - WDT
 #include "Core/RESET/ResetCore.h" // DONE Core methods - RESET
 #include "Core/TIMER0/TMR0Core.h" // DONE Core methods - TIMER0
+#include "Core/TWI/TWICore.h"     // DONE Core methods - TWI
 
 // RAM
 #include "Memory/SRAM/RamInfo.h" // DONE
@@ -41,6 +42,7 @@
 
 // Time
 #include "Time/Counter/Counter.h" // DONE
+#include "Time/Delay/Delay.h" // DONE
 
 // Root Thread
 #include "Root/Threads/Thread/Thread.h" // DONE
@@ -56,6 +58,7 @@
 #include "DataTypes/Containers/List/LinkedList.h" // DONE
 
 // Utils
+#include "Utils/IsPrimitive.h"          // DONE
 #include "Utils/Typeof.h"          // DONE
 #include "Utils/IsSame.h"          // DONE
 #include "Utils/RValueReference.h" // DONE
