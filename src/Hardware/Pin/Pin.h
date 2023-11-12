@@ -21,7 +21,7 @@ namespace SimpleOS
       Pin &config(PinMode mode = PinMode::INPUT);
       unsigned int bits();
       float volts();
-      void write(bool value = false);
+      Pin &write(bool value = false);
       bool read();
     };
   }

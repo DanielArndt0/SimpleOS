@@ -32,7 +32,6 @@
 
 // Hardware
 #include "Communication/UART/UART.h" // DONE
-#include "Hardware/GPIO/GPIO.h"      // DONE
 #include "Hardware/Pin/Pin.h"        // DONE
 #include "Memory/EEPROM/EEPROM.h"    // DONE
 
@@ -74,7 +73,6 @@ namespace SimpleOS
         extends Interrupt::Executors,
         extends Interrupt::WatchdogTimer,
         extends Interrupt::Timer0,
-        extends Hardware::GPIO,
         extends Core::ResetCore
 
   {

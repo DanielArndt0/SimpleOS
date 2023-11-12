@@ -15,12 +15,13 @@ SimpleOS::Hardware::Pin &SimpleOS::Hardware::Pin::config(SimpleOS::Hardware::Pin
   return *this;
 }
 
-void SimpleOS::Hardware::Pin::write(bool value)
+SimpleOS::Hardware::Pin &SimpleOS::Hardware::Pin::write(bool value)
 {
   if (!pin)
-    return;
+    return *this;
   volatile unsigned char *reg[3] = {&PORTD, &PORTB, &PORTC};
   port_selector(reg, pin, value);
+  return *this;
 }
 
 bool SimpleOS::Hardware::Pin::read()

@@ -1,5 +1,9 @@
 # SimpleOS
 
+## V0.3.11 - Pinning system refactoring
+### Hardware:
+- Removed `GPIO` class.
+
 ## V0.3.10 - I2C Update
 ### I2C:
 The `Core` library of `I2C` (`TWICore.h`) was developed.

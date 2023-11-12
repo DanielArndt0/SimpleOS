@@ -23,10 +23,7 @@ namespace SimpleOS
       return Status();
     }
 
-    Status execute() override
-    {
-      return Status();
-    }
+    Status execute() override { return Status(); }
 
   public:
     ~Main() = default;
