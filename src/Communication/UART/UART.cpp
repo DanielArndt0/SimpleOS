@@ -64,7 +64,7 @@ SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(bool data)
 
 SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(void *ptr)
 {
-  if (ptr == nullptr || ptr == NULL )
+  if (ptr == nullptr || ptr == NULL)
     send("null");
   else
     send(SimpleOS::Data::Number<uintptr_t>(reinterpret_cast<uintptr_t>(ptr)).toString());
@@ -75,4 +75,27 @@ SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(SimpleOS::Concepts::Printab
 {
   send(printable.print());
   return *this;
+}
+
+char SimpleOS::Com::UART::operator>>(char &data)
+{
+  if (available())
+    return (data = v_buffer.remove(0));
+  return 0x00;
+}
+
+void SimpleOS::Com::UART::echo()
+{
+  char c;
+  *this << (*this >> c);
+}
+
+bool SimpleOS::Com::UART::available() { return !v_buffer.isEmpty(); }
+
+unsigned int SimpleOS::Com::UART::size() { return v_buffer.getSize(); }
+
+void SimpleOS::Com::UART::virtualReceiverBufferTask()
+{
+  if (v_buffer.getSize() < 64)
+    v_buffer.add(receive());
 }

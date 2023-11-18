@@ -2,7 +2,7 @@
 #include "System/Base.h"
 
 namespace SimpleOS
-{
+{ 
   class Methods
   {
   public:

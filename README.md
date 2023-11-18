@@ -1,5 +1,15 @@
 # SimpleOS
 
+## V0.4.00 - Communication system update
+### UART:
+- Implemented byte read interrupt routine with 64 byte virtual input buffer.
+
+### I2C:
+- Implementation of the `send` and `receive` methods.
+
+### Organization and Architecture:
+- Some classes have been moved to the `Instance` `namespace`, which contains instances of system dependencies.
+
 ## V0.3.11 - Pinning system refactoring
 ### Hardware:
 - Removed `GPIO` class.

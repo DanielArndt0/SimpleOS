@@ -22,15 +22,21 @@ namespace SimpleOS
       void begin(unsigned int baudRate);
       void send(unsigned char data);
       void send(const char *data);
-      char receive(void);
+      [[nodiscard]] char receive(void);
+      bool isBufferFull(void);
       void flush(void);
       bool isStarted() const;
       unsigned int getBaudRate() const;
       void setBaudRate(unsigned int baudRate);
       void disableReception();
+      void disableInterruptReception();
       void enableReception();
+      void enableInterruptReception();
       void disableTransmission();
       void enableTransmission();
+      bool receptionIsEnable();
+      bool interruptReceptionIsEnable();
+      bool transmissionIsEnable();
     };
   }
 }

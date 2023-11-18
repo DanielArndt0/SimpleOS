@@ -5,7 +5,7 @@
 
 namespace SimpleOS
 {
-  namespace Interrupt
+  namespace Instance
   {
     class WatchdogTimer : extends Core::WDTCore
     {
@@ -15,5 +15,5 @@ namespace SimpleOS
     public:
       WatchdogTimer(Core::WDTPrescaler prescaler = Core::WDTPrescaler::C2048, Core::WDTMode mode = Core::WDTMode::Interrupt);
     };
-  } // namespace Interrupt
+  } // namespace Instance
 } // namespace SimpleOS

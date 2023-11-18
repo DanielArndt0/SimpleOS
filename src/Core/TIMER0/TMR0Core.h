@@ -19,7 +19,7 @@ namespace SimpleOS
       void reset();
 
     public:
-      TMR0Core() = default;
+      TMR0Core();
       ~TMR0Core() = default;
     }; // class TMR0Core
   }    // namespace Core

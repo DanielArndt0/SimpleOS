@@ -12,9 +12,11 @@ namespace SimpleOS
       void begin(unsigned long freq);
       void start(void);
       void restart(void);
-      void write(unsigned char byte);
-      unsigned char read();
+      void write(char data);
+      char read();
       void stop(void);
+      void send(char data, unsigned char addr);
+      char receive(unsigned char addr);
       void disable(void);
 
     public:

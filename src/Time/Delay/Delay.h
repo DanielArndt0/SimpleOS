@@ -1,7 +1,6 @@
 #pragma once
 #include "System/Base.h"
-#include "Interrupt/Timer0/Timer0.h"
-
+#include "System/Instances/Timer0/Timer0.h"
 
 namespace SimpleOS
 {
@@ -10,11 +9,11 @@ namespace SimpleOS
     class Delay
     {
     public:
-      void wait(unsigned long ms);
+      void delay(unsigned long ms);
 
     public:
-      Delay(unsigned long ms);
+      Delay() = default;
       ~Delay() = default;
     }; // class Delay
-  }    // namespace Time
+  }  // namespace Time
 } // namespace SimpleOS

@@ -5,7 +5,7 @@
 
 namespace SimpleOS
 {
-  namespace Interrupt
+  namespace Instance
   {
     class Timer0 : extends Core::TMR0Core
     {
@@ -13,7 +13,7 @@ namespace SimpleOS
       static Time::Counter timerTicks;
 
     public:
-      Timer0();
+      Timer0() = default;
     };
-  } // namespace Interrupt
+  } // namespace Instance
 } // namespace SimpleOS

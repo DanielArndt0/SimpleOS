@@ -5,7 +5,7 @@
 
 namespace SimpleOS
 {
-  namespace Root
+  namespace Core
   {
     class Thread
         : implements Concepts::Executable<void>,

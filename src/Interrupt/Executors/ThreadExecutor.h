@@ -1,7 +1,7 @@
 #pragma once
 #include "System/Base.h"
 #include "DataTypes/Containers/List/ArrayList.h"
-#include "Root/Threads/Thread/Thread.h"
+#include "Core/Thread/Thread.h"
 
 namespace SimpleOS
 {
@@ -13,7 +13,7 @@ namespace SimpleOS
       bool enabled = true;
 
     protected:
-      virtual Data::ArrayList<Root::Thread *> &list() = 0;
+      virtual Data::ArrayList<Core::Thread *> &list() = 0;
 
       Data::Index
       getIndexByThreadId(Data::ID threadId)
@@ -50,7 +50,7 @@ namespace SimpleOS
         }
       }
 
-      bool add(Root::Thread *thread)
+      bool add(Core::Thread *thread)
       {
         bool temp;
         if (!(temp = list().exists(thread)))
@@ -78,7 +78,7 @@ namespace SimpleOS
 
       void stopAll()
       {
-        list().foreach ([](Root::Thread *element) -> void
+        list().foreach ([](Core::Thread *element) -> void
                         { element->stop(); });
       }
 
@@ -93,7 +93,7 @@ namespace SimpleOS
 
       void resumeAll()
       {
-        list().foreach ([](Root::Thread *element) -> void
+        list().foreach ([](Core::Thread *element) -> void
                         { element->resume(); });
       }
     }; // class ThreadExecutor

@@ -1,8 +1,9 @@
 #include "TMR0Core.h"
 
+SimpleOS::Core::TMR0Core::TMR0Core() { enable(); }
+
 void SimpleOS::Core::TMR0Core::enable()
 {
-
   BIT_WRITE_REG(TIMSK0, TOIE0, true);
   TCCR0B = 0x03;
   TCNT0 = 0x06;

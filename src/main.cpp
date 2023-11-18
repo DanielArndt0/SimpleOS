@@ -1,7 +1,5 @@
 #include "System/Main.h"
 
-
-
 int main()
 {
   SimpleOS::Main *sys = new SimpleOS::Main;
@@ -10,5 +8,6 @@ int main()
   while (sys->execute().getError() == SimpleOS::Error::ErrorCode::NO_ERROR);
   sys->execute().runTreatment();
 
+  delete sys;
   return 0;
 }
