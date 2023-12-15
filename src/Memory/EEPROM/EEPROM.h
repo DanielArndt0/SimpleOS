@@ -1,57 +1,38 @@
 #pragma once
 #include <stdlib.h>
 #include <string.h>
-#include "SimpleOS/Macros.h"
-#include "DataTypes/Typedefs.h"
-#include "DataTypes/String/String.h"
-#include "Native/EEPROM/EECore.h"
+#include "System/Macros.h"
+#include "Core/EEPROM/EECore.h"
+#include "DataTypes/String/SimpleString/SimpleString.h"
 
 namespace SimpleOS
 {
   namespace Memory
   {
-    class EEPROM : extends Native::EECore
+    class EEPROM : extends Core::EECore
     {
-    private:
-      static Data::UChar *mem_buff;
-
     protected:
-      static Data::UInt used_mem(Data::UInt addr1, Data::UInt addr2);
+      static SimpleOS::Data::SimpleString *buffer;
+
+      static unsigned int used_mem(unsigned int addr1, unsigned int addr2);
 
     public:
-      ~EEPROM();
+      EEPROM() = default;
+      ~EEPROM() = default;
 
     public:
       /**
        * @return Returns the used memory space in bytes.
        */
-      static Data::UInt used();
+      static unsigned int used();
 
       /**
        * @return Returns the free space in memory in bytes.
        */
-      static Data::UInt empty();
+      static unsigned int empty();
 
       template <typename T>
-      static void write(T data, Data::UInt addr);
-
-      /**
-       * @brief Write string to EEPROM memory.
-       *
-       * @param data String to be written.
-       *
-       * @param addr Memory address to be written.
-       */
-      static void write(Data::C_String data, Data::UInt addr);
-
-      /**
-       * @brief Write string to EEPROM memory.
-       *
-       * @param data String to be written.
-       *
-       * @param addr Memory address to be written.
-       */
-      static void write(const Data::String &data, Data::UInt addr);
+      static void write(T data, unsigned int addr);
 
       /**
        * @brief Read data from EEPROM memory.
@@ -59,21 +40,14 @@ namespace SimpleOS
        * @param addr Memory address to be read.
        */
       template <typename T>
-      static T read(Data::UInt addr);
-
-      /**
-       * @brief Read string from EEPROM memory.
-       *
-       * @param addr Memory address to be read.
-       */
-      static Data::String readString(Data::UInt addr);
+      static T read(unsigned int addr);
 
       /**
        * @brief Clear EEPROM memory address.
        *
        * @param addr Address to be cleared.
        */
-      static void free(Data::UInt addr);
+      static void clear(unsigned int addr);
 
       /**
        * @brief Clears an address block from the EEPROM memory.
@@ -82,50 +56,100 @@ namespace SimpleOS
        *
        * @param addr2 End address of the block.
        */
-      static void free(Data::UInt addr1, Data::UInt addr2);
+      static void clear(unsigned int addr1, unsigned int addr2);
 
-      // /**
-      //  * @brief Load array into EEPROM memory.
-      //  *
-      //  * @param buffer
-      //  */
-      // static void commitArray(Data::Buffer &buffer);
-
-      /**
-       * @brief Copy all data in EEPROM memory to an array in Heap memory.
-       *
-       * @return Returns all data from EEPROM memory in array format.
-       */
-      static Data::UChar *toArray();
-
-      static Data::UChar *toArray(unsigned int addr1, unsigned int addr2);
-
-      
-
-      /**
-       * @brief Frees data allocated on the memory heap. It will only take effect if the Array() method is invoked previously.
-       */
-      static void releaseArray();
+      static void deleteBuffer();
     };
 
     template <class T>
-    T EEPROM::read(Data::UInt addr)
+    inline void SimpleOS::Memory::EEPROM::write(T data, unsigned int addr)
+    {
+      if (addr >= eeprom_size)
+        return;
+      for (unsigned int i = 0x00; i < sizeof(data); i++)
+        eepromClearWrite(0x01, (data >> (8 * i) & 0xFF), addr + i);
+    }
+
+    template <>
+    inline void SimpleOS::Memory::EEPROM::write<const char *>(const char *data, unsigned int addr)
+    {
+      if (addr >= size())
+        return;
+      unsigned char len = (unsigned char)strlen(data) + 1;
+      for (unsigned int i = 0; i <= len; i++)
+        eepromClearWrite(0x01, data[i], addr + i);
+    }
+
+    template <>
+    inline void SimpleOS::Memory::EEPROM::write<float>(float data, unsigned int addr)
+    {
+      if (addr >= size())
+        return;
+      unsigned char size = sizeof(float);
+      unsigned char *ptr = reinterpret_cast<unsigned char *>(&data);
+      for (unsigned int i = 0; i <= size; i++)
+        eepromClearWrite(0x01, ptr[i], addr + i);
+    }
+
+    template <>
+    inline void SimpleOS::Memory::EEPROM::write<double>(double data, unsigned int addr)
+    {
+      if (addr >= size())
+        return;
+      unsigned char size = sizeof(double);
+      unsigned char *ptr = reinterpret_cast<unsigned char *>(&data);
+      for (unsigned int i = 0; i <= size; i++)
+        eepromClearWrite(0x01, ptr[i], addr + i);
+    }
+
+    template <class T>
+    inline T SimpleOS::Memory::EEPROM::read(unsigned int addr)
     {
       T t;
       if (addr >= eeprom_size)
         return t;
-      for (Data::UInt i = 0x00; i < sizeof(t); i++)
+      for (unsigned int i = 0x00; i < sizeof(t); i++)
         t |= (T)readChar(addr + i) << (i * 8);
       return t;
     }
 
-    template <class T>
-    void EEPROM::write(T data, Data::UInt addr)
+    template <>
+    inline const char *SimpleOS::Memory::EEPROM::read<const char *>(unsigned int addr)
     {
-      if (addr >= eeprom_size)
-        return;
-      for (Data::UInt i = 0x00; i < sizeof(data); i++)
-        eepromClearWrite(0x01, (data >> (8 * i) & 0xFF), addr + i);
+      if (addr >= size())
+        return "";
+      if (buffer == nullptr)
+        buffer = new SimpleOS::Data::SimpleString();
+      char currentChar = 0;
+      for (unsigned int i = 0; (currentChar = readChar(addr + i)) != 0x00; i++)
+        *buffer += currentChar;
+      return buffer->CStr();
+    }
+
+    template <>
+    inline float SimpleOS::Memory::EEPROM::read<float>(unsigned int addr)
+    {
+      float result = 0.00;
+      if (addr >= size())
+        return result;
+      unsigned char size = sizeof(float);
+      unsigned char *ptr = reinterpret_cast<unsigned char *>(&result);
+      for (unsigned int i = 0; i <= size; i++)
+        ptr[i] = readChar(addr + i);
+      return result;
+    }
+
+    template <>
+    inline double SimpleOS::Memory::EEPROM::read<double>(unsigned int addr)
+    {
+      double result = 0.00;
+      if (addr >= size())
+        return result;
+      unsigned char size = sizeof(double);
+      unsigned char *ptr = reinterpret_cast<unsigned char *>(&result);
+      for (unsigned int i = 0; i <= size; i++)
+        ptr[i] = readChar(addr + i);
+      return result;
     }
   }
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "SimpleOS/Macros.h"
+#include "System/Macros.h"
 
 namespace SimpleOS
 {
@@ -19,7 +19,7 @@ namespace SimpleOS
 
     template <typename Derived>
     class Copyable
-        : conceptualize CopyableMethods<Derived>
+        : implements CopyableMethods<Derived>
     {
     public:
       // Operators

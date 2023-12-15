@@ -1,0 +1,193 @@
+{
+	"Root System Class": {
+		"prefix": "sysr",
+		"body": [
+			"#pragma once",
+			"#include \"System/Base.h\"\n",
+			"namespace SimpleOS",
+			"{",
+			"  namespace Root",
+			"  {",
+			"    class $1",
+			"    {",
+			"    private:",
+			"    protected:",
+			"    public:",
+			"      $1() = default;",
+			"      ~$1() = default;",
+			"    };\/\/ class $1",
+			"  } \/\/ namespace Root",
+			"} \/\/ namespace SimpleOS",
+			"${2}"
+		],
+		"description": "Creates a class from the SimpleOS::Root namespace"
+	},
+	"Native System Class": {
+		"prefix": "sysn",
+		"body": [
+			"#pragma once",
+			"#include \"System/Base.h\"\n",
+			"namespace SimpleOS",
+			"{",
+			"  namespace Native",
+			"  {",
+			"    class $1",
+			"    {",
+			"    private:",
+			"    protected:",
+			"    public:",
+			"      $1() = default;",
+			"      ~$1() = default;",
+			"    };\/\/ class $1",
+			"  } \/\/ namespace Native",
+			"} \/\/ namespace SimpleOS",
+			"${2}"
+		],
+		"description": "Creates a class from the SimpleOS::Native namespace"
+	},
+	"Data System Class": {
+		"prefix": "sysd",
+		"body": [
+			"#pragma once",
+			"#include \"System/Base.h\"\n",
+			"namespace SimpleOS",
+			"{",
+			"  namespace Data",
+			"  {",
+			"    class $1",
+			"    {",
+			"    private:",
+			"    protected:",
+			"    public:",
+			"      $1() = default;",
+			"      ~$1() = default;",
+			"    };\/\/ class $1",
+			"  } \/\/ namespace Data",
+			"} \/\/ namespace SimpleOS",
+			"${2}"
+		],
+		"description": "Creates a class from the SimpleOS::Data namespace"
+	},
+	"Com System Class": {
+		"prefix": "sysc",
+		"body": [
+			"#pragma once",
+			"#include \"System/Base.h\"\n",
+			"namespace SimpleOS",
+			"{",
+			"  namespace Com",
+			"  {",
+			"    class $1",
+			"    {",
+			"    private:",
+			"    protected:",
+			"    public:",
+			"      $1() = default;",
+			"      ~$1() = default;",
+			"    };\/\/ class $1",
+			"  } \/\/ namespace Com",
+			"} \/\/ namespace SimpleOS",
+			"${2}"
+		],
+		"description": "Creates a class from the SimpleOS::Com namespace"
+	},
+	"Memory System Class": {
+		"prefix": "sysm",
+		"body": [
+			"#pragma once",
+			"#include \"System/Base.h\"\n",
+			"namespace SimpleOS",
+			"{",
+			"  namespace Memory",
+			"  {",
+			"    class $1",
+			"    {",
+			"    private:",
+			"    protected:",
+			"    public:",
+			"      $1() = default;",
+			"      ~$1() = default;",
+			"    };\/\/ class $1",
+			"  } \/\/ namespace Memory",
+			"} \/\/ namespace SimpleOS",
+			"${2}"
+		],
+		"description": "Creates a class from the SimpleOS::Memory namespace"
+	},
+	"Utils System Class": {
+		"prefix": "sysu",
+		"body": [
+			"#pragma once",
+			"#include \"System/Base.h\"\n",
+			"namespace SimpleOS",
+			"{",
+			"  namespace Utils",
+			"  {",
+			"    class $1",
+			"    {",
+			"    private:",
+			"    protected:",
+			"    public:",
+			"      $1() = default;",
+			"      ~$1() = default;",
+			"    };\/\/ class $1",
+			"  } \/\/ namespace Utils",
+			"} \/\/ namespace SimpleOS",
+			"${2}"
+		],
+		"description": "Creates a class from the SimpleOS::Utils namespace"
+	},
+	"Hardware System Class": {
+		"prefix": "sysh",
+		"body": [
+			"#pragma once",
+			"#include \"System/Base.h\"\n",
+			"namespace SimpleOS",
+			"{",
+			"  namespace Hardware",
+			"  {",
+			"    class $1",
+			"    {",
+			"    private:",
+			"    protected:",
+			"    public:",
+			"      $1() = default;",
+			"      ~$1() = default;",
+			"    };\/\/ class $1",
+			"  } \/\/ namespace Hardware",
+			"} \/\/ namespace SimpleOS",
+			"${2}"
+		],
+		"description": "Creates a class from the SimpleOS::Hardware namespace"
+	},
+	"Interrupt System Class": {
+		"prefix": "sysi",
+		"body": [
+			"#pragma once",
+			"#include \"System/Base.h\"\n",
+			"namespace SimpleOS",
+			"{",
+			"  namespace Interrupt",
+			"  {",
+			"    class $1",
+			"    {",
+			"    private:",
+			"    protected:",
+			"    public:",
+			"      $1() = default;",
+			"      ~$1() = default;",
+			"    };\/\/ class $1",
+			"  } \/\/ namespace Interrupt",
+			"} \/\/ namespace SimpleOS",
+			"${2}"
+		],
+		"description": "Creates a class from the SimpleOS::Interrupt namespace"
+	},
+	"Serial log": {
+		"prefix": "ser",
+		"body": [
+			"serial << \"$1\" << endl;"
+		],
+		"description": "Creates a class from the SimpleOS::Interrupt namespace"
+	},
+}

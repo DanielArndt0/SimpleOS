@@ -1,6 +1,6 @@
 #pragma once
-#include "SimpleOS/Base.h"
-#include "Root/RamAllocator/RamAllocator.h"
+#include "System/Base.h"
+#include "List.h"
 
 namespace SimpleOS
 {
@@ -25,28 +25,25 @@ namespace SimpleOS
      * @tparam T Requires the implementation of the ComparisonConcept and CopyConcept.
      */
     template <typename T>
-    class LinkedList
+    class LinkedList : implements List<T>
     {
     private:
       Node<T> *first;
-      SimpleOS::Data::UInt size;
-      T sentinelValue;
-
-    private:
-      Root::RamAllocator<SYSM_HEAP_SIZE> vram;
+      unsigned int size;
+      T defaultValue;
 
     public:
       LinkedList() : first(nullptr), size(0)
       {
       }
-      
+
       ~LinkedList()
       {
         Node<T> *current = first;
         while (current != nullptr)
         {
           Node<T> *next = current->next;
-          vram.free(current);
+          delete current;
           current = next;
         }
       }
@@ -55,22 +52,22 @@ namespace SimpleOS
       bool hasNext(Node<T> *node) { return node->next != nullptr; }
 
     public:
-      void add(T value)
+      void add(const T &element) override
       {
-        Node<T> *node = (Node<T> *)vram.malloc(sizeof(Node<T>));
-        node->data = value;
+        Node<T> *node = new Node<T>;
+        node->data = element;
         node->next = first;
         first = node;
         size++;
       }
 
-      void set(SimpleOS::Data::Index index, T value)
+      void insert(const T &element, unsigned int index) override
       {
         if (index >= size)
           return;
         Node<T> *current = first;
-        SimpleOS::Data::Index cntr = 0;
-        while (current != nullptr && current->data != value)
+        unsigned int cntr = 0;
+        while (current != nullptr && current->data != element)
         {
           if (index == cntr)
             break;
@@ -78,72 +75,106 @@ namespace SimpleOS
           cntr++;
         }
         if (current != nullptr)
-          current->data = value;
+          current->data = element;
       }
 
-      void remove(T value)
+      T remove(unsigned int index) override
       {
-        Node<T> *current = first;
-        Node<T> *previous = nullptr;
-        while (current != nullptr && current->data != value)
+        T temp = getErrorValue();
+        if (index < size)
         {
-          previous = current;
+          Node<T> *current = first;
+          Node<T> *previous = nullptr;
+          unsigned int currentIndex = 0;
+          while (current != nullptr && currentIndex != index)
+          {
+            previous = current;
+            current = current->next;
+            currentIndex++;
+          }
+          if (current != nullptr)
+          {
+            if (previous == nullptr)
+              first = current->next;
+            else
+              previous->next = current->next;
+            temp = current;
+            delete current;
+            size--;
+            return temp;
+          }
+        }
+        return temp;
+      }
+
+      T removeFirst(T &element) override
+      {
+        // TODO
+        return getErrorValue();
+      }
+
+      T removeWhere(bool (*func)(T element)) override
+      {
+        T temp = getErrorValue();
+        for (unsigned int i = 0; i < size; i++)
+        {
+          if (func(get(i)))
+          {
+            remove(i);
+            return temp;
+          }
+        }
+        return temp;
+      }
+
+      T get(unsigned int index) override
+      {
+        if (index >= size)
+          return defaultValue;
+        Node<T> *current = first;
+        unsigned int currentIndex = 0;
+        while (current != nullptr && currentIndex != index)
+        {
           current = current->next;
+          currentIndex++;
         }
-        if (current != nullptr)
-        {
-          if (previous == nullptr)
-            first = current->next;
-          else
-            previous->next = current->next;
-          vram.free(current);
-          size--;
-        }
+        return current != nullptr ? current->data : defaultValue;
       }
 
-      T &get(SimpleOS::Data::Index index)
+      T getWhere(bool (*func)(T element)) override
       {
-        if (index >= (signed)size)
-          return sentinelValue;
+        T temp;
+        for (unsigned int i = 0; i < size; i++)
+          if (func((temp = get(i))))
+            return temp;
+        return getErrorValue();
+      }
+
+      void foreach (void (*func)(T element))
+      {
         Node<T> *current = first;
-        SimpleOS::Data::Index cntr = 0;
         while (current != nullptr)
         {
-          if (index == cntr)
-            break;
+          func(current->data);
           current = current->next;
-          cntr++;
         }
-        return current != nullptr ? current->data : sentinelValue;
       }
 
-      bool exists(T value)
+      bool exists(T element) const override
       {
         Node<T> *current = first;
-        while (current != nullptr && current->data != value)
+        while (current != nullptr && current->data != element)
           current = current->next;
         return current != nullptr;
       }
 
-      void foreach (void (*operacao)(T &value))
-      {
-        Node<T> *current = first;
-        while (current != nullptr)
-        {
-          operacao(current->data);
-          current = current->next;
-        }
-      }
+      bool isEmpty() const override { return size == 0; }
 
-      LinkedList<T> &setDefaultValue(T defaultValue)
-      {
-        sentinelValue = defaultValue;
-        return *this;
-      }
+      unsigned int getSize() const override { return size; }
 
-      T getDefaultValue() { return sentinelValue; }
+      const T getErrorValue() const override { return defaultValue; }
 
-      SimpleOS::Data::UInt getSize() const { return size; }
+      void setErrorValue(T defaultValue) override { this->defaultValue = defaultValue; }
     };
   }
 }

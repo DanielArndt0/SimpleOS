@@ -1,5 +1,5 @@
 #pragma once
-#include "SimpleOS/Macros.h"
+#include "System/Macros.h"
 
 namespace SimpleOS
 {
@@ -37,7 +37,7 @@ namespace SimpleOS
        *
        * @return Returns first object.
        */
-      T1 &getFirst() { return key; }
+      T1 getFirst() { return key; }
 
       /**
        * @brief Set first value of the Duet.
@@ -51,7 +51,7 @@ namespace SimpleOS
        *
        * @return Returns second object.
        */
-      T2 &getSecond() { return value; }
+      T2 getSecond() { return value; }
 
       /**
        * @brief Set second value of the Duet.

@@ -1,15 +1,16 @@
 #pragma once
-#include "SimpleOS/Macros.h"
+#include "System/Macros.h"
 
 namespace SimpleOS
 {
   namespace Concepts
   {
+    template<typename ReturnType = void>    
     class Executable
     {
     public:
       // Methods
-      virtual void execute(void) = 0;
+      virtual ReturnType execute(void) = 0;
 
       // Destructors
       virtual ~Executable() = default;

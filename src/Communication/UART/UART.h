@@ -1,33 +1,55 @@
 #pragma once
 #include <avr/io.h>
 #include <string.h>
-#include "SimpleOS/Macros.h"
-#include "DataTypes/String/String.h"
+#include "System/Base.h"
+#include "Core/UART/UARTCore.h"
 #include "DataTypes/Number.h"
-#include "DataTypes/Typedefs.h"
-#include "Native/UART/UARTCore.h"
+#include "DataTypes/String/SimpleString/SimpleString.h"
+#include "DataTypes/Containers/List/ArrayList.h"
 
-// TODO Desenvolver biblioteca UART
 namespace SimpleOS
 {
   namespace Com
   {
-    class UART : extends Native::UARTCore
+    class UART : extends Core::UARTCore
     {
-    public:
-      UART(Data::UInt baudRate = 9600);
+
+    private:
+      SimpleOS::Data::ArrayList<char> v_buffer;
 
     public:
-      UART &operator<<(SimpleOS::Data::Char command);
-      UART &operator<<(SimpleOS::Data::C_String data);
-      UART &operator<<(const SimpleOS::Data::String &data);
-      UART &operator<<(Data::Int data);
-      UART &operator<<(Data::UInt data);
-      UART &operator<<(Data::Long data);
-      UART &operator<<(Data::ULong data);
-      UART &operator<<(Data::Float data);
-      UART &operator<<(Data::Double data);
-      UART &operator<<(void* ptr);
+      UART(unsigned int baudRate = 9600);
+
+    public:
+      template <typename T>
+      UART &operator<<(const SimpleOS::Data::Number<T> &data);
+      UART &operator<<(char command);
+      UART &operator<<(const char *data);
+      UART &operator<<(int data);
+      UART &operator<<(unsigned int data);
+      UART &operator<<(long data);
+      UART &operator<<(unsigned long data);
+      UART &operator<<(float data);
+      UART &operator<<(double data);
+      UART &operator<<(bool data);
+      UART &operator<<(void *ptr);
+      UART &operator<<(const SimpleOS::Data::SimpleString &data);
+      UART &operator<<(Concepts::Printable &printable);
+
+      char operator>>(char &data);
+
+    public:
+      void echo();
+      bool available();
+      unsigned int size();
+      void virtualReceiverBufferTask();
     };
   }
+}
+
+template <class T>
+SimpleOS::Com::UART &SimpleOS::Com::UART::operator<<(const SimpleOS::Data::Number<T> &data)
+{
+  send(data.toString());
+  return *this;
 }

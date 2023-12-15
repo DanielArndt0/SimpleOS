@@ -1,27 +1,27 @@
 #pragma once
 #include <avr/io.h>
-#include "SimpleOS/Macros.h"
-#include "DataTypes/Typedefs.h"
-#include "Native/GPIO/GPIOCore.h"
+#include "System/Macros.h"
+#include "Core/GPIO/GPIOCore.h"
+#include "Hardware/PinMode.h"
 
 namespace SimpleOS
 {
   namespace Hardware
   {
-    class Pin : extends Native::GPIOCore
+    class Pin : extends Core::GPIOCore
     {
     private:
-      const Data::UInt pin;
+      const unsigned int pin;
 
     public:
-      Pin() : pin(0) {}
-      Pin(Data::UInt pin) : pin(pin) {}
+      Pin(unsigned int pin);
+      ~Pin() = default;
 
     public:
-      Pin &config(Data::UChar mode);
-      Data::UInt bits();
-      Data::Float volts();
-      void write(bool value);
+      Pin &config(PinMode mode = PinMode::INPUT);
+      unsigned int bits();
+      float volts();
+      Pin &write(bool value = false);
       bool read();
     };
   }
