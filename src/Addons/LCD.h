@@ -40,8 +40,9 @@ namespace SimpleOS
       void begin();
       void home();
       void clear();
-      void displayOn();
-      void displayOff();
+      void on();
+      void off();
+      void setCursor(unsigned char column, unsigned char row);
 
       template <typename T>
       LCD &operator<<(const Data::Number<T> &data);

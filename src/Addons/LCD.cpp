@@ -137,16 +137,32 @@ void SimpleOS::Addons::LCD::clear()
   sendCmd(0x01);
 }
 
-void SimpleOS::Addons::LCD::displayOn()
+void SimpleOS::Addons::LCD::on()
 {
   sendCmd(0x00);
   sendCmd(0x0F);
 }
 
-void SimpleOS::Addons::LCD::displayOff()
+void SimpleOS::Addons::LCD::off()
 {
   sendCmd(0x00);
   sendCmd(0x0B);
+}
+
+void SimpleOS::Addons::LCD::setCursor(unsigned char column, unsigned char row)
+{  
+  SimpleOS::Hardware::Pin(RS).write(false);
+  SimpleOS::Hardware::Pin(D7).write(true);
+  SimpleOS::Hardware::Pin(D6).write(row);
+  SimpleOS::Hardware::Pin(D5).write(BIT_CHECK(column, 5));
+  SimpleOS::Hardware::Pin(D4).write(BIT_CHECK(column, 4));
+  pulse();
+
+  SimpleOS::Hardware::Pin(D7).write(BIT_CHECK(column, 3));
+  SimpleOS::Hardware::Pin(D6).write(BIT_CHECK(column, 2));
+  SimpleOS::Hardware::Pin(D5).write(BIT_CHECK(column, 1));
+  SimpleOS::Hardware::Pin(D4).write(BIT_CHECK(column, 0));
+  pulse();
 }
 
 void SimpleOS::Addons::LCD::begin()

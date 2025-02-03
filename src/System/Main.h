@@ -17,15 +17,17 @@ namespace SimpleOS
 
   class Main final : extends System
   {
+  private:
+    LCD display = LCD(12, 13, 8, 9, 10, 11);
+
   public:
     Status boot() override
-    { 
-      LCD display = LCD(12, 13, 8, 9, 10, 11);
+    {
       display.begin();
+      display.setCursor(15, 1);
 
-
+      display << "Boot";
       
-
 
 
       return Status();
@@ -33,6 +35,7 @@ namespace SimpleOS
 
     Status execute() override
     {
+
       return Status();
     }
 
