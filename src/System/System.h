@@ -11,12 +11,12 @@
 #include "System/Instances/Timer0/Timer0.h"       // DONE
 #include "Interrupt/Executors/WatchdogExecutor.h" // DONE
 #include "Interrupt/Executors/TimerExecutor.h"    // DONE
+#include "Interrupt/ISRVectors.h" // DONE
 
 // System
 #include "System/SystemMacros.h"
 #include "System/Methods.h"    // DONE
 #include "System/Instances/Drivers.h" // DONE
-#include "System/ISRVectors.h" // DONE
 
 // Core's
 #include "Core/EEPROM/EECore.h"   // DONE Core methods - EEPROM
@@ -60,6 +60,9 @@
 #include "Utils/IsSame.h"          // DONE
 #include "Utils/RValueReference.h" // DONE
 #include "Utils/Declval.h"         // DONE
+
+// Addons
+#include "Addons/LCD.h"
 
 namespace SimpleOS
 {

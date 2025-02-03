@@ -1,6 +1,6 @@
 #include "Hardware/Pin/Pin.h"
 
-SimpleOS::Hardware::Pin::Pin(unsigned int pin) : pin(pin) { config(); }
+SimpleOS::Hardware::Pin::Pin(unsigned int pin) : pin(pin) {}
 
 unsigned int SimpleOS::Hardware::Pin::bits() { return !pin ? 0 : analog_read(pin); }
 
