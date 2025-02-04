@@ -30,6 +30,7 @@ void SimpleOS::Addons::LCD::wChar(char data)
   SimpleOS::Hardware::Pin(D6).write(BIT_CHECK(data, 2));
   SimpleOS::Hardware::Pin(D7).write(BIT_CHECK(data, 3));
   pulse();
+  breakRowIf();
 }
 
 void SimpleOS::Addons::LCD::wString(const char *str)
@@ -92,7 +93,7 @@ SimpleOS::Addons::LCD &SimpleOS::Addons::LCD::operator<<(bool data)
   return *this;
 }
 
-SimpleOS::Addons::LCD &SimpleOS::Addons::LCD::operator<<(void* data)
+SimpleOS::Addons::LCD &SimpleOS::Addons::LCD::operator<<(void *data)
 {
   if (data == nullptr || data == NULL)
     wString("null");
@@ -127,8 +128,7 @@ SimpleOS::Addons::LCD::LCD(unsigned char RS, unsigned char EN, unsigned char D4,
 
 void SimpleOS::Addons::LCD::home()
 {
-  sendCmd(0x00);
-  sendCmd(0x02);
+  setCursor(0, 0);
 }
 
 void SimpleOS::Addons::LCD::clear()
@@ -137,36 +137,108 @@ void SimpleOS::Addons::LCD::clear()
   sendCmd(0x01);
 }
 
-void SimpleOS::Addons::LCD::on()
+void SimpleOS::Addons::LCD::displayCtrlRefresh()
 {
   sendCmd(0x00);
-  sendCmd(0x0F);
+  SimpleOS::Hardware::Pin(D7).write(true);
+  SimpleOS::Hardware::Pin(D6).write(displayOn);
+  SimpleOS::Hardware::Pin(D5).write(cursorEn);
+  SimpleOS::Hardware::Pin(D4).write(blinkEn);
+  pulse();
+}
+
+void SimpleOS::Addons::LCD::on()
+{
+  displayOn = true;
+  displayCtrlRefresh();
 }
 
 void SimpleOS::Addons::LCD::off()
 {
-  sendCmd(0x00);
-  sendCmd(0x0B);
+  displayOn = false;
+  displayCtrlRefresh();
 }
+
+void SimpleOS::Addons::LCD::blink(bool enable)
+{
+  blinkEn = enable;
+  displayCtrlRefresh();
+}
+
+void SimpleOS::Addons::LCD::cursor(bool enable)
+{
+  cursorEn = enable;
+  displayCtrlRefresh();
+}
+
+void SimpleOS::Addons::LCD::breakRowIf()
+{
+  if (columnOverflowPositive() && isInFirstRow())
+  {
+    currentColumn = 0;
+    currentRow--;
+    setCursor(currentColumn, currentRow);
+  }
+  else if (columnOverflowPositive() && isInSecondRow())
+  {
+    currentColumn = 0;
+    currentRow++;
+    setCursor(currentColumn, currentRow);
+  }
+  else if (columnOverflowNegative() && isInFirstRow())
+  {
+    currentColumn = 15;
+    currentRow++;
+    setCursor(currentColumn, currentRow); 
+  }
+  else if (columnOverflowNegative() && isInSecondRow())
+  {
+    currentColumn = 15;
+    currentRow--;
+    setCursor(currentColumn, currentRow); 
+  }
+  else
+  {
+    currentColumn++;
+  }
+}
+
+bool SimpleOS::Addons::LCD::rowOverflowPositive() { return currentRow > 1; }
+
+bool SimpleOS::Addons::LCD::columnOverflowPositive() { return currentColumn >= 15; }
+
+bool SimpleOS::Addons::LCD::rowOverflowNegative() { return currentRow < 0; }
+
+bool SimpleOS::Addons::LCD::columnOverflowNegative() { return currentColumn < 0; }
+
+bool SimpleOS::Addons::LCD::isInFirstRow() { return currentRow <= 0; }
+
+bool SimpleOS::Addons::LCD::isInSecondRow() { return currentRow >= 1; }
 
 void SimpleOS::Addons::LCD::setCursor(unsigned char column, unsigned char row)
-{  
+{
+  currentColumn = column;
+  currentRow = row;
   SimpleOS::Hardware::Pin(RS).write(false);
   SimpleOS::Hardware::Pin(D7).write(true);
-  SimpleOS::Hardware::Pin(D6).write(row);
-  SimpleOS::Hardware::Pin(D5).write(BIT_CHECK(column, 5));
-  SimpleOS::Hardware::Pin(D4).write(BIT_CHECK(column, 4));
+  SimpleOS::Hardware::Pin(D6).write(currentRow);
+  SimpleOS::Hardware::Pin(D5).write(BIT_CHECK(currentColumn, 5));
+  SimpleOS::Hardware::Pin(D4).write(BIT_CHECK(currentColumn, 4));
   pulse();
 
-  SimpleOS::Hardware::Pin(D7).write(BIT_CHECK(column, 3));
-  SimpleOS::Hardware::Pin(D6).write(BIT_CHECK(column, 2));
-  SimpleOS::Hardware::Pin(D5).write(BIT_CHECK(column, 1));
-  SimpleOS::Hardware::Pin(D4).write(BIT_CHECK(column, 0));
+  SimpleOS::Hardware::Pin(D7).write(BIT_CHECK(currentColumn, 3));
+  SimpleOS::Hardware::Pin(D6).write(BIT_CHECK(currentColumn, 2));
+  SimpleOS::Hardware::Pin(D5).write(BIT_CHECK(currentColumn, 1));
+  SimpleOS::Hardware::Pin(D4).write(BIT_CHECK(currentColumn, 0));
   pulse();
 }
+
+SimpleOS::Data::Duet<unsigned char, unsigned char> SimpleOS::Addons::LCD::getCurrentCursorPosition() { return Data::Duet<unsigned char, unsigned char>(currentColumn, currentRow); }
 
 void SimpleOS::Addons::LCD::begin()
 {
+  currentColumn = 0;
+  currentRow = 0;
   SimpleOS::Hardware::Pin(RS).config(SimpleOS::Hardware::PinMode::OUTPUT);
   SimpleOS::Hardware::Pin(EN).config(SimpleOS::Hardware::PinMode::OUTPUT);
   SimpleOS::Hardware::Pin(D4).config(SimpleOS::Hardware::PinMode::OUTPUT);
@@ -174,16 +246,18 @@ void SimpleOS::Addons::LCD::begin()
   SimpleOS::Hardware::Pin(D6).config(SimpleOS::Hardware::PinMode::OUTPUT);
   SimpleOS::Hardware::Pin(D7).config(SimpleOS::Hardware::PinMode::OUTPUT);
 
-  tmr.delay(2);
-  sendCmd(0x02);
+  tmr.delay(40);
+  sendCmd(0x02); // 16x2
 
   tmr.delay(2);
   sendCmd(0x02);
-  sendCmd(0x08);
+  sendCmd(0x08); // 5x8 dots
 
   tmr.delay(2);
-  sendCmd(0x00);
-  sendCmd(0x0E);
+  on();
+  blink(true);
+  cursor(true);
+  clear();
 
   tmr.delay(2);
   sendCmd(0x00);

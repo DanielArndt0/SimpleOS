@@ -23,18 +23,12 @@ namespace SimpleOS
   public:
     Status boot() override
     {
-      display.begin();
-      display.setCursor(15, 1);
-
-      display << "Boot";
       
-
-
-      return Status();
     }
 
     Status execute() override
     {
+      
 
       return Status();
     }

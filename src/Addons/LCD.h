@@ -4,6 +4,7 @@
 #include "Hardware/PinMode.h"
 #include "DataTypes/Number.h"
 #include "DataTypes/String/SimpleString/SimpleString.h"
+#include "DataTypes/Duet.h"
 
 namespace SimpleOS
 {
@@ -19,12 +20,26 @@ namespace SimpleOS
       unsigned char D5;
       unsigned char D6;
       unsigned char D7;
+      unsigned char currentRow;
+      unsigned char currentColumn;
+      bool displayOn;
+      bool blinkEn;
+      bool cursorEn;
 
     private:
       void sendCmd(unsigned char hexCmd);
       void pulse();
       void wChar(char data);
       void wString(const char *str);
+      void breakRowIf();
+      bool rowOverflowPositive();
+      bool columnOverflowPositive();
+      bool rowOverflowNegative();
+      bool columnOverflowNegative();
+      bool isInFirstRow();
+      bool isInSecondRow();
+      void displayCtrlRefresh();
+
 
     public:
       LCD(
@@ -42,7 +57,10 @@ namespace SimpleOS
       void clear();
       void on();
       void off();
+      void blink(bool enable);
+      void cursor(bool enable);
       void setCursor(unsigned char column, unsigned char row);
+      SimpleOS::Data::Duet<unsigned char, unsigned char> getCurrentCursorPosition();
 
       template <typename T>
       LCD &operator<<(const Data::Number<T> &data);
