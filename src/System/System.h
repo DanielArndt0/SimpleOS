@@ -48,6 +48,8 @@
 #include "DataTypes/Number.h"                           // DONE
 #include "DataTypes/Duet.h"                             // DONE
 #include "DataTypes/String/SimpleString/SimpleString.h" // DONE
+#include "DataTypes/String/StringAddons/StringAddons.h" // DONE
+#include "DataTypes/String/String/String.h" // DONE
 
 // Containers
 #include "DataTypes/Containers/List/List.h"       // DONE
@@ -62,7 +64,7 @@
 #include "Utils/Declval.h"         // DONE
 
 // Addons
-#include "Addons/LCD.h"
+#include "Addons/LCD/LCD.h"
 
 namespace SimpleOS
 {

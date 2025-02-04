@@ -1,101 +1,124 @@
 #include "SimpleString.h"
 
-SimpleOS::Data::SimpleString::SimpleString() { this->init(); }
+using namespace SimpleOS::Data;
 
-SimpleOS::Data::SimpleString::SimpleString(SimpleOS::Data::CString str) { copy(str); }
+SimpleString::SimpleString() { this->init(); }
 
-SimpleOS::Data::SimpleString::SimpleString(const SimpleOS::Data::SimpleString &str) { copy(str); }
+SimpleString::SimpleString(CString str) { copy(str); }
 
-SimpleOS::Data::SimpleString::SimpleString(SimpleOS::Data::SimpleString &&str)
+SimpleString::SimpleString(const SimpleString &str) { copy(str); }
+
+SimpleString::SimpleString(SimpleString &&str) noexcept
 {
-  this->desalloc();
   this->str = str.str;
   this->length = str.length;
   str.str = nullptr;
   str.length = 0;
 }
 
-SimpleOS::Data::SimpleString::~SimpleString() { this->desalloc(); }
+SimpleString::~SimpleString() { this->desalloc(); }
 
-void SimpleOS::Data::SimpleString::init()
+void SimpleString::init()
 {
   str = alloc(1);
   str[0] = '\0';
   length = 0;
 }
 
-char *SimpleOS::Data::SimpleString::alloc(Data::Size size) { return (char *)calloc(size, sizeof(char)); }
+char *SimpleString::alloc(Size size)
+{
+  return static_cast<char *>(calloc(size, sizeof(char)));
+}
 
-void SimpleOS::Data::SimpleString::desalloc()
+void SimpleString::desalloc()
 {
   if (this->str)
-    delete[] this->str;
+  {
+    free(this->str);
+    this->str = nullptr;
+    this->length = 0;
+  }
 }
 
-void SimpleOS::Data::SimpleString::loadToBuffer(char *str, unsigned int length)
+void SimpleString::loadToBuffer(char *newStr, Size newLength)
 {
-  if (this->str == str)
+  if (this->str == newStr)
     return;
   this->desalloc();
-  this->str = str;
-  this->length = length - 1;
+  this->str = newStr;
+  this->length = newLength - 1;
 }
 
-SimpleOS::Data::SimpleString &SimpleOS::Data::SimpleString::copy(SimpleOS::Data::CString str)
+SimpleString &SimpleString::copy(CString str)
 {
-  if (str == nullptr)
+  if (!str)
     return *this;
-  unsigned int length = strlen(str) + 1;
-  loadToBuffer(strcpy(alloc(length), str), length);
+
+  Size newLength = strlen(str) + 1;
+  loadToBuffer(strcpy(alloc(newLength), str), newLength);
   return *this;
 }
 
-SimpleOS::Data::SimpleString &SimpleOS::Data::SimpleString::copy(const SimpleString &str) { return this->copy(str.CStr()); }
+SimpleString &SimpleString::copy(const SimpleString &str) { return this->copy(str.CStr()); }
 
-SimpleOS::Data::SimpleString &SimpleOS::Data::SimpleString::append(char chr)
+SimpleString &SimpleString::append(char chr)
 {
-  unsigned int length = strlen(this->str) + 2;
-  char *temp = alloc(length);
+  Size newLength = this->length + 2;
+  char *temp = alloc(newLength);
   strcpy(temp, this->str);
-  temp[length - 2] = chr;
-  temp[length - 1] = '\0';
-  loadToBuffer(temp, length);
+  temp[this->length] = chr;
+  temp[this->length + 1] = '\0';
+  loadToBuffer(temp, newLength);
   return *this;
 }
 
-SimpleOS::Data::SimpleString &SimpleOS::Data::SimpleString::append(SimpleOS::Data::CString str)
+SimpleString &SimpleString::append(CString str)
 {
-  if (str == nullptr)
+  if (!str)
     return *this;
-  unsigned int length = strlen(this->str) + strlen(str) + 1;
-  char *temp = alloc(length);
+
+  Size newLength = this->length + strlen(str) + 1;
+  char *temp = alloc(newLength);
   strcpy(temp, this->str);
   strcat(temp, str);
-  loadToBuffer(temp, length);
+  loadToBuffer(temp, newLength);
   return *this;
 }
 
-SimpleOS::Data::SimpleString &SimpleOS::Data::SimpleString::append(const SimpleString &str) { return this->append(str.CStr()); }
+SimpleString &SimpleString::append(const SimpleString &str) { return this->append(str.CStr()); }
 
-SimpleOS::Data::CString SimpleOS::Data::SimpleString::CStr() const { return str; }
+CString SimpleString::CStr() const { return str; }
 
-unsigned int SimpleOS::Data::SimpleString::getLength() const { return length; }
+Size SimpleString::getLength() const { return length; }
 
-char SimpleOS::Data::SimpleString::at(unsigned int index) const
+char SimpleString::at(Size index) const
 {
-  if (index >= length || index <= 0)
-    return 0;
+  if (index >= length)
+    return '\0';
   return str[index];
 }
 
-SimpleOS::Data::SimpleString &SimpleOS::Data::SimpleString::operator=(SimpleOS::Data::CString str) { return copy(str); }
+SimpleString &SimpleString::operator=(CString str) { return copy(str); }
 
-SimpleOS::Data::SimpleString &SimpleOS::Data::SimpleString::operator=(const SimpleOS::Data::SimpleString &str) { return copy(str); }
+SimpleString &SimpleString::operator=(const SimpleString &str) { return copy(str); }
 
-SimpleOS::Data::SimpleString &SimpleOS::Data::SimpleString::operator+=(char chr) { return append(chr); }
+SimpleString &SimpleString::operator=(SimpleString &&str) noexcept
+{
+  if (this != &str)
+  {
+    this->desalloc();
+    this->str = str.str;
+    this->length = str.length;
+    str.str = nullptr;
+    str.length = 0;
+  }
+  return *this;
+}
 
-SimpleOS::Data::SimpleString &SimpleOS::Data::SimpleString::operator+=(SimpleOS::Data::CString str) { return append(str); }
+SimpleString &SimpleString::operator+=(char chr) { return append(chr); }
 
-SimpleOS::Data::SimpleString &SimpleOS::Data::SimpleString::operator+=(const SimpleOS::Data::SimpleString &str) { return append(str); }
+SimpleString &SimpleString::operator+=(CString str) { return append(str); }
 
-char SimpleOS::Data::SimpleString::operator[](unsigned int index) { return at(index); }
+SimpleString &SimpleString::operator+=(const SimpleString &str) { return append(str); }
+
+char SimpleString::operator[](Size index) const { return at(index); }

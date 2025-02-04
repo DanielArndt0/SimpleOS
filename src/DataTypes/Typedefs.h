@@ -15,7 +15,7 @@ namespace SimpleOS
     using Double = Number<double>;
     using Bool = Number<bool>;
 
-    typedef int Index;
+    typedef unsigned char Index;
     typedef unsigned int Size;
     typedef Long ID;
     typedef const char *CString;

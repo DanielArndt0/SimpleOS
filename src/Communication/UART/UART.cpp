@@ -1,4 +1,5 @@
 #include "Communication/UART/UART.h"
+#include "UART.h"
 
 SimpleOS::Com::UART::UART(unsigned int baudRate) { begin(baudRate); }
 
@@ -93,6 +94,26 @@ void SimpleOS::Com::UART::echo()
 bool SimpleOS::Com::UART::available() { return !v_buffer.isEmpty(); }
 
 unsigned int SimpleOS::Com::UART::size() { return v_buffer.getSize(); }
+
+char SimpleOS::Com::UART::read()
+{
+  if (available())
+    return v_buffer.remove(0);
+  return 0x00;
+}
+
+const char *SimpleOS::Com::UART::readString() 
+{
+  if (available())
+  {
+    const char *buff = v_buffer.toString();
+    for (size_t i = 0; i < v_buffer.getSize(); i++)
+      read();
+    return buff;
+  }
+
+  return 0x00;
+}
 
 void SimpleOS::Com::UART::virtualReceiverBufferTask()
 {

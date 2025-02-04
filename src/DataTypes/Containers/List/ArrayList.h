@@ -1,6 +1,7 @@
 #pragma once
 #include "System/Base.h"
 #include "List.h"
+#include "Utils/IsSame.h"
 
 namespace SimpleOS
 {
@@ -151,6 +152,21 @@ namespace SimpleOS
           if (element == elements[i])
             return true;
         return false;
+      }
+
+      const char* toString() const
+      {
+        if (Utils::IsSame<T, char>::check)
+        {
+          char* str = new char[size + 1];
+          memcpy(str, elements, size);
+          str[size] = '\0';
+          return str;
+        }
+        else
+        {
+          return "[toString() not implemented for this type]";
+        }
       }
 
       bool isEmpty() const override { return size == 0; }

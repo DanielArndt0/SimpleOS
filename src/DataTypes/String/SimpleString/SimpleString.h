@@ -1,29 +1,33 @@
 #pragma once
 #include <string.h>
+#include <stdlib.h>
 #include "System/Base.h"
 
 namespace SimpleOS
 {
   namespace Data
   {
+    using CString = const char *;
+    using Size = unsigned int;
+
     class SimpleString
     {
-    private:
+    protected:
       char *str;
-      unsigned int length;
+      Size length;
+
+    protected:
+      void init();
+      char *alloc(Size size);
+      void desalloc();
+      void loadToBuffer(char *str, Size length);
 
     public:
       SimpleString();
       SimpleString(CString str);
       SimpleString(const SimpleString &str);
-      SimpleString(SimpleString &&str);
+      SimpleString(SimpleString &&str) noexcept;
       ~SimpleString();
-
-    private:
-      void init();
-      char *alloc(Size size);
-      void desalloc();
-      void loadToBuffer(char *str, unsigned int length);
 
     protected:
       SimpleString &copy(CString str);
@@ -35,18 +39,19 @@ namespace SimpleOS
 
     public:
       CString CStr() const;
-      unsigned int getLength() const;
-      char at(unsigned int index) const;
+      Size getLength() const;
+      char at(Size index) const;
 
     public:
       SimpleString &operator=(CString str);
       SimpleString &operator=(const SimpleString &str);
+      SimpleString &operator=(SimpleString &&str) noexcept;
 
       SimpleString &operator+=(char chr);
-      SimpleString &operator+=(CString cstr);
+      SimpleString &operator+=(CString str);
       SimpleString &operator+=(const SimpleString &str);
 
-      char operator[](unsigned int index);
+      char operator[](Size index) const;
     };
-  } // namespace Data
-} // namespace  SimpleOS
+  }
+}

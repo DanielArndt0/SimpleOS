@@ -16,6 +16,7 @@ namespace SimpleOS
 
     private:
       SimpleOS::Data::ArrayList<char> v_buffer;
+      
 
     public:
       UART(unsigned int baudRate = 9600);
@@ -42,6 +43,8 @@ namespace SimpleOS
       void echo();
       bool available();
       unsigned int size();
+      char read();
+      const char* readString();
       void virtualReceiverBufferTask();
     };
   }

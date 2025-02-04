@@ -168,6 +168,27 @@ namespace SimpleOS
         return current != nullptr;
       }
 
+      const char* toString() const
+      {
+        if (Utils::IsSame<T, char>::check)
+        {
+          char* str = new char[size + 1];
+          Node<T> *current = first;
+          unsigned int index = 0;
+          while (current != nullptr && index < size)
+          {
+            str[index++] = current->data;
+            current = current->next;
+          }
+          str[size] = '\0';
+          return str;
+        }
+        else
+        {
+          return "[toString() not implemented for this type]";
+        }
+      }
+
       bool isEmpty() const override { return size == 0; }
 
       unsigned int getSize() const override { return size; }
