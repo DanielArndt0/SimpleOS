@@ -1,5 +1,21 @@
 # SimpleOS
 
+### A minimalist and modular operating system built from scratch for the ATmega328P
+
+**SimpleOS** is a lightweight, low-level operating system designed specifically for the [ATmega328P microcontroller](https://www.microchip.com/en-us/product/ATmega328P), created entirely from scratch without using the Arduino framework or standard libraries. Its main goal is to provide developers with a flexible and efficient environment for embedded programming, using a structured and object-oriented approach in C++.
+
+The system is composed of independent modules, including:
+
+- A custom **thread execution system** using hardware timers and the watchdog.
+- A **virtual RAM section tracker** for memory diagnostics.
+- Native support for **UART** and **I2C** communication interfaces.
+- A modular **namespace-based architecture**, enabling better organization and scalability.
+- A custom **type system** (`Number<T>`, `List<T>`, etc.) and **utility concepts** to abstract low-level operations.
+
+SimpleOS is ideal for educational purposes, hobbyist microcontroller projects, and for developers who want to explore how to design an OS-level system from the ground up on constrained hardware.
+
+---
+
 ## V0.4.00 - Communication system update
 ### UART:
 - Implemented byte read interrupt routine with 64 byte virtual input buffer.
